@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Flower Hat.moc3",
+		"Textures": [
+			"Flower Hat.4096/texture_00.png"
+		],
+		"Physics": "Flower Hat.physics3.json",
+		"DisplayInfo": "Flower Hat.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}

@@ -1,0 +1,57 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "GeniusModeToggle",
+			"GroupId": "",
+			"Name": "Genius Mode Toggle"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "Part5",
+			"Name": "Sunglasses 1 export pink.psd (Corresponding layer not found)"
+		},
+		{
+			"Id": "Part",
+			"Name": "VTS Stuff"
+		},
+		{
+			"Id": "Part2",
+			"Name": "shine Copy"
+		},
+		{
+			"Id": "Part38",
+			"Name": "Sunglasses.psd"
+		},
+		{
+			"Id": "Part36",
+			"Name": "Highlight 1"
+		},
+		{
+			"Id": "Part37",
+			"Name": "HIghlight 1"
+		},
+		{
+			"Id": "Shades",
+			"Name": "Shades"
+		}
+	],
+	"CombinedParameters": [
+		[
+			"ParamAngleX",
+			"ParamAngleY"
+		]
+	]
+}

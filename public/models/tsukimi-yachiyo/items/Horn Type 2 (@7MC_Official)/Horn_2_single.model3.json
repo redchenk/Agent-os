@@ -1,0 +1,17 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Horn_2_single.moc3",
+		"Textures": [
+			"Horn_2_single.1024/texture_00.png"
+		],
+		"DisplayInfo": "Horn_2_single.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}

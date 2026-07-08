@@ -1,0 +1,24 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "予人以爱服装挂件-有按键.moc3",
+		"Textures": [
+			"予人以爱服装挂件-有按键.8192/texture_00.png",
+			"予人以爱服装挂件-有按键.8192/texture_01.png"
+		],
+		"Physics": "予人以爱服装挂件-有按键.physics3.json",
+		"DisplayInfo": "予人以爱服装挂件-有按键.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}

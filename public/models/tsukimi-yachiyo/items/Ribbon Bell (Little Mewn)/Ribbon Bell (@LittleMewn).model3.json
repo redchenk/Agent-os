@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Ribbon Bell (@LittleMewn).moc3",
+		"Textures": [
+			"Ribbon Bell (@LittleMewn).4096/texture_00.png"
+		],
+		"Physics": "Ribbon Bell (@LittleMewn).physics3.json",
+		"DisplayInfo": "Ribbon Bell (@LittleMewn).cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}

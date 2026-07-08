@@ -1,0 +1,978 @@
+{
+    "Version": 1,
+    "Name": "Dream Fizz Drink (@LittleMewn)",
+    "ModelID": "f5374a5732b746cd86dc72bd0252b412",
+    "FileReferences": {
+        "Icon": "icon.jpg",
+        "Model": "Dream Fizz Drink (@LittleMewn).model3.json",
+        "IdleAnimation": "Fizz Animation.motion3.json",
+        "IdleAnimationWhenTrackingLost": ""
+    },
+    "ModelSaveMetadata": {
+        "LastSavedVTubeStudioVersion": "1.32.87",
+        "LastSavedPlatform": "Steam",
+        "LastSavedDateUTC": "Saturday, 21 February 2026, 10:56:29",
+        "LastSavedDateLocalTime": "Saturday, 21 February 2026, 11:56:29",
+        "LastSavedDateUnixMillisecondTimestamp": "1771671389246",
+        "TotalSaveCount": 99
+    },
+    "SavedModelPosition": {
+        "Position": {
+            "x": -31.228910446166993,
+            "y": -21.683082580566408,
+            "z": 0.0
+        },
+        "Rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "Scale": {
+            "x": 1.3443958759307862,
+            "y": 1.3443958759307862,
+            "z": 1.0
+        }
+    },
+    "ModelPositionMovement": {
+        "Use": false,
+        "X": 0,
+        "Y": 8,
+        "Z": 11,
+        "SmoothingX": 10,
+        "SmoothingY": 10,
+        "SmoothingZ": 10
+    },
+    "ItemSettings": {
+        "OnlyMoveWhenPinned": false,
+        "AllowNormalHotkeyTriggers": true,
+        "Multiplier_HeadAngleX": 1.0,
+        "Multiplier_HeadAngleY": 1.0,
+        "Multiplier_HeadAngleZ": 1.0,
+        "Shift_HeadAngleX": 0.0,
+        "Shift_HeadAngleY": 0.0,
+        "Smoothing_HeadAngleX": 15.0,
+        "Smoothing_HeadAngleY": 15.0,
+        "Smoothing_HeadAngleZ": 15.0
+    },
+    "PhysicsSettings": {
+        "Use": true,
+        "UseLegacyPhysics": false,
+        "Live2DPhysicsFPS": 3,
+        "PhysicsStrength": 50,
+        "WindStrength": 0,
+        "DraggingPhysicsStrength": 10
+    },
+    "GeneralSettings": {
+        "ModelVolume": 70,
+        "TimeUntilTrackingLostIdleAnimation": 0.0,
+        "WorkshopSharingForbidden": true,
+        "EnableExpressionSaving": true
+    },
+    "ParameterSettings": [
+        {
+            "Folder": "",
+            "Name": "Body Rotation X",
+            "Input": "FaceAngleX",
+            "InputRangeLower": -20.0,
+            "InputRangeUpper": 20.0,
+            "OutputRangeLower": -10.0,
+            "OutputRangeUpper": 10.0,
+            "ClampInput": false,
+            "ClampOutput": false,
+            "UseBlinking": false,
+            "UseBreathing": false,
+            "OutputLive2D": "ParamBodyAngleX",
+            "Smoothing": 20,
+            "Minimized": false
+        },
+        {
+            "Folder": "",
+            "Name": "Body Rotation Y",
+            "Input": "FaceAngleY",
+            "InputRangeLower": -15.0,
+            "InputRangeUpper": 15.0,
+            "OutputRangeLower": -10.0,
+            "OutputRangeUpper": 10.0,
+            "ClampInput": false,
+            "ClampOutput": false,
+            "UseBlinking": false,
+            "UseBreathing": false,
+            "OutputLive2D": "ParamBodyAngleY",
+            "Smoothing": 20,
+            "Minimized": false
+        }
+    ],
+    "Hotkeys": [
+        {
+            "HotkeyID": "decc008881a04ebb80c1492e3f59a496",
+            "Name": "Drink",
+            "Action": "TriggerAnimation",
+            "File": "Drink Juice.motion3.json",
+            "Folder": "",
+            "AutoCreated": false,
+            "Position": {
+                "X": 0.0,
+                "Y": 0.0,
+                "Z": 0.0,
+                "Rotation": 0.0
+            },
+            "ColorOverlay": {
+                "On": false,
+                "IsStaticColor": false,
+                "Display": -1,
+                "WindowName": "",
+                "IncludeLeft": false,
+                "IncludeMid": false,
+                "IncludeRight": false,
+                "BaseValue": 0,
+                "OverlayValue": 0,
+                "Smoothing": 0,
+                "IncludeItems": false,
+                "StaticColor": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 1.0
+                }
+            },
+            "ColorScreenMultiplyPreset": {
+                "ArtMeshMultiplyAndScreenColors": []
+            },
+            "HandGestureSettings": {
+                "GestureLeft": "",
+                "GestureRight": "",
+                "GestureCombinator": "AND",
+                "AllowMirroredGesture": false,
+                "DeactivateExpWhenGestureNotDetected": false,
+                "SecondsUntilDetection": 0.5,
+                "SecondsDetected": 0.0,
+                "PercentDetected": 0.0
+            },
+            "LoadModelSettings": {
+                "LoadAtCurrentPosition": true
+            },
+            "TwitchTriggers": {
+                "Active": false,
+                "CooldownActive": false,
+                "CooldownSeconds": 30.0,
+                "ResetActive": false,
+                "HideModelResetDialog": false,
+                "Active_GiftSubTrigger": false,
+                "Active_BitTrigger": false,
+                "Active_RedeemTrigger": false,
+                "Active_TextCommandTrigger": false,
+                "Active_SubTrigger": false,
+                "Active_FollowTrigger": false,
+                "Active_RaidTrigger": false,
+                "Active_ShoutoutTrigger": false,
+                "Active_AdbreakTrigger": false,
+                "Trigger_TextCommandTrigger": "",
+                "Trigger_Redeem_Name": "",
+                "Trigger_Redeem_ID": "",
+                "UseTextTriggerUserTypeRestriction": false,
+                "RestrictTextTriggerTo": {
+                    "Allowed_You": true,
+                    "Allowed_Subs": false,
+                    "Allowed_Mods": false,
+                    "Allowed_VIPs": false,
+                    "Allowed_Artists": false,
+                    "Allowed_UserNames": false,
+                    "UserNames": [],
+                    "Allowed_UserIDs": false,
+                    "UserIDs": []
+                },
+                "AllowRepeatedFollow": false,
+                "Trigger_GiftSubTrigger": {
+                    "Min": 1.0,
+                    "Max": 100.0
+                },
+                "Trigger_BitTrigger": {
+                    "Min": 100.0,
+                    "Max": 3000.0
+                }
+            },
+            "Triggers": {
+                "Trigger1": "LeftControl",
+                "Trigger2": "Q",
+                "Trigger3": "",
+                "ScreenButton": -1
+            },
+            "SoundConfig": {
+                "SoundActive": false,
+                "SoundSlots": []
+            },
+            "IsGlobal": true,
+            "IsActive": true,
+            "Minimized": false,
+            "StopsOnLastFrame": true,
+            "DeactivateAfterKeyUp": false,
+            "OnlyLoadOneRandomItem": false,
+            "DeactivateAfterSeconds": false,
+            "DeactivateAfterSecondsAmount": 10.0,
+            "FadeSecondsAmount": 1.100000023841858,
+            "OnScreenHotkeyColor": {
+                "r": 1.0,
+                "g": 0.0,
+                "b": 0.9139156341552734,
+                "a": 1.0
+            }
+        }
+    ],
+    "HotkeySettings": {
+        "UseOnScreenHotkeys": false,
+        "UseKeyboardHotkeys": true,
+        "SendOnScreenHotkeysToPC": true,
+        "OnScreenHotkeyAlpha": 75
+    },
+    "ArtMeshDetails": {
+        "ArtMeshesExcludedFromPinning": [],
+        "ArtMeshesThatDeleteItemsOnDrop": [],
+        "ArtMeshSceneLightingMultipliers": [],
+        "ArtMeshMultiplyAndScreenColors": [],
+        "ModelArtMeshGroups": []
+    },
+    "ParameterCustomization": {
+        "ParametersExcludedFromVNetSmoothing": [],
+        "SoundTriggers": [
+            {
+                "ID": "9c2a0b10a0b64ab3825c41fac44162d4",
+                "Active": true,
+                "Name": "Ice glass full",
+                "ParameterName": "BodyPhyX2Y2",
+                "Cooldown": 0.0,
+                "VelocityMultiplier": 0.5,
+                "Sounds": [
+                    {
+                        "FileName": "Sound/sound_ice_full_1.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/sound_ice_full_2.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    }
+                ],
+                "ValueTrigger1On": false,
+                "ValueTrigger1": {
+                    "Min": -1.0,
+                    "Max": -1.0
+                },
+                "ValueTrigger2On": false,
+                "ValueTrigger2": {
+                    "Min": 1.0,
+                    "Max": 1.0
+                },
+                "VelocityTrigger1On": false,
+                "VelocityTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.10999999940395355
+                },
+                "VelocityTrigger2On": false,
+                "VelocityTrigger2": {
+                    "Min": 0.09000000357627869,
+                    "Max": 1.0
+                },
+                "DirChangeTrigger1On": true,
+                "DirChangeTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.15000000596046449
+                },
+                "DirChangeTrigger2On": true,
+                "DirChangeTrigger2": {
+                    "Min": 0.15000000596046449,
+                    "Max": 1.0
+                },
+                "ValuePassRightToLeftTriggerOn": false,
+                "ValuePassRightToLeftTrigger": 0.0,
+                "ValuePassLeftToRightTriggerOn": false,
+                "ValuePassLeftToRightTrigger": 0.0,
+                "Volume": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Delay": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Pitch": {
+                    "Min": 0.9800000190734863,
+                    "Max": 1.0199999809265137
+                },
+                "Pan": {
+                    "Min": -0.550000011920929,
+                    "Max": 0.44999998807907107
+                },
+                "Reverse": false,
+                "AllowOverlap": true,
+                "VolumeCutoffOn": false,
+                "VolumeCutoff": 0,
+                "PlayEveryX": {
+                    "min": 1,
+                    "max": 1
+                },
+                "PlaybackChance": 100,
+                "Use_Condition": true,
+                "ParameterName_Condition": "JuiceDown",
+                "ValueRange_Condition": {
+                    "Min": 0.0,
+                    "Max": 9.0
+                },
+                "ItemSpawnSound": false,
+                "ItemDeleteSound": false,
+                "Echo": false,
+                "EchoCount": {
+                    "min": 2,
+                    "max": 2
+                },
+                "EchoDelay": {
+                    "Min": 0.15000000596046449,
+                    "Max": 0.25
+                },
+                "EchoFalloff": {
+                    "min": 55,
+                    "max": 65
+                },
+                "RandomizeEchoFile": true,
+                "ModifierVelocityVolumeOn": true,
+                "ModifierVelocityVolume": 1.5,
+                "ModifierVelocityPitchOn": false,
+                "ModifierVelocityPitch": -0.39794039726257326
+            },
+            {
+                "ID": "83112e2bed304f37ab3ed32a413c64cd",
+                "Active": true,
+                "Name": "Ice glass empty",
+                "ParameterName": "BodyPhyX2Y2",
+                "Cooldown": 0.0,
+                "VelocityMultiplier": 0.800000011920929,
+                "Sounds": [
+                    {
+                        "FileName": "Sound/sound_ice_empty_1.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/sound_ice_empty_2.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/sound_ice_empty_3.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/sound_ice_empty_4.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    }
+                ],
+                "ValueTrigger1On": false,
+                "ValueTrigger1": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "ValueTrigger2On": false,
+                "ValueTrigger2": {
+                    "Min": 10.0,
+                    "Max": 10.0
+                },
+                "VelocityTrigger1On": false,
+                "VelocityTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.6499999761581421
+                },
+                "VelocityTrigger2On": false,
+                "VelocityTrigger2": {
+                    "Min": 0.5299999713897705,
+                    "Max": 1.0
+                },
+                "DirChangeTrigger1On": true,
+                "DirChangeTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.05000000074505806
+                },
+                "DirChangeTrigger2On": true,
+                "DirChangeTrigger2": {
+                    "Min": 0.05000000074505806,
+                    "Max": 1.0
+                },
+                "ValuePassRightToLeftTriggerOn": false,
+                "ValuePassRightToLeftTrigger": 0.0,
+                "ValuePassLeftToRightTriggerOn": false,
+                "ValuePassLeftToRightTrigger": 0.0,
+                "Volume": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Delay": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Pitch": {
+                    "Min": 0.8999999761581421,
+                    "Max": 1.100000023841858
+                },
+                "Pan": {
+                    "Min": -0.5,
+                    "Max": 0.5
+                },
+                "Reverse": false,
+                "AllowOverlap": true,
+                "VolumeCutoffOn": true,
+                "VolumeCutoff": 10,
+                "PlayEveryX": {
+                    "min": 1,
+                    "max": 1
+                },
+                "PlaybackChance": 100,
+                "Use_Condition": true,
+                "ParameterName_Condition": "JuiceDown",
+                "ValueRange_Condition": {
+                    "Min": 9.0,
+                    "Max": 10.0
+                },
+                "ItemSpawnSound": false,
+                "ItemDeleteSound": false,
+                "Echo": true,
+                "EchoCount": {
+                    "min": 1,
+                    "max": 2
+                },
+                "EchoDelay": {
+                    "Min": 0.30000001192092898,
+                    "Max": 0.5
+                },
+                "EchoFalloff": {
+                    "min": 50,
+                    "max": 80
+                },
+                "RandomizeEchoFile": true,
+                "ModifierVelocityVolumeOn": true,
+                "ModifierVelocityVolume": 0.49999988079071047,
+                "ModifierVelocityPitchOn": false,
+                "ModifierVelocityPitch": -0.06861001253128052
+            },
+            {
+                "ID": "f54ee72d3df14f819adfb6e5b440f16a",
+                "Active": true,
+                "Name": "Water sloshing",
+                "ParameterName": "BodyPhyX4Y4",
+                "Cooldown": 1.0,
+                "VelocityMultiplier": 1.0,
+                "Sounds": [
+                    {
+                        "FileName": "Sound/water_slosh_1.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/water_slosh_2.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/water_slosh_3.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/water_slosh_4.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/water_slosh_5.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    }
+                ],
+                "ValueTrigger1On": false,
+                "ValueTrigger1": {
+                    "Min": -30.0,
+                    "Max": -20.0
+                },
+                "ValueTrigger2On": false,
+                "ValueTrigger2": {
+                    "Min": 20.0,
+                    "Max": 30.0
+                },
+                "VelocityTrigger1On": false,
+                "VelocityTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.23000000417232514
+                },
+                "VelocityTrigger2On": false,
+                "VelocityTrigger2": {
+                    "Min": 0.28999999165534975,
+                    "Max": 1.0
+                },
+                "DirChangeTrigger1On": true,
+                "DirChangeTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.6499999761581421
+                },
+                "DirChangeTrigger2On": true,
+                "DirChangeTrigger2": {
+                    "Min": 0.6499999761581421,
+                    "Max": 1.0
+                },
+                "ValuePassRightToLeftTriggerOn": false,
+                "ValuePassRightToLeftTrigger": 0.0,
+                "ValuePassLeftToRightTriggerOn": false,
+                "ValuePassLeftToRightTrigger": 0.0,
+                "Volume": {
+                    "Min": 5.0,
+                    "Max": 15.0
+                },
+                "Delay": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Pitch": {
+                    "Min": 1.2000000476837159,
+                    "Max": 1.7000000476837159
+                },
+                "Pan": {
+                    "Min": -0.6000000238418579,
+                    "Max": 0.6000000238418579
+                },
+                "Reverse": false,
+                "AllowOverlap": false,
+                "VolumeCutoffOn": false,
+                "VolumeCutoff": 0,
+                "PlayEveryX": {
+                    "min": 2,
+                    "max": 2
+                },
+                "PlaybackChance": 80,
+                "Use_Condition": true,
+                "ParameterName_Condition": "JuiceDown",
+                "ValueRange_Condition": {
+                    "Min": 0.0,
+                    "Max": 9.0
+                },
+                "ItemSpawnSound": false,
+                "ItemDeleteSound": false,
+                "Echo": false,
+                "EchoCount": {
+                    "min": 3,
+                    "max": 3
+                },
+                "EchoDelay": {
+                    "Min": 0.30000001192092898,
+                    "Max": 0.30000001192092898
+                },
+                "EchoFalloff": {
+                    "min": 30,
+                    "max": 30
+                },
+                "RandomizeEchoFile": false,
+                "ModifierVelocityVolumeOn": true,
+                "ModifierVelocityVolume": 1.5999999046325684,
+                "ModifierVelocityPitchOn": false,
+                "ModifierVelocityPitch": 1.2075483798980713
+            },
+            {
+                "ID": "52f22096eeb046cf8ff39798b7982fb3",
+                "Active": true,
+                "Name": "Drink Pour",
+                "ParameterName": "JuiceDown",
+                "Cooldown": 0.0,
+                "VelocityMultiplier": 1.0,
+                "Sounds": [
+                    {
+                        "FileName": "Sound/pour_drink_1.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    }
+                ],
+                "ValueTrigger1On": false,
+                "ValueTrigger1": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "ValueTrigger2On": false,
+                "ValueTrigger2": {
+                    "Min": 10.0,
+                    "Max": 10.0
+                },
+                "VelocityTrigger1On": false,
+                "VelocityTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.699999988079071
+                },
+                "VelocityTrigger2On": false,
+                "VelocityTrigger2": {
+                    "Min": 0.699999988079071,
+                    "Max": 1.0
+                },
+                "DirChangeTrigger1On": false,
+                "DirChangeTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.699999988079071
+                },
+                "DirChangeTrigger2On": false,
+                "DirChangeTrigger2": {
+                    "Min": 0.699999988079071,
+                    "Max": 1.0
+                },
+                "ValuePassRightToLeftTriggerOn": true,
+                "ValuePassRightToLeftTrigger": 9.0,
+                "ValuePassLeftToRightTriggerOn": false,
+                "ValuePassLeftToRightTrigger": 0.0,
+                "Volume": {
+                    "Min": 85.0,
+                    "Max": 85.0
+                },
+                "Delay": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Pitch": {
+                    "Min": 1.0800000429153443,
+                    "Max": 1.0800000429153443
+                },
+                "Pan": {
+                    "Min": -0.10000000149011612,
+                    "Max": 0.10000000149011612
+                },
+                "Reverse": false,
+                "AllowOverlap": true,
+                "VolumeCutoffOn": false,
+                "VolumeCutoff": 0,
+                "PlayEveryX": {
+                    "min": 1,
+                    "max": 1
+                },
+                "PlaybackChance": 100,
+                "Use_Condition": false,
+                "ParameterName_Condition": "",
+                "ValueRange_Condition": {
+                    "Min": 10.0,
+                    "Max": 20.0
+                },
+                "ItemSpawnSound": false,
+                "ItemDeleteSound": false,
+                "Echo": false,
+                "EchoCount": {
+                    "min": 3,
+                    "max": 3
+                },
+                "EchoDelay": {
+                    "Min": 0.30000001192092898,
+                    "Max": 0.30000001192092898
+                },
+                "EchoFalloff": {
+                    "min": 30,
+                    "max": 30
+                },
+                "RandomizeEchoFile": false,
+                "ModifierVelocityVolumeOn": false,
+                "ModifierVelocityVolume": 0.0,
+                "ModifierVelocityPitchOn": false,
+                "ModifierVelocityPitch": 0.0
+            },
+            {
+                "ID": "b70b5284f819436697b30b3b14d04f2f",
+                "Active": true,
+                "Name": "Drink Empty",
+                "ParameterName": "JuiceDown",
+                "Cooldown": 0.0,
+                "VelocityMultiplier": 1.0,
+                "Sounds": [
+                    {
+                        "FileName": "Sound/drink_empty_1.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    }
+                ],
+                "ValueTrigger1On": false,
+                "ValueTrigger1": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "ValueTrigger2On": false,
+                "ValueTrigger2": {
+                    "Min": 10.0,
+                    "Max": 10.0
+                },
+                "VelocityTrigger1On": false,
+                "VelocityTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.699999988079071
+                },
+                "VelocityTrigger2On": false,
+                "VelocityTrigger2": {
+                    "Min": 0.699999988079071,
+                    "Max": 1.0
+                },
+                "DirChangeTrigger1On": false,
+                "DirChangeTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.699999988079071
+                },
+                "DirChangeTrigger2On": false,
+                "DirChangeTrigger2": {
+                    "Min": 0.699999988079071,
+                    "Max": 1.0
+                },
+                "ValuePassRightToLeftTriggerOn": false,
+                "ValuePassRightToLeftTrigger": 0.0,
+                "ValuePassLeftToRightTriggerOn": true,
+                "ValuePassLeftToRightTrigger": 8.5,
+                "Volume": {
+                    "Min": 95.0,
+                    "Max": 95.0
+                },
+                "Delay": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Pitch": {
+                    "Min": 1.2000000476837159,
+                    "Max": 1.2000000476837159
+                },
+                "Pan": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Reverse": false,
+                "AllowOverlap": true,
+                "VolumeCutoffOn": false,
+                "VolumeCutoff": 0,
+                "PlayEveryX": {
+                    "min": 1,
+                    "max": 1
+                },
+                "PlaybackChance": 100,
+                "Use_Condition": false,
+                "ParameterName_Condition": "",
+                "ValueRange_Condition": {
+                    "Min": 10.0,
+                    "Max": 20.0
+                },
+                "ItemSpawnSound": false,
+                "ItemDeleteSound": false,
+                "Echo": false,
+                "EchoCount": {
+                    "min": 3,
+                    "max": 3
+                },
+                "EchoDelay": {
+                    "Min": 0.30000001192092898,
+                    "Max": 0.30000001192092898
+                },
+                "EchoFalloff": {
+                    "min": 30,
+                    "max": 30
+                },
+                "RandomizeEchoFile": false,
+                "ModifierVelocityVolumeOn": false,
+                "ModifierVelocityVolume": 0.0,
+                "ModifierVelocityPitchOn": false,
+                "ModifierVelocityPitch": 0.0
+            }
+        ]
+    },
+    "PhysicsCustomizationSettings": {
+        "PhysicsMultipliersPerPhysicsGroup": [],
+        "WindMultipliersPerPhysicsGroup": [],
+        "DraggingPhysicsMultipliersPerPhysicsGroup": []
+    },
+    "FolderInfo": {
+        "HotkeyFolders": [],
+        "ConfigItemFolders": []
+    },
+    "UserCustomization": {
+        "PreferredLanguageSetBy": "20211511c9238ef9be737f1d1d84dd20db207c74a0d98abae2d74cd59d7720a8",
+        "PreferredLanguage": "<LanguageSelectionID_Default>",
+        "AvailableLanguages": [
+            "Japanese"
+        ],
+        "UserParamFolderInfo": [
+            {
+                "ID": "ParamGroup3",
+                "FolderIconFileName": "",
+                "HideInList": true,
+                "Localizations": [
+                    "物理パラメータ"
+                ]
+            },
+            {
+                "ID": "ParamGroup",
+                "FolderIconFileName": "",
+                "HideInList": false,
+                "Localizations": [
+                    "カスタマイズ"
+                ]
+            },
+            {
+                "ID": "ParamGroup2",
+                "FolderIconFileName": "",
+                "HideInList": false,
+                "Localizations": [
+                    "パラメータ"
+                ]
+            }
+        ],
+        "UserParamInfo": [
+            {
+                "ID": "MadeByLittleMewn",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "Little Mewn 制作"
+                ]
+            },
+            {
+                "ID": "MadeForVtubeStudio",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "VTube Studio 用"
+                ]
+            },
+            {
+                "ID": "SkinSaturation",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "肌の彩度"
+                ]
+            },
+            {
+                "ID": "SkinColor",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "肌の色味"
+                ]
+            },
+            {
+                "ID": "SkinBrightness",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "肌の明るさ"
+                ]
+            },
+            {
+                "ID": "NailSaturation",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "爪の彩度"
+                ]
+            },
+            {
+                "ID": "NailColor",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "爪の色味"
+                ]
+            },
+            {
+                "ID": "NailBrightness",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "爪の明るさ"
+                ]
+            },
+            {
+                "ID": "JuiceDown",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "ジュースの残量"
+                ]
+            },
+            {
+                "ID": "Fizz",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "泡1"
+                ]
+            },
+            {
+                "ID": "Fizz2",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "泡2"
+                ]
+            },
+            {
+                "ID": "Fizz2_1",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "泡2_1"
+                ]
+            },
+            {
+                "ID": "Fizz2_2",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "泡2_2"
+                ]
+            },
+            {
+                "ID": "ParamBodyAngleX",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "体X"
+                ]
+            },
+            {
+                "ID": "ParamBodyAngleY",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "体Y"
+                ]
+            },
+            {
+                "ID": "BodyPhyX1Y1",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "体 物理 X1 Y1"
+                ]
+            },
+            {
+                "ID": "BodyPhyX2Y2",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "体 物理 X2 Y2"
+                ]
+            },
+            {
+                "ID": "BodyPhyX3Y3",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "体 物理 X3 Y3"
+                ]
+            },
+            {
+                "ID": "BodyPhyX4Y4",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "体 物理 X4 Y4"
+                ]
+            }
+        ]
+    },
+    "SavedActiveExpressions": [],
+    "ModelFolder": "<VTS_MODEL_BASE_PATH_PLACEHOLDER>"
+}

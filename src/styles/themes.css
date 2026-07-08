@@ -1,0 +1,68 @@
+:root {
+  color-scheme: light;
+  --ts-bg: #f2f8fd;
+  --ts-bg-soft: #eaf4fb;
+  --ts-bg-warm: #fff5f7;
+  --ts-surface: rgba(252, 254, 255, 0.78);
+  --ts-surface-strong: rgba(255, 255, 255, 0.94);
+  --ts-card: rgba(255, 255, 255, 0.72);
+  --ts-card-hover: rgba(245, 251, 255, 0.94);
+  --ts-border: rgba(75, 142, 189, 0.18);
+  --ts-border-strong: rgba(73, 167, 232, 0.34);
+  --ts-text: #26364a;
+  --ts-text-strong: #122033;
+  --ts-muted: rgba(38, 54, 74, 0.66);
+  --ts-accent: var(--ts-color-lilac-500);
+  --ts-accent-2: var(--ts-color-pink-400);
+  --ts-cyan: #77cdee;
+  --ts-glass: rgba(245, 251, 255, 0.78);
+  --ts-glass-strong: rgba(255, 255, 255, 0.92);
+  --ts-focus-ring: 0 0 0 3px rgba(73, 167, 232, 0.22);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --ts-bg: #121f2d;
+  --ts-bg-soft: #1b2c3c;
+  --ts-bg-warm: #2c2430;
+  --ts-surface: rgba(234, 247, 255, 0.14);
+  --ts-surface-strong: rgba(242, 250, 255, 0.22);
+  --ts-card: rgba(245, 251, 255, 0.12);
+  --ts-card-hover: rgba(245, 251, 255, 0.18);
+  --ts-border: rgba(221, 241, 255, 0.2);
+  --ts-border-strong: rgba(145, 207, 245, 0.38);
+  --ts-text: #eef8ff;
+  --ts-text-strong: #ffffff;
+  --ts-muted: rgba(238, 248, 255, 0.68);
+  --ts-accent: #91cff5;
+  --ts-accent-2: #ff8aa0;
+  --ts-cyan: #77d4cf;
+  --ts-glass: rgba(232, 246, 255, 0.16);
+  --ts-glass-strong: rgba(236, 248, 255, 0.24);
+  --ts-shadow-md: 0 18px 48px rgba(3, 15, 28, 0.26);
+  --ts-shadow-lg: 0 24px 76px rgba(3, 15, 28, 0.34);
+  --ts-focus-ring: 0 0 0 3px rgba(145, 207, 245, 0.2);
+}
+
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ts-text);
+  font-family: var(--ts-font-sans);
+  background:
+    linear-gradient(135deg, rgba(242, 248, 253, 0.94), rgba(232, 244, 252, 0.9) 48%, rgba(255, 245, 247, 0.9)),
+    url("/assets/images/tsukuyomi-bg.png") center center / cover no-repeat fixed;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html[data-theme="dark"] body {
+  background:
+    linear-gradient(135deg, rgba(9, 20, 34, 0.82), rgba(19, 38, 55, 0.72) 46%, rgba(44, 36, 48, 0.7)),
+    url("/assets/images/tsukuyomi-bg.png") center center / cover no-repeat fixed;
+}

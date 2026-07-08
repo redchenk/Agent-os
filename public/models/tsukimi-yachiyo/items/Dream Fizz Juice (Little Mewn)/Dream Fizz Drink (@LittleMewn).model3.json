@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Dream Fizz Drink (@LittleMewn).moc3",
+		"Textures": [
+			"Dream Fizz Drink (@LittleMewn).4096/texture_00.png"
+		],
+		"Physics": "Dream Fizz Drink (@LittleMewn).physics3.json",
+		"DisplayInfo": "Dream Fizz Drink (@LittleMewn).cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}

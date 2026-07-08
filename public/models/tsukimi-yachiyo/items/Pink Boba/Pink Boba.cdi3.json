@@ -1,0 +1,144 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle Z"
+		},
+		{
+			"Id": "Y1",
+			"GroupId": "ParamGroup",
+			"Name": "Y1"
+		},
+		{
+			"Id": "Y2",
+			"GroupId": "ParamGroup",
+			"Name": "Y2"
+		},
+		{
+			"Id": "X1",
+			"GroupId": "ParamGroup",
+			"Name": "X1"
+		},
+		{
+			"Id": "X2",
+			"GroupId": "ParamGroup",
+			"Name": "X2"
+		},
+		{
+			"Id": "Boba1X",
+			"GroupId": "ParamGroup3",
+			"Name": "Boba1 X"
+		},
+		{
+			"Id": "Boba1Y",
+			"GroupId": "ParamGroup3",
+			"Name": "Boba1 Y"
+		},
+		{
+			"Id": "Boba2X",
+			"GroupId": "ParamGroup3",
+			"Name": "Boba2 X"
+		},
+		{
+			"Id": "Boba2Y",
+			"GroupId": "ParamGroup3",
+			"Name": "Boba2 Y"
+		},
+		{
+			"Id": "Boba3X",
+			"GroupId": "ParamGroup3",
+			"Name": "Boba3 X"
+		},
+		{
+			"Id": "Boba3Y",
+			"GroupId": "ParamGroup3",
+			"Name": "Boba3 Y"
+		},
+		{
+			"Id": "DropLoop1",
+			"GroupId": "ParamGroup4",
+			"Name": "DropLoop1"
+		},
+		{
+			"Id": "DropLoop2",
+			"GroupId": "ParamGroup4",
+			"Name": "DropLoop2"
+		},
+		{
+			"Id": "DropLoop3",
+			"GroupId": "ParamGroup4",
+			"Name": "DropLoop3"
+		},
+		{
+			"Id": "DropLoop5",
+			"GroupId": "ParamGroup4",
+			"Name": "DropLoop5"
+		},
+		{
+			"Id": "DropLoop6",
+			"GroupId": "ParamGroup4",
+			"Name": "DropLoop6"
+		},
+		{
+			"Id": "Param",
+			"GroupId": "",
+			"Name": "Wrap Reset"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "Straight Params"
+		},
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "Liquid Phys"
+		},
+		{
+			"Id": "ParamGroup3",
+			"GroupId": "",
+			"Name": "Boba Phys"
+		},
+		{
+			"Id": "ParamGroup4",
+			"GroupId": "",
+			"Name": "Animation Params"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "Part2",
+			"Name": "Folder 4"
+		},
+		{
+			"Id": "Part6",
+			"Name": "Folder 1"
+		},
+		{
+			"Id": "Part3",
+			"Name": "Folder 9 Copy"
+		},
+		{
+			"Id": "Boba",
+			"Name": "Boba"
+		},
+		{
+			"Id": "Liquid",
+			"Name": "Liquid"
+		}
+	]
+}

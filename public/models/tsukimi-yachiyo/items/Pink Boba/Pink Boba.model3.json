@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Pink Boba.moc3",
+		"Textures": [
+			"Pink Boba.4096/texture_00.png"
+		],
+		"Physics": "Pink Boba.physics3.json",
+		"DisplayInfo": "Pink Boba.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}

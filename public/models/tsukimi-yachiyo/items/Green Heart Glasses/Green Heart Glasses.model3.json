@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Green Heart Glasses.moc3",
+		"Textures": [
+			"Green Heart Glasses.2048/texture_00.png"
+		],
+		"Physics": "Green Heart Glasses.physics3.json",
+		"DisplayInfo": "Green Heart Glasses.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}

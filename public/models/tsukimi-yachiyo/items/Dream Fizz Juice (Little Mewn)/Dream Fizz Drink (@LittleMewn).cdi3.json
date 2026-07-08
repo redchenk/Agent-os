@@ -1,0 +1,167 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "MadeByLittleMewn",
+			"GroupId": "",
+			"Name": "Made By Little Mewn"
+		},
+		{
+			"Id": "MadeForVtubeStudio",
+			"GroupId": "",
+			"Name": "Made For VTube Studio"
+		},
+		{
+			"Id": "SkinSaturation",
+			"GroupId": "ParamGroup",
+			"Name": "Skin Saturation"
+		},
+		{
+			"Id": "SkinColor",
+			"GroupId": "ParamGroup",
+			"Name": "Skin Color"
+		},
+		{
+			"Id": "SkinBrightness",
+			"GroupId": "ParamGroup",
+			"Name": "Skin Brightness"
+		},
+		{
+			"Id": "NailSaturation",
+			"GroupId": "ParamGroup",
+			"Name": "Nail Saturation"
+		},
+		{
+			"Id": "NailColor",
+			"GroupId": "ParamGroup",
+			"Name": "Nail Color"
+		},
+		{
+			"Id": "NailBrightness",
+			"GroupId": "ParamGroup",
+			"Name": "Nail Brightness"
+		},
+		{
+			"Id": "JuiceDown",
+			"GroupId": "ParamGroup2",
+			"Name": "Juice Down"
+		},
+		{
+			"Id": "Fizz",
+			"GroupId": "ParamGroup2",
+			"Name": "Fizz"
+		},
+		{
+			"Id": "Fizz2",
+			"GroupId": "ParamGroup2",
+			"Name": "Fizz 2"
+		},
+		{
+			"Id": "Fizz2_1",
+			"GroupId": "ParamGroup2",
+			"Name": "Fizz2_1"
+		},
+		{
+			"Id": "Fizz2_2",
+			"GroupId": "ParamGroup2",
+			"Name": "Fizz2_2"
+		},
+		{
+			"Id": "ParamBodyAngleX",
+			"GroupId": "ParamGroup2",
+			"Name": "Body X"
+		},
+		{
+			"Id": "ParamBodyAngleY",
+			"GroupId": "ParamGroup2",
+			"Name": "Body Y"
+		},
+		{
+			"Id": "BodyPhyX1Y1",
+			"GroupId": "ParamGroup3",
+			"Name": "Body Phy X1 Y1"
+		},
+		{
+			"Id": "BodyPhyX2Y2",
+			"GroupId": "ParamGroup3",
+			"Name": "Body Phy X2 Y2"
+		},
+		{
+			"Id": "BodyPhyX3Y3",
+			"GroupId": "ParamGroup3",
+			"Name": "Body Phy X3 Y3"
+		},
+		{
+			"Id": "BodyPhyX4Y4",
+			"GroupId": "ParamGroup3",
+			"Name": "Body Phy X4 Y4"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "Customization"
+		},
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "Parameters"
+		},
+		{
+			"Id": "ParamGroup3",
+			"GroupId": "",
+			"Name": "Physics"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "Part",
+			"Name": "LITTLE MEWN ASSET"
+		},
+		{
+			"Id": "Part2",
+			"Name": "HAND FRONT"
+		},
+		{
+			"Id": "DRINK",
+			"Name": "DRINK"
+		},
+		{
+			"Id": "ARM",
+			"Name": "ARM"
+		},
+		{
+			"Id": "NAILS",
+			"Name": "NAILS"
+		},
+		{
+			"Id": "FIZZ",
+			"Name": "FIZZ"
+		},
+		{
+			"Id": "Part3",
+			"Name": "GLASS FRONT"
+		},
+		{
+			"Id": "STARS",
+			"Name": "STARS"
+		},
+		{
+			"Id": "ICE",
+			"Name": "ICE"
+		},
+		{
+			"Id": "LEMON",
+			"Name": "LEMON"
+		},
+		{
+			"Id": "LEAF",
+			"Name": "LEAF"
+		},
+		{
+			"Id": "DRINK2",
+			"Name": "DRINK"
+		}
+	]
+}

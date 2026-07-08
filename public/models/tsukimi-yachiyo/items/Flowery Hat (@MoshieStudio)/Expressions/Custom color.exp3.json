@@ -1,0 +1,25 @@
+{
+    "Type": "Live2D Expression",
+    "Parameters": [
+        {
+            "Id": "ParamRibbonColor",
+            "Value": 0.3623785078525543,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamRibbonBrightness",
+            "Value": 1.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamHatColor",
+            "Value": 73.0713882446289,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamHatBrightness",
+            "Value": 1.0,
+            "Blend": "Add"
+        }
+    ]
+}

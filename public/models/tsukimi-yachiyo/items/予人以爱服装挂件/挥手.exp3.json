@@ -1,0 +1,25 @@
+{
+    "Type": "Live2D Expression",
+    "Parameters": [
+        {
+            "Id": "ude1",
+            "Value": -1.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ude2",
+            "Value": 1.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ude3",
+            "Value": 0.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ude4",
+            "Value": 0.0,
+            "Blend": "Add"
+        }
+    ]
+}

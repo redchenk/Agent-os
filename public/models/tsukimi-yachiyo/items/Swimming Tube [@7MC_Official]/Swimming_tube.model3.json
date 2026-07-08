@@ -1,0 +1,24 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Swimming_tube.moc3",
+		"Textures": [
+			"Swimming_tube.4096/texture_00.png",
+			"Swimming_tube.4096/texture_01.png"
+		],
+		"Physics": "Swimming_tube.physics3.json",
+		"DisplayInfo": "Swimming_tube.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}

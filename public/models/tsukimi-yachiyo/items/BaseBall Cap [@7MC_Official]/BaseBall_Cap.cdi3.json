@@ -1,0 +1,100 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "TRACKING",
+			"GroupId": "",
+			"Name": "--------TRACKING--------"
+		},
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "ParamIQ",
+			"GroupId": "",
+			"Name": "Inter_quick"
+		},
+		{
+			"Id": "DEBUG",
+			"GroupId": "",
+			"Name": "DEBUG"
+		},
+		{
+			"Id": "CUSTOMIZATION",
+			"GroupId": "",
+			"Name": "--------CUSTOMIZATION--------"
+		},
+		{
+			"Id": "ParamRebTog",
+			"GroupId": "",
+			"Name": "Reverse Toggle"
+		},
+		{
+			"Id": "ParamColChange1",
+			"GroupId": "",
+			"Name": "Color Change 1"
+		},
+		{
+			"Id": "ParamColChange2",
+			"GroupId": "",
+			"Name": "Color Change 2"
+		},
+		{
+			"Id": "ParamLogo",
+			"GroupId": "",
+			"Name": "Logo Toggle"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "Hat_base",
+			"Name": "Hat_base"
+		},
+		{
+			"Id": "Part2",
+			"Name": "HAT_BODY"
+		},
+		{
+			"Id": "HAT_OUTLINE",
+			"Name": "HAT_OUTLINE"
+		},
+		{
+			"Id": "Part",
+			"Name": "Logo"
+		},
+		{
+			"Id": "Bill_Mask",
+			"Name": "Bill_Mask"
+		},
+		{
+			"Id": "Bill_Intersect",
+			"Name": "Bill_Intersect"
+		},
+		{
+			"Id": "Bill_Infront",
+			"Name": "Bill_Infront"
+		},
+		{
+			"Id": "Bill_Behind",
+			"Name": "Bill_Behind"
+		},
+		{
+			"Id": "Bill_Outline",
+			"Name": "Bill_Outline"
+		}
+	],
+	"CombinedParameters": [
+		[
+			"ParamAngleX",
+			"ParamAngleY"
+		]
+	]
+}

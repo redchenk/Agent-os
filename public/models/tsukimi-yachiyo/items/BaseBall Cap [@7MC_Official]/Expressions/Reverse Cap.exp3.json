@@ -1,0 +1,10 @@
+{
+    "Type": "Live2D Expression",
+    "Parameters": [
+        {
+            "Id": "ParamRebTog",
+            "Value": 0.75,
+            "Blend": "Add"
+        }
+    ]
+}

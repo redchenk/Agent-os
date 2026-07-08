@@ -1,0 +1,79 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "TRACKING",
+			"GroupId": "",
+			"Name": "------- TRACKING -------"
+		},
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "ParamJiX",
+			"GroupId": "",
+			"Name": "Jiggle X"
+		},
+		{
+			"Id": "ParamJiY",
+			"GroupId": "",
+			"Name": "Jiggle Y"
+		},
+		{
+			"Id": "CUSTOMIZATION",
+			"GroupId": "",
+			"Name": "------- CUSTOMIZATION -------"
+		},
+		{
+			"Id": "ParamCol1",
+			"GroupId": "",
+			"Name": "Color"
+		},
+		{
+			"Id": "DONOTMODIFY",
+			"GroupId": "",
+			"Name": "------- DO NOT MODIFY -------"
+		},
+		{
+			"Id": "DEBUG",
+			"GroupId": "",
+			"Name": "Debug"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "FRONT",
+			"Name": "FRONT"
+		},
+		{
+			"Id": "MID",
+			"Name": "MID"
+		},
+		{
+			"Id": "back",
+			"Name": "back"
+		},
+		{
+			"Id": "Part2",
+			"Name": "Swimming Tube Texture 1 Back.png"
+		},
+		{
+			"Id": "Part3",
+			"Name": "Pattern_back"
+		}
+	],
+	"CombinedParameters": [
+		[
+			"ParamAngleX",
+			"ParamAngleY"
+		]
+	]
+}

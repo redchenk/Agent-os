@@ -1,0 +1,53 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "GeniusModeToggle",
+			"GroupId": "",
+			"Name": "Genius Mode Toggle"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "Part",
+			"Name": "VTS Stuff"
+		},
+		{
+			"Id": "Part43",
+			"Name": "Heart Sunglasses.psd"
+		},
+		{
+			"Id": "Part40",
+			"Name": "Highlight 1 Copy"
+		},
+		{
+			"Id": "Part41",
+			"Name": "HIghlight 1 Copy"
+		},
+		{
+			"Id": "Part46",
+			"Name": "L Glass"
+		},
+		{
+			"Id": "Part47",
+			"Name": "R Glass"
+		}
+	],
+	"CombinedParameters": [
+		[
+			"ParamAngleX",
+			"ParamAngleY"
+		]
+	]
+}

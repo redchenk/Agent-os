@@ -1,0 +1,49 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "GeniusModeToggle",
+			"GroupId": "",
+			"Name": "Genius Mode Toggle"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "Part",
+			"Name": "VTS Stuff"
+		},
+		{
+			"Id": "Part38",
+			"Name": "Sunglasses.psd"
+		},
+		{
+			"Id": "Part36",
+			"Name": "Highlight 1"
+		},
+		{
+			"Id": "Part37",
+			"Name": "HIghlight 1"
+		},
+		{
+			"Id": "Shades",
+			"Name": "Shades"
+		}
+	],
+	"CombinedParameters": [
+		[
+			"ParamAngleX",
+			"ParamAngleY"
+		]
+	]
+}

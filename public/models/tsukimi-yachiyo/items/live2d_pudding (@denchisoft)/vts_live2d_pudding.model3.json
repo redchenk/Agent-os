@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "vts_live2d_pudding.moc3",
+		"Textures": [
+			"vts_live2d_pudding.1024/texture_00.png"
+		],
+		"Physics": "vts_live2d_pudding.physics3.json",
+		"DisplayInfo": "vts_live2d_pudding.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}

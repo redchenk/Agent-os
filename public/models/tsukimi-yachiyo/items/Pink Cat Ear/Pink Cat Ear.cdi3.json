@@ -1,0 +1,138 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "ParamGroup",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "ParamGroup",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "ParamGroup",
+			"Name": "Angle Z"
+		},
+		{
+			"Id": "Param",
+			"GroupId": "ParamGroup",
+			"Name": "-----------"
+		},
+		{
+			"Id": "ParamEyeROpen",
+			"GroupId": "ParamGroup2",
+			"Name": "EyeR Open"
+		},
+		{
+			"Id": "ParamBrowRY",
+			"GroupId": "ParamGroup2",
+			"Name": "BrowR Y"
+		},
+		{
+			"Id": "ParamEyeLOpen",
+			"GroupId": "ParamGroup2",
+			"Name": "EyeL Open"
+		},
+		{
+			"Id": "ParamBrowLY",
+			"GroupId": "ParamGroup2",
+			"Name": "BrowL Y"
+		},
+		{
+			"Id": "Param3",
+			"GroupId": "ParamGroup2",
+			"Name": "-----------"
+		},
+		{
+			"Id": "Perk",
+			"GroupId": "ParamGroup3",
+			"Name": "Perk"
+		},
+		{
+			"Id": "Phys1",
+			"GroupId": "ParamGroup3",
+			"Name": "Phys1"
+		},
+		{
+			"Id": "Phys2",
+			"GroupId": "ParamGroup3",
+			"Name": "Phys2"
+		},
+		{
+			"Id": "Phys3",
+			"GroupId": "ParamGroup3",
+			"Name": "Phys3"
+		},
+		{
+			"Id": "PhysX1",
+			"GroupId": "ParamGroup3",
+			"Name": "Phys X 1"
+		},
+		{
+			"Id": "PhysX2",
+			"GroupId": "ParamGroup3",
+			"Name": "Phys X 2"
+		},
+		{
+			"Id": "PhysX3",
+			"GroupId": "ParamGroup3",
+			"Name": "Phys X 3"
+		},
+		{
+			"Id": "Blink1",
+			"GroupId": "ParamGroup3",
+			"Name": "Blink 1"
+		},
+		{
+			"Id": "Blink2",
+			"GroupId": "ParamGroup3",
+			"Name": "Blink 2"
+		},
+		{
+			"Id": "Blink3",
+			"GroupId": "ParamGroup3",
+			"Name": "Blink 3"
+		},
+		{
+			"Id": "Param21",
+			"GroupId": "",
+			"Name": "-----------"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "Head"
+		},
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "Perk / Blink"
+		},
+		{
+			"Id": "ParamGroup3",
+			"GroupId": "",
+			"Name": "Phys"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "Part37",
+			"Name": "Cat Ear.psd"
+		},
+		{
+			"Id": "Part36",
+			"Name": "Folder 1 Copy"
+		}
+	],
+	"CombinedParameters": [
+		[
+			"ParamAngleX",
+			"ParamAngleY"
+		]
+	]
+}

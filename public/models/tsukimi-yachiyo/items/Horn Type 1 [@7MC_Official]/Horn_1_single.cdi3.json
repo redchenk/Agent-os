@@ -1,0 +1,61 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "TRACKING",
+			"GroupId": "",
+			"Name": "--------- TRACKING ---------"
+		},
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "Angle Y"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "left_horn",
+			"Name": "left_horn"
+		},
+		{
+			"Id": "Part10",
+			"Name": "left horn segment 7"
+		},
+		{
+			"Id": "Part11",
+			"Name": "left horn segment 6"
+		},
+		{
+			"Id": "Part12",
+			"Name": "left horn segment  5"
+		},
+		{
+			"Id": "Part13",
+			"Name": "left horn segment  4"
+		},
+		{
+			"Id": "Part14",
+			"Name": "left horn segment  3"
+		},
+		{
+			"Id": "Part15",
+			"Name": "left horn segment 2"
+		},
+		{
+			"Id": "Part16",
+			"Name": "left horn segment 1"
+		}
+	],
+	"CombinedParameters": [
+		[
+			"ParamAngleX",
+			"ParamAngleY"
+		]
+	]
+}

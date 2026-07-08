@@ -1,0 +1,20 @@
+{
+    "Type": "Live2D Expression",
+    "Parameters": [
+        {
+            "Id": "ParamBunny",
+            "Value": 1.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamStars",
+            "Value": 0.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamHearts",
+            "Value": 0.0,
+            "Blend": "Add"
+        }
+    ]
+}

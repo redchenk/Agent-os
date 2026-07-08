@@ -1,0 +1,15 @@
+{
+    "Type": "Live2D Expression",
+    "Parameters": [
+        {
+            "Id": "ParamGradient",
+            "Value": 0.5,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamGradientColor",
+            "Value": 10.0,
+            "Blend": "Add"
+        }
+    ]
+}

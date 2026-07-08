@@ -1,0 +1,459 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "IZUqq323176904",
+			"GroupId": "",
+			"Name": "飴豆/板面仙人"
+		},
+		{
+			"Id": "ude1",
+			"GroupId": "ParamGroupExpControl",
+			"Name": "手臂垂下"
+		},
+		{
+			"Id": "ude2",
+			"GroupId": "ParamGroupExpControl",
+			"Name": "挥手"
+		},
+		{
+			"Id": "ude3",
+			"GroupId": "ParamGroupExpControl",
+			"Name": "比心"
+		},
+		{
+			"Id": "ude4",
+			"GroupId": "ParamGroupExpControl",
+			"Name": "拿话筒"
+		},
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "ParamGroupXY",
+			"Name": "X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "ParamGroupXY",
+			"Name": "Y"
+		},
+		{
+			"Id": "ParamBodyAngleX",
+			"GroupId": "ParamGroupXY",
+			"Name": "身体X"
+		},
+		{
+			"Id": "ParamBreath",
+			"GroupId": "ParamGroupXY",
+			"Name": "呼吸"
+		},
+		{
+			"Id": "ParamBodyAngleY3",
+			"GroupId": "ParamGroupXY",
+			"Name": "呼吸身体Y"
+		},
+		{
+			"Id": "Param13",
+			"GroupId": "ParamGroupXY",
+			"Name": "挥手动画用"
+		},
+		{
+			"Id": "Param14",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "丝带飘动随X"
+		},
+		{
+			"Id": "ParamY1body",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "bodyY1"
+		},
+		{
+			"Id": "ParamY2body",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "bodyY2"
+		},
+		{
+			"Id": "ParamX1body",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "bodyX1"
+		},
+		{
+			"Id": "ParamX2body",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "bodyX2"
+		},
+		{
+			"Id": "Parammwrs1",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "星星1"
+		},
+		{
+			"Id": "Parammwrs2",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "星星2"
+		},
+		{
+			"Id": "ParamY1body2",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "褶皱Y1"
+		},
+		{
+			"Id": "ParamY2body2",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "褶皱Y2"
+		},
+		{
+			"Id": "Paramtippety1",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "披肩物理y1"
+		},
+		{
+			"Id": "Paramtippety2",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "披肩物理y2"
+		},
+		{
+			"Id": "Paramtippety3",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "披肩物理y3"
+		},
+		{
+			"Id": "Paramtippet1",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "披肩物理1"
+		},
+		{
+			"Id": "Paramtippet2",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "披肩物理2"
+		},
+		{
+			"Id": "ParamBustX1",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "乳摇X1"
+		},
+		{
+			"Id": "ParamBustX2",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "乳摇X2"
+		},
+		{
+			"Id": "ParamBustY1",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "乳摇Y1"
+		},
+		{
+			"Id": "ParamBustY2",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "乳摇Y2"
+		},
+		{
+			"Id": "ParamBody2",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "竖向褶皱1"
+		},
+		{
+			"Id": "ParamBody9",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "竖向褶皱2"
+		},
+		{
+			"Id": "ParamBody3",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "蝴蝶结物理1"
+		},
+		{
+			"Id": "ParamBody4",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "蝴蝶结物理2"
+		},
+		{
+			"Id": "ParamArmPhyX",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "手臂物理X"
+		},
+		{
+			"Id": "ParamArmPhyX2",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "手臂物理XX"
+		},
+		{
+			"Id": "ParamArmPhy1",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "手物理1"
+		},
+		{
+			"Id": "ParamArmPhy2",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "手物理2"
+		},
+		{
+			"Id": "ParamArmPhy3",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "手物理3"
+		},
+		{
+			"Id": "ParamArmPhyY",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "手臂物理Y"
+		},
+		{
+			"Id": "ParamMetalreflective",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "金属反光1"
+		},
+		{
+			"Id": "ParamRINGY",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "光环悬浮Y"
+		},
+		{
+			"Id": "ParamRINGX",
+			"GroupId": "ParamGroupBodyPhy",
+			"Name": "光环悬浮X"
+		},
+		{
+			"Id": "ParamHairFront1",
+			"GroupId": "ParamGroupHairPhy",
+			"Name": "摇动 前发1"
+		},
+		{
+			"Id": "ParamHairFront2",
+			"GroupId": "ParamGroupHairPhy",
+			"Name": "摇动 前发2"
+		},
+		{
+			"Id": "Pendant8",
+			"GroupId": "ParamGrouppendant",
+			"Name": "8"
+		},
+		{
+			"Id": "Pendant7",
+			"GroupId": "ParamGrouppendant",
+			"Name": "7"
+		},
+		{
+			"Id": "Pendant6",
+			"GroupId": "ParamGrouppendant",
+			"Name": "6"
+		},
+		{
+			"Id": "Pendant5",
+			"GroupId": "ParamGrouppendant",
+			"Name": "5"
+		},
+		{
+			"Id": "Pendant4",
+			"GroupId": "ParamGrouppendant",
+			"Name": "4"
+		},
+		{
+			"Id": "Pendant3",
+			"GroupId": "ParamGrouppendant",
+			"Name": "3"
+		},
+		{
+			"Id": "Pendant2",
+			"GroupId": "ParamGrouppendant",
+			"Name": "2"
+		},
+		{
+			"Id": "Pendant1",
+			"GroupId": "ParamGrouppendant",
+			"Name": "1"
+		},
+		{
+			"Id": "ParamWing3",
+			"GroupId": "ParamGroupwing",
+			"Name": "翅膀3"
+		},
+		{
+			"Id": "ParamWing2",
+			"GroupId": "ParamGroupwing",
+			"Name": "翅膀2"
+		},
+		{
+			"Id": "ParamWing1",
+			"GroupId": "ParamGroupwing",
+			"Name": "翅膀1"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroupExpControl",
+			"GroupId": "",
+			"Name": "按键"
+		},
+		{
+			"Id": "ParamGroupXY",
+			"GroupId": "",
+			"Name": "角度"
+		},
+		{
+			"Id": "ParamGroupBodyPhy",
+			"GroupId": "",
+			"Name": "主体物理"
+		},
+		{
+			"Id": "ParamGroupExpPhy",
+			"GroupId": "",
+			"Name": "按键表情物理"
+		},
+		{
+			"Id": "ParamGroupHairPhy",
+			"GroupId": "",
+			"Name": "头发物理"
+		},
+		{
+			"Id": "ParamGrouppendant",
+			"GroupId": "",
+			"Name": "挂坠物理"
+		},
+		{
+			"Id": "ParamGroupwing",
+			"GroupId": "",
+			"Name": "蝠翼物理"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "Part39",
+			"Name": "身体"
+		},
+		{
+			"Id": "Part5",
+			"Name": "比心"
+		},
+		{
+			"Id": "Part6",
+			"Name": "拿话筒"
+		},
+		{
+			"Id": "Part7",
+			"Name": "挥手"
+		},
+		{
+			"Id": "Part35",
+			"Name": "腰部装饰"
+		},
+		{
+			"Id": "Part40",
+			"Name": "肩上宝石蝴蝶结"
+		},
+		{
+			"Id": "Part43",
+			"Name": "左侧披肩"
+		},
+		{
+			"Id": "Part44",
+			"Name": "颈饰"
+		},
+		{
+			"Id": "Part48",
+			"Name": "罩衣"
+		},
+		{
+			"Id": "Part50",
+			"Name": "裙摆"
+		},
+		{
+			"Id": "Part51",
+			"Name": "胸"
+		},
+		{
+			"Id": "Part52",
+			"Name": "腿L"
+		},
+		{
+			"Id": "Part54",
+			"Name": "腿R"
+		},
+		{
+			"Id": "Part55",
+			"Name": "粉色后摆"
+		},
+		{
+			"Id": "Part56",
+			"Name": "手臂垂下"
+		},
+		{
+			"Id": "Part62",
+			"Name": "背后飘带"
+		},
+		{
+			"Id": "R",
+			"Name": "R"
+		},
+		{
+			"Id": "L",
+			"Name": "L"
+		},
+		{
+			"Id": "Part75",
+			"Name": "手臂L"
+		},
+		{
+			"Id": "Part73",
+			"Name": "手臂挂坠"
+		},
+		{
+			"Id": "Part36",
+			"Name": "翅膀-"
+		},
+		{
+			"Id": "Part37",
+			"Name": "翅膀+"
+		},
+		{
+			"Id": "Part38",
+			"Name": "宝石花底座"
+		},
+		{
+			"Id": "Part41",
+			"Name": "肩上宝石饰品"
+		},
+		{
+			"Id": "Part47",
+			"Name": "颈饰花"
+		},
+		{
+			"Id": "Part49",
+			"Name": "罩衣上阴影位置"
+		},
+		{
+			"Id": "Part53",
+			"Name": "腿L宝石"
+		},
+		{
+			"Id": "Part57",
+			"Name": "手臂R"
+		},
+		{
+			"Id": "Part59",
+			"Name": "手臂L"
+		},
+		{
+			"Id": "Part74",
+			"Name": "手臂挂坠"
+		},
+		{
+			"Id": "Part76",
+			"Name": "手L"
+		},
+		{
+			"Id": "Part77",
+			"Name": "手臂挂坠"
+		},
+		{
+			"Id": "Part58",
+			"Name": "手R"
+		},
+		{
+			"Id": "Part60",
+			"Name": "手L"
+		},
+		{
+			"Id": "Part61",
+			"Name": "手臂挂坠"
+		}
+	]
+}

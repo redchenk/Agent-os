@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Red Wine.moc3",
+		"Textures": [
+			"Red Wine.4096/texture_00.png"
+		],
+		"Physics": "Red Wine.physics3.json",
+		"DisplayInfo": "Red Wine.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}

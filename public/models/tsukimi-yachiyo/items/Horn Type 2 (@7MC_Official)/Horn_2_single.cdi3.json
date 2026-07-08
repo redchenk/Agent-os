@@ -1,0 +1,48 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "Angle Y"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "Part",
+			"Name": "left horn"
+		},
+		{
+			"Id": "HORN_5",
+			"Name": "HORN_5"
+		},
+		{
+			"Id": "HORN_4",
+			"Name": "HORN_4"
+		},
+		{
+			"Id": "Part4",
+			"Name": "left horn segment 3"
+		},
+		{
+			"Id": "Part5",
+			"Name": "left horn segment 4"
+		},
+		{
+			"Id": "Part6",
+			"Name": "left horn segment 5"
+		}
+	],
+	"CombinedParameters": [
+		[
+			"ParamAngleX",
+			"ParamAngleY"
+		]
+	]
+}

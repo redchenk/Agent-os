@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Akari Doll (@MoshieStudio).moc3",
+		"Textures": [
+			"Akari Doll (@MoshieStudio).8192/texture_00.png"
+		],
+		"Physics": "Akari Doll (@MoshieStudio).physics3.json",
+		"DisplayInfo": "Akari Doll (@MoshieStudio).cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}

@@ -1,0 +1,103 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "MadeByLittleMewn",
+			"GroupId": "",
+			"Name": "Made By Little Mewn"
+		},
+		{
+			"Id": "Madeforvtubestudio",
+			"GroupId": "",
+			"Name": "Made for VTube Studio"
+		},
+		{
+			"Id": "BellX1",
+			"GroupId": "ParamGroup",
+			"Name": "Bell X1"
+		},
+		{
+			"Id": "BellY1",
+			"GroupId": "ParamGroup",
+			"Name": "Bell Y1"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "ParamGroup",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "ParamGroup",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "AngleXPhyX1",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle X Phy X1"
+		},
+		{
+			"Id": "AngleXPhyX2",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle X Phy X2"
+		},
+		{
+			"Id": "AngleXPhyX3",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle X Phy X3"
+		},
+		{
+			"Id": "AngleYPhyY1",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle Y Phy Y1"
+		},
+		{
+			"Id": "AngleYPhyY2",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle Y Phy Y2"
+		},
+		{
+			"Id": "AngleYPhyY3",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle Y Phy Y3"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "Parameters"
+		},
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "Physics"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "Part",
+			"Name": "LITTLE MEWN VTUBER ASSET"
+		},
+		{
+			"Id": "BELL",
+			"Name": "BELL"
+		},
+		{
+			"Id": "BELL_CHAIN",
+			"Name": "BELL_CHAIN"
+		},
+		{
+			"Id": "RIBBON",
+			"Name": "RIBBON"
+		},
+		{
+			"Id": "Part2",
+			"Name": "BELL FRONT"
+		},
+		{
+			"Id": "Part3",
+			"Name": "BERRY LOGO"
+		}
+	]
+}

@@ -1,0 +1,484 @@
+{
+    "Version": 1,
+    "Name": "Ribbon Bell (@LittleMewn)",
+    "ModelID": "60ce7a8d9bdd48c99ec12423a47dc7c5",
+    "FileReferences": {
+        "Icon": "icon.jpg",
+        "Model": "Ribbon Bell (@LittleMewn).model3.json",
+        "IdleAnimation": "",
+        "IdleAnimationWhenTrackingLost": ""
+    },
+    "ModelSaveMetadata": {
+        "LastSavedVTubeStudioVersion": "1.32.87",
+        "LastSavedPlatform": "Steam",
+        "LastSavedDateUTC": "Saturday, 21 February 2026, 10:54:43",
+        "LastSavedDateLocalTime": "Saturday, 21 February 2026, 11:54:43",
+        "LastSavedDateUnixMillisecondTimestamp": "1771671283049",
+        "TotalSaveCount": 10
+    },
+    "SavedModelPosition": {
+        "Position": {
+            "x": -26.666656494140626,
+            "y": -1.9246211051940919,
+            "z": 0.0
+        },
+        "Rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "ModelPositionMovement": {
+        "Use": false,
+        "X": 6,
+        "Y": 8,
+        "Z": 11,
+        "SmoothingX": 10,
+        "SmoothingY": 10,
+        "SmoothingZ": 10
+    },
+    "ItemSettings": {
+        "OnlyMoveWhenPinned": false,
+        "AllowNormalHotkeyTriggers": true,
+        "Multiplier_HeadAngleX": 1.0,
+        "Multiplier_HeadAngleY": 1.0,
+        "Multiplier_HeadAngleZ": 1.0,
+        "Shift_HeadAngleX": 0.0,
+        "Shift_HeadAngleY": 0.0,
+        "Smoothing_HeadAngleX": 15.0,
+        "Smoothing_HeadAngleY": 15.0,
+        "Smoothing_HeadAngleZ": 15.0
+    },
+    "PhysicsSettings": {
+        "Use": true,
+        "UseLegacyPhysics": false,
+        "Live2DPhysicsFPS": 3,
+        "PhysicsStrength": 50,
+        "WindStrength": 0,
+        "DraggingPhysicsStrength": 50
+    },
+    "GeneralSettings": {
+        "ModelVolume": 80,
+        "TimeUntilTrackingLostIdleAnimation": 0.0,
+        "WorkshopSharingForbidden": true,
+        "EnableExpressionSaving": true
+    },
+    "ParameterSettings": [
+        {
+            "Folder": "",
+            "Name": "Face Left/Right Rotation",
+            "Input": "FaceAngleX",
+            "InputRangeLower": -20.0,
+            "InputRangeUpper": 20.0,
+            "OutputRangeLower": -30.0,
+            "OutputRangeUpper": 30.0,
+            "ClampInput": false,
+            "ClampOutput": false,
+            "UseBlinking": false,
+            "UseBreathing": false,
+            "OutputLive2D": "ParamAngleX",
+            "Smoothing": 15,
+            "Minimized": false
+        },
+        {
+            "Folder": "",
+            "Name": "Face Up/Down Rotation",
+            "Input": "FaceAngleY",
+            "InputRangeLower": -15.0,
+            "InputRangeUpper": 15.0,
+            "OutputRangeLower": -30.0,
+            "OutputRangeUpper": 30.0,
+            "ClampInput": false,
+            "ClampOutput": false,
+            "UseBlinking": false,
+            "UseBreathing": false,
+            "OutputLive2D": "ParamAngleY",
+            "Smoothing": 15,
+            "Minimized": false
+        }
+    ],
+    "Hotkeys": [],
+    "HotkeySettings": {
+        "UseOnScreenHotkeys": false,
+        "UseKeyboardHotkeys": true,
+        "SendOnScreenHotkeysToPC": true,
+        "OnScreenHotkeyAlpha": 75
+    },
+    "ArtMeshDetails": {
+        "ArtMeshesExcludedFromPinning": [],
+        "ArtMeshesThatDeleteItemsOnDrop": [],
+        "ArtMeshSceneLightingMultipliers": [],
+        "ArtMeshMultiplyAndScreenColors": [],
+        "ModelArtMeshGroups": []
+    },
+    "ParameterCustomization": {
+        "ParametersExcludedFromVNetSmoothing": [],
+        "SoundTriggers": [
+            {
+                "ID": "c809f776da09485ba87f4c7f47462d4c",
+                "Active": true,
+                "Name": "Bell shake 1",
+                "ParameterName": "AngleXPhyX3",
+                "Cooldown": 0.0,
+                "VelocityMultiplier": 1.0,
+                "Sounds": [
+                    {
+                        "FileName": "Sounds/small_bell_1.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    }
+                ],
+                "ValueTrigger1On": false,
+                "ValueTrigger1": {
+                    "Min": -30.0,
+                    "Max": -20.0
+                },
+                "ValueTrigger2On": false,
+                "ValueTrigger2": {
+                    "Min": 20.0,
+                    "Max": 30.0
+                },
+                "VelocityTrigger1On": false,
+                "VelocityTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.699999988079071
+                },
+                "VelocityTrigger2On": false,
+                "VelocityTrigger2": {
+                    "Min": 0.699999988079071,
+                    "Max": 1.0
+                },
+                "DirChangeTrigger1On": true,
+                "DirChangeTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.12999999523162843
+                },
+                "DirChangeTrigger2On": true,
+                "DirChangeTrigger2": {
+                    "Min": 0.12999999523162843,
+                    "Max": 1.0
+                },
+                "ValuePassRightToLeftTriggerOn": false,
+                "ValuePassRightToLeftTrigger": 0.0,
+                "ValuePassLeftToRightTriggerOn": false,
+                "ValuePassLeftToRightTrigger": 0.0,
+                "Volume": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Delay": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Pitch": {
+                    "Min": 2.549999952316284,
+                    "Max": 2.799999952316284
+                },
+                "Pan": {
+                    "Min": -0.3499999940395355,
+                    "Max": 0.3499999940395355
+                },
+                "Reverse": false,
+                "AllowOverlap": true,
+                "VolumeCutoffOn": false,
+                "VolumeCutoff": 0,
+                "PlayEveryX": {
+                    "min": 1,
+                    "max": 1
+                },
+                "PlaybackChance": 100,
+                "Use_Condition": false,
+                "ParameterName_Condition": "",
+                "ValueRange_Condition": {
+                    "Min": 10.0,
+                    "Max": 20.0
+                },
+                "ItemSpawnSound": false,
+                "ItemDeleteSound": false,
+                "Echo": true,
+                "EchoCount": {
+                    "min": 3,
+                    "max": 3
+                },
+                "EchoDelay": {
+                    "Min": 0.20000000298023225,
+                    "Max": 0.30000001192092898
+                },
+                "EchoFalloff": {
+                    "min": 35,
+                    "max": 45
+                },
+                "RandomizeEchoFile": false,
+                "ModifierVelocityVolumeOn": true,
+                "ModifierVelocityVolume": 2.5,
+                "ModifierVelocityPitchOn": true,
+                "ModifierVelocityPitch": 0.04999995231628418
+            },
+            {
+                "ID": "a134f776da09123ba87f4c8f47462dff",
+                "Active": false,
+                "Name": "Bell shake 2",
+                "ParameterName": "AngleXPhyX3",
+                "Cooldown": 0.0,
+                "VelocityMultiplier": 1.0,
+                "Sounds": [
+                    {
+                        "FileName": "Sounds/small_bell_2.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sounds/small_bell_3.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sounds/small_bell_4.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sounds/small_bell_5.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sounds/small_bell_6.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sounds/small_bell_7.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    }
+                ],
+                "ValueTrigger1On": false,
+                "ValueTrigger1": {
+                    "Min": -30.0,
+                    "Max": -20.0
+                },
+                "ValueTrigger2On": false,
+                "ValueTrigger2": {
+                    "Min": 20.0,
+                    "Max": 30.0
+                },
+                "VelocityTrigger1On": false,
+                "VelocityTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.699999988079071
+                },
+                "VelocityTrigger2On": false,
+                "VelocityTrigger2": {
+                    "Min": 0.699999988079071,
+                    "Max": 1.0
+                },
+                "DirChangeTrigger1On": true,
+                "DirChangeTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.12999999523162843
+                },
+                "DirChangeTrigger2On": true,
+                "DirChangeTrigger2": {
+                    "Min": 0.12999999523162843,
+                    "Max": 1.0
+                },
+                "ValuePassRightToLeftTriggerOn": false,
+                "ValuePassRightToLeftTrigger": 0.0,
+                "ValuePassLeftToRightTriggerOn": false,
+                "ValuePassLeftToRightTrigger": 0.0,
+                "Volume": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Delay": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Pitch": {
+                    "Min": 1.7000000476837159,
+                    "Max": 1.7999999523162842
+                },
+                "Pan": {
+                    "Min": -0.4000000059604645,
+                    "Max": 0.4000000059604645
+                },
+                "Reverse": false,
+                "AllowOverlap": true,
+                "VolumeCutoffOn": false,
+                "VolumeCutoff": 0,
+                "PlayEveryX": {
+                    "min": 1,
+                    "max": 1
+                },
+                "PlaybackChance": 100,
+                "Use_Condition": false,
+                "ParameterName_Condition": "",
+                "ValueRange_Condition": {
+                    "Min": 10.0,
+                    "Max": 20.0
+                },
+                "ItemSpawnSound": false,
+                "ItemDeleteSound": false,
+                "Echo": true,
+                "EchoCount": {
+                    "min": 3,
+                    "max": 3
+                },
+                "EchoDelay": {
+                    "Min": 0.15000000596046449,
+                    "Max": 0.30000001192092898
+                },
+                "EchoFalloff": {
+                    "min": 55,
+                    "max": 75
+                },
+                "RandomizeEchoFile": false,
+                "ModifierVelocityVolumeOn": true,
+                "ModifierVelocityVolume": 1.0000001192092896,
+                "ModifierVelocityPitchOn": false,
+                "ModifierVelocityPitch": 0.8371903896331787
+            }
+        ]
+    },
+    "PhysicsCustomizationSettings": {
+        "PhysicsMultipliersPerPhysicsGroup": [],
+        "WindMultipliersPerPhysicsGroup": [],
+        "DraggingPhysicsMultipliersPerPhysicsGroup": []
+    },
+    "FolderInfo": {
+        "HotkeyFolders": [],
+        "ConfigItemFolders": []
+    },
+    "UserCustomization": {
+        "PreferredLanguageSetBy": "20211511c9238ef9be737f1d1d84dd20db207c74a0d98abae2d74cd59d7720a8",
+        "PreferredLanguage": "<LanguageSelectionID_Default>",
+        "AvailableLanguages": [
+            "Japanese"
+        ],
+        "UserParamFolderInfo": [
+            {
+                "ID": "ParamGroup",
+                "FolderIconFileName": "",
+                "HideInList": false,
+                "Localizations": [
+                    "パラメータ"
+                ]
+            },
+            {
+                "ID": "ParamGroup2",
+                "FolderIconFileName": "",
+                "HideInList": false,
+                "Localizations": [
+                    "物理演算パラメータ"
+                ]
+            }
+        ],
+        "UserParamInfo": [
+            {
+                "ID": "MadeByLittleMewn",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "Little Mewn 制作"
+                ]
+            },
+            {
+                "ID": "Madeforvtubestudio",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "VTube Studio 用"
+                ]
+            },
+            {
+                "ID": "ParamAngleY",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "角度Y"
+                ]
+            },
+            {
+                "ID": "ParamAngleX",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "角度X"
+                ]
+            },
+            {
+                "ID": "BellX1",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "ベル X1"
+                ]
+            },
+            {
+                "ID": "BellY1",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "ベル Y1"
+                ]
+            },
+            {
+                "ID": "AngleXPhyX1",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "角度X 物理 X1"
+                ]
+            },
+            {
+                "ID": "AngleXPhyX2",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "角度X 物理 X2"
+                ]
+            },
+            {
+                "ID": "AngleXPhyX3",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "角度X 物理 X3"
+                ]
+            },
+            {
+                "ID": "AngleYPhyY1",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "角度X 物理 Y1"
+                ]
+            },
+            {
+                "ID": "AngleYPhyY2",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "角度X 物理 Y2"
+                ]
+            },
+            {
+                "ID": "AngleYPhyY3",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "角度X 物理 Y3"
+                ]
+            }
+        ]
+    },
+    "SavedActiveExpressions": [],
+    "ModelFolder": "<VTS_MODEL_BASE_PATH_PLACEHOLDER>"
+}

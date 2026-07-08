@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "VTS_Controller.moc3",
+		"Textures": [
+			"VTS_Controller.4096/texture_00.png"
+		],
+		"Physics": "VTS_Controller.physics3.json",
+		"DisplayInfo": "VTS_Controller.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}

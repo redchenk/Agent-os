@@ -1,0 +1,67 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "",
+			"Name": "Angle Z"
+		},
+		{
+			"Id": "PhysX1",
+			"GroupId": "ParamGroup",
+			"Name": "Phys X1"
+		},
+		{
+			"Id": "PhysX2",
+			"GroupId": "ParamGroup",
+			"Name": "Phys X2"
+		},
+		{
+			"Id": "PhysY1",
+			"GroupId": "ParamGroup",
+			"Name": "Phys Y1"
+		},
+		{
+			"Id": "PhysY2",
+			"GroupId": "ParamGroup",
+			"Name": "Phys Y2"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "Phys"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "wine",
+			"Name": "wine"
+		},
+		{
+			"Id": "Part",
+			"Name": "CLIP TO GLASS"
+		},
+		{
+			"Id": "Wine",
+			"Name": "Wine"
+		}
+	],
+	"CombinedParameters": [
+		[
+			"ParamAngleX",
+			"ParamAngleY"
+		]
+	]
+}

@@ -1,0 +1,66 @@
+{
+    "Type": "Live2D Expression",
+    "IsModelCustomizationExpression": true,
+    "Parameters": [
+        {
+            "Id": "ParamNailR",
+            "Value": 0.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamNailB",
+            "Value": 0.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamNailG",
+            "Value": 0.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamSkiR",
+            "Value": 0.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamSkiG",
+            "Value": 0.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamSkiB",
+            "Value": 0.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamLLiR",
+            "Value": 0.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamLLiG",
+            "Value": 0.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamLLiB",
+            "Value": 0.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamRLR",
+            "Value": 0.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamRLG",
+            "Value": 0.0,
+            "Blend": "Add"
+        },
+        {
+            "Id": "ParamRLB",
+            "Value": 0.0,
+            "Blend": "Add"
+        }
+    ]
+}

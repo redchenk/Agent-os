@@ -1,0 +1,153 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "ParamGroup",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "ParamGroup",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "ParamGroup",
+			"Name": "Angle Z"
+		},
+		{
+			"Id": "ParamOffsetX",
+			"GroupId": "ParamGroup",
+			"Name": "Offset X"
+		},
+		{
+			"Id": "ParamOffsetY",
+			"GroupId": "ParamGroup",
+			"Name": "Offset Y"
+		},
+		{
+			"Id": "ParamEyeROpen",
+			"GroupId": "ParamGroup2",
+			"Name": "EyeR Open"
+		},
+		{
+			"Id": "ParamBrowRY",
+			"GroupId": "ParamGroup2",
+			"Name": "Brow R Y"
+		},
+		{
+			"Id": "ParamEyeLOpen",
+			"GroupId": "ParamGroup2",
+			"Name": "EyeL Open"
+		},
+		{
+			"Id": "ParamBrowLY",
+			"GroupId": "ParamGroup2",
+			"Name": "Brow L Y"
+		},
+		{
+			"Id": "Param",
+			"GroupId": "ParamGroup3",
+			"Name": "Perk Phys"
+		},
+		{
+			"Id": "Phys1",
+			"GroupId": "ParamGroup3",
+			"Name": "Phys 1"
+		},
+		{
+			"Id": "Phys2",
+			"GroupId": "ParamGroup3",
+			"Name": "Phys 2"
+		},
+		{
+			"Id": "Phys3",
+			"GroupId": "ParamGroup3",
+			"Name": "Phys 3"
+		},
+		{
+			"Id": "YPhys1",
+			"GroupId": "ParamGroup3",
+			"Name": "Y Phys 1"
+		},
+		{
+			"Id": "YPhys2",
+			"GroupId": "ParamGroup3",
+			"Name": "Y Phys 2"
+		},
+		{
+			"Id": "YPhys3",
+			"GroupId": "ParamGroup3",
+			"Name": "Y Phys 3"
+		},
+		{
+			"Id": "FluffX1",
+			"GroupId": "ParamGroup3",
+			"Name": "Fluff X1"
+		},
+		{
+			"Id": "FluffY1",
+			"GroupId": "ParamGroup3",
+			"Name": "Fluff Y1"
+		},
+		{
+			"Id": "FluffX2",
+			"GroupId": "ParamGroup3",
+			"Name": "Fluff X2"
+		},
+		{
+			"Id": "Fluffy2",
+			"GroupId": "ParamGroup3",
+			"Name": "Fluff y2"
+		},
+		{
+			"Id": "EarFlop",
+			"GroupId": "",
+			"Name": "Ear Flop"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "Head"
+		},
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "Eyes"
+		},
+		{
+			"Id": "ParamGroup3",
+			"GroupId": "",
+			"Name": "Phys"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "Part8",
+			"Name": "R Ear"
+		},
+		{
+			"Id": "FRONT",
+			"Name": "FRONT"
+		},
+		{
+			"Id": "BACK",
+			"Name": "BACK"
+		},
+		{
+			"Id": "Part",
+			"Name": "Side Ear"
+		},
+		{
+			"Id": "Part2",
+			"Name": "Inside Ear"
+		},
+		{
+			"Id": "Part3",
+			"Name": "Back Ear"
+		}
+	]
+}

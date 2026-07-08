@@ -1,0 +1,304 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "ParamGroup",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "ParamGroup",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "ParamLeftBumper",
+			"GroupId": "ParamGroup",
+			"Name": "Left Bumper"
+		},
+		{
+			"Id": "ParamLeftTrigger",
+			"GroupId": "ParamGroup",
+			"Name": "Left Trigger"
+		},
+		{
+			"Id": "ParamRightBumper",
+			"GroupId": "ParamGroup",
+			"Name": "Right Bumper"
+		},
+		{
+			"Id": "ParamRightTrigger",
+			"GroupId": "ParamGroup",
+			"Name": "Right Trigger"
+		},
+		{
+			"Id": "ParamLeftStickX",
+			"GroupId": "ParamGroup",
+			"Name": "Left Stick X"
+		},
+		{
+			"Id": "ParamLeftStickY",
+			"GroupId": "ParamGroup",
+			"Name": "Left Stick Y"
+		},
+		{
+			"Id": "ParamStiPreL",
+			"GroupId": "ParamGroup",
+			"Name": "Stick Press L"
+		},
+		{
+			"Id": "ParamRightStickX",
+			"GroupId": "ParamGroup",
+			"Name": "Right Stick X"
+		},
+		{
+			"Id": "ParamRightStickY",
+			"GroupId": "ParamGroup",
+			"Name": "Right Stick Y"
+		},
+		{
+			"Id": "ParamStiPreR",
+			"GroupId": "ParamGroup",
+			"Name": "Stick Press R"
+		},
+		{
+			"Id": "ParamBtnDown",
+			"GroupId": "ParamGroup",
+			"Name": "Btn Down"
+		},
+		{
+			"Id": "ParamBtnLeft",
+			"GroupId": "ParamGroup",
+			"Name": "Btn Left"
+		},
+		{
+			"Id": "ParamBtnUp",
+			"GroupId": "ParamGroup",
+			"Name": "Btn Up"
+		},
+		{
+			"Id": "ParamBtnRight",
+			"GroupId": "ParamGroup",
+			"Name": "Btn Right"
+		},
+		{
+			"Id": "ParamBtnX",
+			"GroupId": "ParamGroup",
+			"Name": "Btn X"
+		},
+		{
+			"Id": "ParamBtnCirc",
+			"GroupId": "ParamGroup",
+			"Name": "Btn Circle"
+		},
+		{
+			"Id": "ParamBtnSquare",
+			"GroupId": "ParamGroup",
+			"Name": "Btn Square"
+		},
+		{
+			"Id": "ParamBtnTri",
+			"GroupId": "ParamGroup",
+			"Name": "Btn Triangle"
+		},
+		{
+			"Id": "ParamNailR",
+			"GroupId": "ParamGroup4",
+			"Name": "Nail R"
+		},
+		{
+			"Id": "ParamNailB",
+			"GroupId": "ParamGroup4",
+			"Name": "Nail B"
+		},
+		{
+			"Id": "ParamNailG",
+			"GroupId": "ParamGroup4",
+			"Name": "Nail G"
+		},
+		{
+			"Id": "ParamSkiR",
+			"GroupId": "ParamGroup5",
+			"Name": "Skin R"
+		},
+		{
+			"Id": "ParamSkiG",
+			"GroupId": "ParamGroup5",
+			"Name": "Skin G"
+		},
+		{
+			"Id": "ParamSkiB",
+			"GroupId": "ParamGroup5",
+			"Name": "Skin B"
+		},
+		{
+			"Id": "ParamLLiR",
+			"GroupId": "ParamGroup6",
+			"Name": "Left Light R"
+		},
+		{
+			"Id": "ParamLLiG",
+			"GroupId": "ParamGroup6",
+			"Name": "Left Light G"
+		},
+		{
+			"Id": "ParamLLiB",
+			"GroupId": "ParamGroup6",
+			"Name": "Left Light B"
+		},
+		{
+			"Id": "ParamRLR",
+			"GroupId": "ParamGroup6",
+			"Name": "Right Light R"
+		},
+		{
+			"Id": "ParamRLG",
+			"GroupId": "ParamGroup6",
+			"Name": "Right Light G"
+		},
+		{
+			"Id": "ParamRLB",
+			"GroupId": "ParamGroup6",
+			"Name": "Right Light B"
+		},
+		{
+			"Id": "ParamAngleXPhys",
+			"GroupId": "ParamGroup3",
+			"Name": "Angle X Phys"
+		},
+		{
+			"Id": "ParamAngleY2",
+			"GroupId": "ParamGroup3",
+			"Name": "Angle Y Phys"
+		},
+		{
+			"Id": "ParamLLi",
+			"GroupId": "ParamGroup3",
+			"Name": "Left Light"
+		},
+		{
+			"Id": "ParamRLi",
+			"GroupId": "ParamGroup3",
+			"Name": "Right Light"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "Tracking"
+		},
+		{
+			"Id": "ParamGroup4",
+			"GroupId": "",
+			"Name": "Customization: Nails"
+		},
+		{
+			"Id": "ParamGroup5",
+			"GroupId": "",
+			"Name": "Customisation: Skin"
+		},
+		{
+			"Id": "ParamGroup6",
+			"GroupId": "",
+			"Name": "Customization: Light"
+		},
+		{
+			"Id": "ParamGroup3",
+			"GroupId": "",
+			"Name": "Physics"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "Part",
+			"Name": "VTubeStudio_Controller v2.psd"
+		},
+		{
+			"Id": "Fingers_R2",
+			"Name": "Fingers_R"
+		},
+		{
+			"Id": "Fingers_R",
+			"Name": "Fingers_R"
+		},
+		{
+			"Id": "Controller",
+			"Name": "Controller"
+		},
+		{
+			"Id": "Palms_R2",
+			"Name": "Palms_R"
+		},
+		{
+			"Id": "Arms_L",
+			"Name": "Arms_L"
+		},
+		{
+			"Id": "Palms_R",
+			"Name": "Palms_R"
+		},
+		{
+			"Id": "Arms_R",
+			"Name": "Arms_R"
+		},
+		{
+			"Id": "Part3",
+			"Name": "BODY"
+		},
+		{
+			"Id": "Thumb_R2",
+			"Name": "Thumb_R"
+		},
+		{
+			"Id": "Thumb_R",
+			"Name": "Thumb_R"
+		},
+		{
+			"Id": "JoySticks",
+			"Name": "JoySticks"
+		},
+		{
+			"Id": "Part2",
+			"Name": "TRIGGERS"
+		},
+		{
+			"Id": "Triggers",
+			"Name": "Triggers"
+		},
+		{
+			"Id": "LightLED",
+			"Name": "LightLED"
+		},
+		{
+			"Id": "Buttons",
+			"Name": "Buttons"
+		},
+		{
+			"Id": "TRIG_R",
+			"Name": "TRIG_R"
+		},
+		{
+			"Id": "TRIG_L",
+			"Name": "TRIG_L"
+		}
+	],
+	"CombinedParameters": [
+		[
+			"ParamLeftStickX",
+			"ParamLeftStickY"
+		],
+		[
+			"ParamRightStickX",
+			"ParamRightStickY"
+		],
+		[
+			"ParamBtnUp",
+			"ParamBtnRight"
+		],
+		[
+			"ParamBtnSquare",
+			"ParamBtnTri"
+		]
+	]
+}

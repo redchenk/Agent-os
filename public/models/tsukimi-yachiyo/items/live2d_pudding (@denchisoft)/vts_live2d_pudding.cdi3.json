@@ -1,0 +1,158 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle Z"
+		},
+		{
+			"Id": "ParamCherryRoll",
+			"GroupId": "ParamGroup3",
+			"Name": "Cherry Roll"
+		},
+		{
+			"Id": "ParamPuddingPhysicsX1",
+			"GroupId": "ParamGroup3",
+			"Name": "Pudding Physics X 1"
+		},
+		{
+			"Id": "ParamPuddingPhysicsY1",
+			"GroupId": "ParamGroup3",
+			"Name": "Pudding Physics Y 1"
+		},
+		{
+			"Id": "ParamPuddingPhysicsX2",
+			"GroupId": "ParamGroup3",
+			"Name": "Pudding Physics X 2"
+		},
+		{
+			"Id": "ParamPhysicsY2",
+			"GroupId": "ParamGroup3",
+			"Name": "Pudding Physics Y 2"
+		},
+		{
+			"Id": "ParamCherryVisible",
+			"GroupId": "ParamGroup4",
+			"Name": "Cherry Visible"
+		},
+		{
+			"Id": "ParamCherryHeight",
+			"GroupId": "ParamGroup5",
+			"Name": "Cherry Height"
+		},
+		{
+			"Id": "ParamCherrySpin",
+			"GroupId": "ParamGroup5",
+			"Name": "Cherry Spin"
+		},
+		{
+			"Id": "Param_Angle_Rotation_1_cherry_top",
+			"GroupId": "ParamGroup",
+			"Name": "[0]cherry_top"
+		},
+		{
+			"Id": "Param_Angle_Rotation_2_cherry_top",
+			"GroupId": "ParamGroup",
+			"Name": "[1]cherry_top"
+		},
+		{
+			"Id": "Param_Angle_Rotation_3_cherry_top",
+			"GroupId": "ParamGroup",
+			"Name": "[2]cherry_top"
+		},
+		{
+			"Id": "Param_Angle_Rotation_4_cherry_top",
+			"GroupId": "ParamGroup",
+			"Name": "[3]cherry_top"
+		},
+		{
+			"Id": "Param_Angle_Rotation_5_cherry_top",
+			"GroupId": "ParamGroup",
+			"Name": "[4]cherry_top"
+		},
+		{
+			"Id": "Param_Angle_Rotation_6_cherry_top",
+			"GroupId": "ParamGroup",
+			"Name": "[5]cherry_top"
+		},
+		{
+			"Id": "Param_Angle_Rotation_7_cherry_top",
+			"GroupId": "ParamGroup",
+			"Name": "[6]cherry_top"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "Angle Inputs"
+		},
+		{
+			"Id": "ParamGroup3",
+			"GroupId": "",
+			"Name": "Physics"
+		},
+		{
+			"Id": "ParamGroup4",
+			"GroupId": "",
+			"Name": "Toggles"
+		},
+		{
+			"Id": "ParamGroup5",
+			"GroupId": "",
+			"Name": "Animations"
+		},
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "Cherry Stem Skinning"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "pudding_all",
+			"Name": "pudding_all"
+		},
+		{
+			"Id": "cherry",
+			"Name": "cherry"
+		},
+		{
+			"Id": "pudding",
+			"Name": "pudding"
+		},
+		{
+			"Id": "plate",
+			"Name": "plate"
+		},
+		{
+			"Id": "cherry_top_Skinning",
+			"Name": "cherry_top(Skinning)"
+		},
+		{
+			"Id": "Part",
+			"Name": "cherry_top(Rotation)"
+		}
+	],
+	"CombinedParameters": [
+		[
+			"ParamPuddingPhysicsX1",
+			"ParamPuddingPhysicsY1"
+		],
+		[
+			"ParamPuddingPhysicsX2",
+			"ParamPhysicsY2"
+		]
+	]
+}

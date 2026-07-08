@@ -1,0 +1,326 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "TRACKING",
+			"GroupId": "ParamGroup",
+			"Name": "--------- TRACKING ---------"
+		},
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "ParamGroup",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "ParamGroup",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "ParamGroup",
+			"Name": "Angle Z"
+		},
+		{
+			"Id": "DONOTMODIFY2",
+			"GroupId": "ParamGroup2",
+			"Name": "--------- DO NOT MODIFY ---------"
+		},
+		{
+			"Id": "ParamAngleXPhys",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle X Phys"
+		},
+		{
+			"Id": "ParamAngleYPhys",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle Y Phys"
+		},
+		{
+			"Id": "ParamAngleZPhys",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle Z Phys"
+		},
+		{
+			"Id": "ParamAccPhysSpread",
+			"GroupId": "ParamGroup2",
+			"Name": "Acc Phys Spread"
+		},
+		{
+			"Id": "ParamAccPhysFade",
+			"GroupId": "ParamGroup2",
+			"Name": "Acc Phys Fade"
+		},
+		{
+			"Id": "ParamAPX",
+			"GroupId": "ParamGroup2",
+			"Name": "Accent Phys X"
+		},
+		{
+			"Id": "ParamAPY",
+			"GroupId": "ParamGroup2",
+			"Name": "Accent Phys Y"
+		},
+		{
+			"Id": "ParamAPX2",
+			"GroupId": "ParamGroup2",
+			"Name": "Accent Phys X2"
+		},
+		{
+			"Id": "ParamAPY2",
+			"GroupId": "ParamGroup2",
+			"Name": "Accent Phys Y2"
+		},
+		{
+			"Id": "ParamDrip1",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 1 Seq"
+		},
+		{
+			"Id": "ParamDripWob1",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 1 Wob"
+		},
+		{
+			"Id": "ParamDripFa",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 1 Fall"
+		},
+		{
+			"Id": "ParamDrip2",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 2 Seq"
+		},
+		{
+			"Id": "ParamDripWob2",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 2 Wob"
+		},
+		{
+			"Id": "ParamDrip3",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 3 Seq"
+		},
+		{
+			"Id": "ParamDripWob3",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 3 Wob"
+		},
+		{
+			"Id": "ParamDripFa3",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 3 Fall"
+		},
+		{
+			"Id": "ParamDrip4",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 4 Seq"
+		},
+		{
+			"Id": "ParamDripWob4",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 4 Wob"
+		},
+		{
+			"Id": "ParamDripFa4",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 4 Fall"
+		},
+		{
+			"Id": "ParamDrip5",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 5 Seq"
+		},
+		{
+			"Id": "ParamDripWob5",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 5 Wob"
+		},
+		{
+			"Id": "ParamDrip6",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 6 Seq"
+		},
+		{
+			"Id": "ParamDripWob6",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 6 Wob"
+		},
+		{
+			"Id": "ParamDripFa6",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 6 Fall"
+		},
+		{
+			"Id": "ParamDrip7",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 7 Seq"
+		},
+		{
+			"Id": "ParamDrip8",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 8 Seq"
+		},
+		{
+			"Id": "ParamDrip9",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 9 Seq"
+		},
+		{
+			"Id": "ParamDripWob9",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 9 Wob"
+		},
+		{
+			"Id": "ParamDripFa9",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip 9 Fall"
+		},
+		{
+			"Id": "ParamDron1",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip On"
+		},
+		{
+			"Id": "ParamDPX",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip Phys X"
+		},
+		{
+			"Id": "ParamDPY",
+			"GroupId": "ParamGroup2",
+			"Name": "Drip Phys Y"
+		},
+		{
+			"Id": "ParamLRX",
+			"GroupId": "ParamGroup2",
+			"Name": "Light Rotation X"
+		},
+		{
+			"Id": "ParamLRY",
+			"GroupId": "ParamGroup2",
+			"Name": "Light Rotation Y"
+		},
+		{
+			"Id": "ParamLF1",
+			"GroupId": "ParamGroup2",
+			"Name": "Light Fade 1"
+		},
+		{
+			"Id": "ParamLF2",
+			"GroupId": "ParamGroup2",
+			"Name": "Light Fade 2"
+		},
+		{
+			"Id": "ParamLF3",
+			"GroupId": "ParamGroup2",
+			"Name": "Light Fade 3"
+		},
+		{
+			"Id": "ParamLF4",
+			"GroupId": "ParamGroup2",
+			"Name": "Light Fade 4"
+		},
+		{
+			"Id": "ParamLF5",
+			"GroupId": "ParamGroup2",
+			"Name": "Light Fade 5"
+		},
+		{
+			"Id": "ParamLF6",
+			"GroupId": "ParamGroup2",
+			"Name": "Light Fade 6"
+		},
+		{
+			"Id": "ParamLF7",
+			"GroupId": "ParamGroup2",
+			"Name": "Light Fade 7"
+		},
+		{
+			"Id": "ParamLF8",
+			"GroupId": "ParamGroup2",
+			"Name": "Light Fade 8"
+		},
+		{
+			"Id": "ParamLF9",
+			"GroupId": "ParamGroup2",
+			"Name": "Light Fade 9"
+		},
+		{
+			"Id": "ParamDebug",
+			"GroupId": "ParamGroup2",
+			"Name": "Debug"
+		},
+		{
+			"Id": "CUSTOMIZATION",
+			"GroupId": "ParamGroup3",
+			"Name": "--------- CUSTOMIZATION ---------"
+		},
+		{
+			"Id": "ParamHaloType",
+			"GroupId": "ParamGroup3",
+			"Name": "Halo Type"
+		},
+		{
+			"Id": "ParamHaloTilt",
+			"GroupId": "ParamGroup3",
+			"Name": "Halo Tilt"
+		},
+		{
+			"Id": "ParamBGTog",
+			"GroupId": "ParamGroup3",
+			"Name": "Back Glow Toggle"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "TRACKING"
+		},
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "DO NOT TOUCH"
+		},
+		{
+			"Id": "ParamGroup3",
+			"GroupId": "",
+			"Name": "CUSTOMIZATION"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "HALO",
+			"Name": "HALO"
+		},
+		{
+			"Id": "FRONT",
+			"Name": "FRONT"
+		},
+		{
+			"Id": "BACK",
+			"Name": "BACK"
+		},
+		{
+			"Id": "Light_Rays_Add",
+			"Name": "Light_Rays_Add"
+		},
+		{
+			"Id": "GOOP_FRONT",
+			"Name": "GOOP_FRONT"
+		},
+		{
+			"Id": "DARK_ACCENTS2",
+			"Name": "DARK_ACCENTS2"
+		},
+		{
+			"Id": "DARK_ACCENTS",
+			"Name": "DARK_ACCENTS"
+		},
+		{
+			"Id": "Dark_Goop_Back",
+			"Name": "Dark_Goop_Back"
+		}
+	]
+}

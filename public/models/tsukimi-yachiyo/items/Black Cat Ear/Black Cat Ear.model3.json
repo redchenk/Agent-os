@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Black Cat Ear.moc3",
+		"Textures": [
+			"Black Cat Ear.2048/texture_00.png"
+		],
+		"Physics": "Black Cat Ear.physics3.json",
+		"DisplayInfo": "Black Cat Ear.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}

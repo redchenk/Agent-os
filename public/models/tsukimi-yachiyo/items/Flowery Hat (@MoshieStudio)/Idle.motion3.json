@@ -1,0 +1,85 @@
+{
+	"Version": 3,
+	"Meta": {
+		"Duration": 11.7,
+		"Fps": 30.0,
+		"Loop": true,
+		"AreBeziersRestricted": true,
+		"CurveCount": 4,
+		"TotalSegmentCount": 7,
+		"TotalPointCount": 19,
+		"UserDataCount": 0,
+		"TotalUserDataSize": 0
+	},
+	"Curves": [
+		{
+			"Target": "Parameter",
+			"Id": "ParamPetals1",
+			"Segments": [
+				0,
+				1,
+				0,
+				11.7,
+				1
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "ParamPetals2",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.333,
+				0.01,
+				0,
+				11.7,
+				1
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "ParamPetals3",
+			"Segments": [
+				0,
+				0,
+				1,
+				1.867,
+				0,
+				3.733,
+				1,
+				5.6,
+				1,
+				1,
+				7.633,
+				1,
+				9.667,
+				0,
+				11.7,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "ParamFlowersOFF7",
+			"Segments": [
+				0,
+				0,
+				1,
+				1.867,
+				0,
+				3.733,
+				1,
+				5.6,
+				1,
+				1,
+				7.633,
+				1,
+				9.667,
+				0,
+				11.7,
+				0
+			]
+		}
+	]
+}

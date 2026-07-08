@@ -1,0 +1,201 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "MadebyLittleMewn",
+			"GroupId": "",
+			"Name": "Made by Little Mewn"
+		},
+		{
+			"Id": "MadeForVtubeStudio",
+			"GroupId": "",
+			"Name": "Made for VTube Studio"
+		},
+		{
+			"Id": "ShakeX",
+			"GroupId": "ParamGroup",
+			"Name": "Shake X"
+		},
+		{
+			"Id": "ShakeY",
+			"GroupId": "ParamGroup",
+			"Name": "Shake Y"
+		},
+		{
+			"Id": "ShakePhyX1",
+			"GroupId": "ParamGroup2",
+			"Name": "Shake Phy X1"
+		},
+		{
+			"Id": "ShakePhyX2",
+			"GroupId": "ParamGroup2",
+			"Name": "Shake Phy X2"
+		},
+		{
+			"Id": "ShakePhyX3",
+			"GroupId": "ParamGroup2",
+			"Name": "Shake Phy X3"
+		},
+		{
+			"Id": "ShakePhyX4",
+			"GroupId": "ParamGroup2",
+			"Name": "Shake Phy X4"
+		},
+		{
+			"Id": "ShakePhyX5",
+			"GroupId": "ParamGroup2",
+			"Name": "Shake Phy X5"
+		},
+		{
+			"Id": "ShakePhyX6",
+			"GroupId": "ParamGroup2",
+			"Name": "Shake Phy X6"
+		},
+		{
+			"Id": "ShakePhyX7",
+			"GroupId": "ParamGroup2",
+			"Name": "Shake Phy X7"
+		},
+		{
+			"Id": "ShakePhyY1",
+			"GroupId": "ParamGroup2",
+			"Name": "Shake Phy Y1"
+		},
+		{
+			"Id": "ShakePhyY2",
+			"GroupId": "ParamGroup2",
+			"Name": "Shake Phy Y2"
+		},
+		{
+			"Id": "ShakePhyY3",
+			"GroupId": "ParamGroup2",
+			"Name": "Shake Phy Y3"
+		},
+		{
+			"Id": "ShakePhyY4",
+			"GroupId": "ParamGroup2",
+			"Name": "Shake Phy Y4"
+		},
+		{
+			"Id": "ShakePhyY5",
+			"GroupId": "ParamGroup2",
+			"Name": "Shake Phy Y5"
+		},
+		{
+			"Id": "ShakePhyY6",
+			"GroupId": "ParamGroup2",
+			"Name": "Shake Phy Y6"
+		},
+		{
+			"Id": "ShakePhyY7",
+			"GroupId": "ParamGroup2",
+			"Name": "Shake Phy Y7"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "Parameters"
+		},
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "Physics"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "Part",
+			"Name": "CHARMY KEYS LITTLE MEWN"
+		},
+		{
+			"Id": "CHARA",
+			"Name": "CHARA"
+		},
+		{
+			"Id": "LEAF",
+			"Name": "LEAF"
+		},
+		{
+			"Id": "KEYS",
+			"Name": "KEYS"
+		},
+		{
+			"Id": "FLOWER",
+			"Name": "FLOWER"
+		},
+		{
+			"Id": "RIBBON",
+			"Name": "RIBBON"
+		},
+		{
+			"Id": "RING",
+			"Name": "RING"
+		},
+		{
+			"Id": "POT",
+			"Name": "POT"
+		},
+		{
+			"Id": "HEAD",
+			"Name": "HEAD"
+		},
+		{
+			"Id": "Part2",
+			"Name": "CHARA FLOWER"
+		},
+		{
+			"Id": "Part3",
+			"Name": "CHARA CHAIN"
+		},
+		{
+			"Id": "Part4",
+			"Name": "LEAF CHAIN"
+		},
+		{
+			"Id": "LEAF2",
+			"Name": "LEAF"
+		},
+		{
+			"Id": "Part5",
+			"Name": "KEY 1"
+		},
+		{
+			"Id": "Part7",
+			"Name": "KEY 2"
+		},
+		{
+			"Id": "Part10",
+			"Name": "FLOWER BEADS"
+		},
+		{
+			"Id": "Part9",
+			"Name": "FLOWER CHAIN"
+		},
+		{
+			"Id": "Part13",
+			"Name": "RIBBON CHAIN"
+		},
+		{
+			"Id": "FACE",
+			"Name": "FACE"
+		},
+		{
+			"Id": "Part6",
+			"Name": "KEY FRONT"
+		},
+		{
+			"Id": "Part8",
+			"Name": "KEY FRONT"
+		},
+		{
+			"Id": "Part11",
+			"Name": "FLOWER 1"
+		},
+		{
+			"Id": "Part12",
+			"Name": "FLOWER 2"
+		}
+	]
+}

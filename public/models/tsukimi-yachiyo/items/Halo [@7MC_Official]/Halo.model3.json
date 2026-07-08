@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Halo.moc3",
+		"Textures": [
+			"Halo.4096/texture_00.png"
+		],
+		"Physics": "Halo.physics3.json",
+		"DisplayInfo": "Halo.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}

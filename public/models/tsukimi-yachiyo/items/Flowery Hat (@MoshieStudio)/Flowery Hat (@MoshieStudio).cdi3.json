@@ -1,0 +1,256 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamCustomizable",
+			"GroupId": "ParamGroup",
+			"Name": "----- CUSTOMIZABLE -----"
+		},
+		{
+			"Id": "ParamFlowersOFF",
+			"GroupId": "ParamGroup",
+			"Name": "Flowers OFF"
+		},
+		{
+			"Id": "ParamRibbonColor",
+			"GroupId": "ParamGroup",
+			"Name": "Ribbon color"
+		},
+		{
+			"Id": "ParamRibbonBrightness",
+			"GroupId": "ParamGroup",
+			"Name": "Ribbon Brightness"
+		},
+		{
+			"Id": "ParamHatColor",
+			"GroupId": "ParamGroup",
+			"Name": "Hat color"
+		},
+		{
+			"Id": "ParamHatBrightness",
+			"GroupId": "ParamGroup",
+			"Name": "Hat Brightness"
+		},
+		{
+			"Id": "ParamPetalsOpacity",
+			"GroupId": "ParamGroup",
+			"Name": "Petals opacity"
+		},
+		{
+			"Id": "ParamSeparator",
+			"GroupId": "",
+			"Name": "----------"
+		},
+		{
+			"Id": "ParamSeparator4",
+			"GroupId": "",
+			"Name": "----- TRACKING  -----"
+		},
+		{
+			"Id": "ParamSeparator3",
+			"GroupId": "",
+			"Name": "----- DO NOT MODIFY -----"
+		},
+		{
+			"Id": "ParamSeparator2",
+			"GroupId": "",
+			"Name": "----------"
+		},
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "ParamGroup2",
+			"Name": "Angle Z"
+		},
+		{
+			"Id": "ParamPetals1",
+			"GroupId": "ParamGroup2",
+			"Name": "Petals1"
+		},
+		{
+			"Id": "ParamPetals2",
+			"GroupId": "ParamGroup2",
+			"Name": "Petals2"
+		},
+		{
+			"Id": "ParamPetals3",
+			"GroupId": "ParamGroup2",
+			"Name": "Petals3"
+		},
+		{
+			"Id": "ParamFlowersOFF7",
+			"GroupId": "ParamGroup2",
+			"Name": "petal rotation"
+		},
+		{
+			"Id": "ParamHatPX",
+			"GroupId": "ParamGroup2",
+			"Name": "Hat PX"
+		},
+		{
+			"Id": "ParamHatPX2",
+			"GroupId": "ParamGroup2",
+			"Name": "Hat PX2"
+		},
+		{
+			"Id": "ParamHatPX3",
+			"GroupId": "ParamGroup2",
+			"Name": "Hat PX3"
+		},
+		{
+			"Id": "ParamHatPX4",
+			"GroupId": "ParamGroup2",
+			"Name": "Hat PX4"
+		},
+		{
+			"Id": "ParamBow1",
+			"GroupId": "ParamGroup2",
+			"Name": "Bow1"
+		},
+		{
+			"Id": "ParamBow2",
+			"GroupId": "ParamGroup2",
+			"Name": "Bow2"
+		},
+		{
+			"Id": "ParamBow3",
+			"GroupId": "ParamGroup2",
+			"Name": "Bow3"
+		},
+		{
+			"Id": "ParamBow4",
+			"GroupId": "ParamGroup2",
+			"Name": "Bow4"
+		},
+		{
+			"Id": "ParamRose1",
+			"GroupId": "ParamGroup2",
+			"Name": "Rose"
+		},
+		{
+			"Id": "ParamRose2",
+			"GroupId": "ParamGroup2",
+			"Name": "Rose2"
+		},
+		{
+			"Id": "ParamRose3",
+			"GroupId": "ParamGroup2",
+			"Name": "Rose3"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "Hotkeys"
+		},
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "PX"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "Part4",
+			"Name": "transparent.png"
+		},
+		{
+			"Id": "Part2",
+			"Name": "hat asset merged.psd (Corresponding layer not found)"
+		},
+		{
+			"Id": "Part",
+			"Name": "petals"
+		},
+		{
+			"Id": "Folder22",
+			"Name": "Folder22"
+		},
+		{
+			"Id": "Folder23",
+			"Name": "Folder22"
+		},
+		{
+			"Id": "flowers",
+			"Name": "flowers"
+		},
+		{
+			"Id": "Folder5",
+			"Name": "Folder5"
+		},
+		{
+			"Id": "Folder8",
+			"Name": "Folder5"
+		},
+		{
+			"Id": "Folder6",
+			"Name": "Folder6"
+		},
+		{
+			"Id": "leaf",
+			"Name": "leaf"
+		},
+		{
+			"Id": "leaf2",
+			"Name": "leaf2"
+		},
+		{
+			"Id": "Folder15",
+			"Name": "Folder15"
+		},
+		{
+			"Id": "Folder13",
+			"Name": "Folder13"
+		},
+		{
+			"Id": "Folder14",
+			"Name": "Folder14"
+		},
+		{
+			"Id": "Folder16",
+			"Name": "Folder16"
+		},
+		{
+			"Id": "Folder17",
+			"Name": "Folder17"
+		},
+		{
+			"Id": "Folder11",
+			"Name": "Folder11"
+		},
+		{
+			"Id": "Folder18",
+			"Name": "Folder18"
+		},
+		{
+			"Id": "Folder20",
+			"Name": "Folder20"
+		},
+		{
+			"Id": "Part3",
+			"Name": "extra petals"
+		},
+		{
+			"Id": "Folder12",
+			"Name": "Folder12"
+		},
+		{
+			"Id": "Folder31",
+			"Name": "Folder12"
+		},
+		{
+			"Id": "Folder19",
+			"Name": "Folder19"
+		}
+	]
+}

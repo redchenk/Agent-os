@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Pink Bunny Ear.moc3",
+		"Textures": [
+			"Pink Bunny Ear.4096/texture_00.png"
+		],
+		"Physics": "Pink Bunny Ear.physics3.json",
+		"DisplayInfo": "Pink Bunny Ear.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}

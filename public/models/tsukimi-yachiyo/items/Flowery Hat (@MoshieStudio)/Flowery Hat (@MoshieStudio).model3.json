@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Flowery Hat (@MoshieStudio).moc3",
+		"Textures": [
+			"Flowery Hat (@MoshieStudio).4096/texture_00.png"
+		],
+		"Physics": "Flowery Hat (@MoshieStudio).physics3.json",
+		"DisplayInfo": "Flowery Hat (@MoshieStudio).cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}

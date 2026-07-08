@@ -1,0 +1,10 @@
+{
+    "Type": "Live2D Expression",
+    "Parameters": [
+        {
+            "Id": "GeniusModeToggle",
+            "Value": "0.7",
+            "Blend": "Add"
+        }
+    ]
+}

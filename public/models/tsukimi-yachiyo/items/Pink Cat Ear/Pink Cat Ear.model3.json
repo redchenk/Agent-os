@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Pink Cat Ear.moc3",
+		"Textures": [
+			"Pink Cat Ear.2048/texture_00.png"
+		],
+		"Physics": "Pink Cat Ear.physics3.json",
+		"DisplayInfo": "Pink Cat Ear.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}

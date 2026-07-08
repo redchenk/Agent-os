@@ -1,0 +1,131 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "CUSTOMIZATION",
+			"GroupId": "",
+			"Name": "-------CUSTOMIZATION-------"
+		},
+		{
+			"Id": "ParamVoiceToggle",
+			"GroupId": "",
+			"Name": "Voice Meter Toggle"
+		},
+		{
+			"Id": "TRACKING",
+			"GroupId": "",
+			"Name": "-------TRACKING-------"
+		},
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "",
+			"Name": "Angle Z"
+		},
+		{
+			"Id": "ParamPhysY",
+			"GroupId": "",
+			"Name": "Phys Y"
+		},
+		{
+			"Id": "ParamPhysY2",
+			"GroupId": "",
+			"Name": "Phys Y 2"
+		},
+		{
+			"Id": "ParamPhysX",
+			"GroupId": "",
+			"Name": "Phys X"
+		},
+		{
+			"Id": "ParamPZ",
+			"GroupId": "",
+			"Name": "Phys Z"
+		},
+		{
+			"Id": "ParamFPX1",
+			"GroupId": "",
+			"Name": "Flower Phys X1"
+		},
+		{
+			"Id": "ParamFPY1",
+			"GroupId": "",
+			"Name": "Flower Phys Y1"
+		},
+		{
+			"Id": "ParamFPX2",
+			"GroupId": "",
+			"Name": "Flower Phys X2"
+		},
+		{
+			"Id": "ParamFPY2",
+			"GroupId": "",
+			"Name": "Flower Phys Y2"
+		},
+		{
+			"Id": "ParamFEX3",
+			"GroupId": "",
+			"Name": "Flower Phys X3"
+		},
+		{
+			"Id": "ParamFEY3",
+			"GroupId": "",
+			"Name": "Flower Phys Y3"
+		},
+		{
+			"Id": "ParamFEX4",
+			"GroupId": "",
+			"Name": "Flower Phys X4"
+		},
+		{
+			"Id": "ParamFEY4",
+			"GroupId": "",
+			"Name": "Flower Phys Y4"
+		},
+		{
+			"Id": "ParamVoiceVol",
+			"GroupId": "",
+			"Name": "Voice Volume"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "Flowers_Cluster",
+			"Name": "Flowers_Cluster"
+		},
+		{
+			"Id": "Flowers_Shad_Mult_Mask",
+			"Name": "Flowers_Shad_Mult_Mask"
+		},
+		{
+			"Id": "HAT_FRONT",
+			"Name": "HAT_FRONT"
+		},
+		{
+			"Id": "HAT_TOP",
+			"Name": "HAT_TOP"
+		},
+		{
+			"Id": "HAT_BACK",
+			"Name": "HAT_BACK"
+		},
+		{
+			"Id": "Voice_react",
+			"Name": "Voice_react"
+		},
+		{
+			"Id": "VR_Pieces_Clip",
+			"Name": "VR_Pieces_Clip"
+		}
+	]
+}

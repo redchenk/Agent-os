@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Pink Sunglasses.moc3",
+		"Textures": [
+			"Pink Sunglasses.2048/texture_00.png"
+		],
+		"Physics": "Pink Sunglasses.physics3.json",
+		"DisplayInfo": "Pink Sunglasses.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}

@@ -1,0 +1,662 @@
+{
+    "Version": 1,
+    "Name": "Charmy Keys (@LittleMewn)",
+    "ModelID": "c8e02179e71d4d5890aa20895767b291",
+    "FileReferences": {
+        "Icon": "icon.jpg",
+        "Model": "Charmy Keys (@LittleMewn).model3.json",
+        "IdleAnimation": "",
+        "IdleAnimationWhenTrackingLost": ""
+    },
+    "ModelSaveMetadata": {
+        "LastSavedVTubeStudioVersion": "1.32.87",
+        "LastSavedPlatform": "Steam",
+        "LastSavedDateUTC": "Saturday, 21 February 2026, 10:56:05",
+        "LastSavedDateLocalTime": "Saturday, 21 February 2026, 11:56:05",
+        "LastSavedDateUnixMillisecondTimestamp": "1771671365182",
+        "TotalSaveCount": 73
+    },
+    "SavedModelPosition": {
+        "Position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "Rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 1.0
+        },
+        "Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "ModelPositionMovement": {
+        "Use": false,
+        "X": 6,
+        "Y": 8,
+        "Z": 11,
+        "SmoothingX": 10,
+        "SmoothingY": 10,
+        "SmoothingZ": 10
+    },
+    "ItemSettings": {
+        "OnlyMoveWhenPinned": false,
+        "AllowNormalHotkeyTriggers": true,
+        "Multiplier_HeadAngleX": 1.0,
+        "Multiplier_HeadAngleY": 1.0,
+        "Multiplier_HeadAngleZ": 1.0,
+        "Shift_HeadAngleX": 0.0,
+        "Shift_HeadAngleY": 0.0,
+        "Smoothing_HeadAngleX": 15.0,
+        "Smoothing_HeadAngleY": 15.0,
+        "Smoothing_HeadAngleZ": 15.0
+    },
+    "PhysicsSettings": {
+        "Use": true,
+        "UseLegacyPhysics": false,
+        "Live2DPhysicsFPS": 3,
+        "PhysicsStrength": 50,
+        "WindStrength": 0,
+        "DraggingPhysicsStrength": 40
+    },
+    "GeneralSettings": {
+        "ModelVolume": 70,
+        "TimeUntilTrackingLostIdleAnimation": 0.0,
+        "WorkshopSharingForbidden": true,
+        "EnableExpressionSaving": true
+    },
+    "ParameterSettings": [
+        {
+            "Folder": "",
+            "Name": "Movement X",
+            "Input": "FaceAngleX",
+            "InputRangeLower": -30.0,
+            "InputRangeUpper": 30.0,
+            "OutputRangeLower": -1.0,
+            "OutputRangeUpper": 1.0,
+            "ClampInput": false,
+            "ClampOutput": false,
+            "UseBlinking": false,
+            "UseBreathing": false,
+            "OutputLive2D": "ShakeX",
+            "Smoothing": 20,
+            "Minimized": false
+        },
+        {
+            "Folder": "",
+            "Name": "Movement Y",
+            "Input": "FaceAngleY",
+            "InputRangeLower": -30.0,
+            "InputRangeUpper": 30.0,
+            "OutputRangeLower": -1.0,
+            "OutputRangeUpper": 1.0,
+            "ClampInput": false,
+            "ClampOutput": false,
+            "UseBlinking": false,
+            "UseBreathing": false,
+            "OutputLive2D": "ShakeY",
+            "Smoothing": 20,
+            "Minimized": false
+        }
+    ],
+    "Hotkeys": [],
+    "HotkeySettings": {
+        "UseOnScreenHotkeys": false,
+        "UseKeyboardHotkeys": true,
+        "SendOnScreenHotkeysToPC": true,
+        "OnScreenHotkeyAlpha": 75
+    },
+    "ArtMeshDetails": {
+        "ArtMeshesExcludedFromPinning": [],
+        "ArtMeshesThatDeleteItemsOnDrop": [],
+        "ArtMeshSceneLightingMultipliers": [],
+        "ArtMeshMultiplyAndScreenColors": [],
+        "ModelArtMeshGroups": []
+    },
+    "ParameterCustomization": {
+        "ParametersExcludedFromVNetSmoothing": [],
+        "SoundTriggers": [
+            {
+                "ID": "fff089c60cfb440788e6f9ce737a63bb",
+                "Active": true,
+                "Name": "Key jingling X 1",
+                "ParameterName": "ShakePhyX4",
+                "Cooldown": 0.0,
+                "VelocityMultiplier": 0.699999988079071,
+                "Sounds": [
+                    {
+                        "FileName": "Sound/key_shake_1.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/key_shake_2.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/key_shake_3.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/key_shake_4.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/key_shake_5.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/key_shake_6.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    }
+                ],
+                "ValueTrigger1On": false,
+                "ValueTrigger1": {
+                    "Min": -30.0,
+                    "Max": -20.0
+                },
+                "ValueTrigger2On": false,
+                "ValueTrigger2": {
+                    "Min": 20.0,
+                    "Max": 30.0
+                },
+                "VelocityTrigger1On": false,
+                "VelocityTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.4399999976158142
+                },
+                "VelocityTrigger2On": false,
+                "VelocityTrigger2": {
+                    "Min": 0.38999998569488528,
+                    "Max": 1.0
+                },
+                "DirChangeTrigger1On": true,
+                "DirChangeTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.10000000149011612
+                },
+                "DirChangeTrigger2On": true,
+                "DirChangeTrigger2": {
+                    "Min": 0.10000000149011612,
+                    "Max": 1.0
+                },
+                "ValuePassRightToLeftTriggerOn": false,
+                "ValuePassRightToLeftTrigger": 0.0,
+                "ValuePassLeftToRightTriggerOn": false,
+                "ValuePassLeftToRightTrigger": 0.0,
+                "Volume": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Delay": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Pitch": {
+                    "Min": 1.100000023841858,
+                    "Max": 1.2000000476837159
+                },
+                "Pan": {
+                    "Min": -0.3499999940395355,
+                    "Max": 0.3499999940395355
+                },
+                "Reverse": false,
+                "AllowOverlap": true,
+                "VolumeCutoffOn": true,
+                "VolumeCutoff": 25,
+                "PlayEveryX": {
+                    "min": 1,
+                    "max": 1
+                },
+                "PlaybackChance": 100,
+                "Use_Condition": false,
+                "ParameterName_Condition": "",
+                "ValueRange_Condition": {
+                    "Min": 10.0,
+                    "Max": 20.0
+                },
+                "ItemSpawnSound": false,
+                "ItemDeleteSound": false,
+                "Echo": false,
+                "EchoCount": {
+                    "min": 1,
+                    "max": 1
+                },
+                "EchoDelay": {
+                    "Min": 0.05000000074505806,
+                    "Max": 0.15000000596046449
+                },
+                "EchoFalloff": {
+                    "min": 30,
+                    "max": 40
+                },
+                "RandomizeEchoFile": true,
+                "ModifierVelocityVolumeOn": true,
+                "ModifierVelocityVolume": 1.9999998807907105,
+                "ModifierVelocityPitchOn": true,
+                "ModifierVelocityPitch": -0.04999995231628418
+            },
+            {
+                "ID": "944fa356c2724d1ca6389546b9148f94",
+                "Active": true,
+                "Name": "Key jingling X 2",
+                "ParameterName": "ShakePhyX7",
+                "Cooldown": 0.0,
+                "VelocityMultiplier": 1.0,
+                "Sounds": [
+                    {
+                        "FileName": "Sound/key_shake_7.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/key_shake_8.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    }
+                ],
+                "ValueTrigger1On": false,
+                "ValueTrigger1": {
+                    "Min": -30.0,
+                    "Max": -20.0
+                },
+                "ValueTrigger2On": false,
+                "ValueTrigger2": {
+                    "Min": 20.0,
+                    "Max": 30.0
+                },
+                "VelocityTrigger1On": true,
+                "VelocityTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.30000001192092898
+                },
+                "VelocityTrigger2On": true,
+                "VelocityTrigger2": {
+                    "Min": 0.30000001192092898,
+                    "Max": 1.0
+                },
+                "DirChangeTrigger1On": false,
+                "DirChangeTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.2800000011920929
+                },
+                "DirChangeTrigger2On": false,
+                "DirChangeTrigger2": {
+                    "Min": 0.28999999165534975,
+                    "Max": 1.0
+                },
+                "ValuePassRightToLeftTriggerOn": false,
+                "ValuePassRightToLeftTrigger": 0.0,
+                "ValuePassLeftToRightTriggerOn": false,
+                "ValuePassLeftToRightTrigger": 0.0,
+                "Volume": {
+                    "Min": 10.0,
+                    "Max": 20.0
+                },
+                "Delay": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Pitch": {
+                    "Min": 1.0,
+                    "Max": 1.0
+                },
+                "Pan": {
+                    "Min": -0.4000000059604645,
+                    "Max": 0.4000000059604645
+                },
+                "Reverse": false,
+                "AllowOverlap": true,
+                "VolumeCutoffOn": false,
+                "VolumeCutoff": 0,
+                "PlayEveryX": {
+                    "min": 1,
+                    "max": 1
+                },
+                "PlaybackChance": 100,
+                "Use_Condition": false,
+                "ParameterName_Condition": "",
+                "ValueRange_Condition": {
+                    "Min": 10.0,
+                    "Max": 20.0
+                },
+                "ItemSpawnSound": false,
+                "ItemDeleteSound": false,
+                "Echo": false,
+                "EchoCount": {
+                    "min": 3,
+                    "max": 3
+                },
+                "EchoDelay": {
+                    "Min": 0.30000001192092898,
+                    "Max": 0.30000001192092898
+                },
+                "EchoFalloff": {
+                    "min": 30,
+                    "max": 30
+                },
+                "RandomizeEchoFile": false,
+                "ModifierVelocityVolumeOn": true,
+                "ModifierVelocityVolume": 0.09999990463256836,
+                "ModifierVelocityPitchOn": false,
+                "ModifierVelocityPitch": 0.0
+            },
+            {
+                "ID": "fff089c60cfb440788e6f9ce737a63bb",
+                "Active": true,
+                "Name": "Key jingling Y 1",
+                "ParameterName": "ShakePhyY4",
+                "Cooldown": 0.0,
+                "VelocityMultiplier": 0.699999988079071,
+                "Sounds": [
+                    {
+                        "FileName": "Sound/key_shake_1.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/key_shake_2.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/key_shake_3.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/key_shake_4.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/key_shake_5.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    },
+                    {
+                        "FileName": "Sound/key_shake_6.mp3",
+                        "Volume": 1.0,
+                        "Pitch": 1.0
+                    }
+                ],
+                "ValueTrigger1On": false,
+                "ValueTrigger1": {
+                    "Min": -30.0,
+                    "Max": -20.0
+                },
+                "ValueTrigger2On": false,
+                "ValueTrigger2": {
+                    "Min": 20.0,
+                    "Max": 30.0
+                },
+                "VelocityTrigger1On": false,
+                "VelocityTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.4399999976158142
+                },
+                "VelocityTrigger2On": false,
+                "VelocityTrigger2": {
+                    "Min": 0.38999998569488528,
+                    "Max": 1.0
+                },
+                "DirChangeTrigger1On": true,
+                "DirChangeTrigger1": {
+                    "Min": -1.0,
+                    "Max": -0.10000000149011612
+                },
+                "DirChangeTrigger2On": true,
+                "DirChangeTrigger2": {
+                    "Min": 0.10000000149011612,
+                    "Max": 1.0
+                },
+                "ValuePassRightToLeftTriggerOn": false,
+                "ValuePassRightToLeftTrigger": 0.0,
+                "ValuePassLeftToRightTriggerOn": false,
+                "ValuePassLeftToRightTrigger": 0.0,
+                "Volume": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Delay": {
+                    "Min": 0.0,
+                    "Max": 0.0
+                },
+                "Pitch": {
+                    "Min": 1.100000023841858,
+                    "Max": 1.2000000476837159
+                },
+                "Pan": {
+                    "Min": -0.3499999940395355,
+                    "Max": 0.3499999940395355
+                },
+                "Reverse": false,
+                "AllowOverlap": true,
+                "VolumeCutoffOn": true,
+                "VolumeCutoff": 25,
+                "PlayEveryX": {
+                    "min": 1,
+                    "max": 1
+                },
+                "PlaybackChance": 100,
+                "Use_Condition": false,
+                "ParameterName_Condition": "",
+                "ValueRange_Condition": {
+                    "Min": 10.0,
+                    "Max": 20.0
+                },
+                "ItemSpawnSound": false,
+                "ItemDeleteSound": false,
+                "Echo": false,
+                "EchoCount": {
+                    "min": 1,
+                    "max": 1
+                },
+                "EchoDelay": {
+                    "Min": 0.05000000074505806,
+                    "Max": 0.15000000596046449
+                },
+                "EchoFalloff": {
+                    "min": 30,
+                    "max": 40
+                },
+                "RandomizeEchoFile": true,
+                "ModifierVelocityVolumeOn": true,
+                "ModifierVelocityVolume": 1.5,
+                "ModifierVelocityPitchOn": true,
+                "ModifierVelocityPitch": -0.04999995231628418
+            }
+        ]
+    },
+    "PhysicsCustomizationSettings": {
+        "PhysicsMultipliersPerPhysicsGroup": [],
+        "WindMultipliersPerPhysicsGroup": [],
+        "DraggingPhysicsMultipliersPerPhysicsGroup": []
+    },
+    "FolderInfo": {
+        "HotkeyFolders": [],
+        "ConfigItemFolders": []
+    },
+    "UserCustomization": {
+        "PreferredLanguageSetBy": "20211511c9238ef9be737f1d1d84dd20db207c74a0d98abae2d74cd59d7720a8",
+        "PreferredLanguage": "Japanese",
+        "AvailableLanguages": [
+            "Japanese"
+        ],
+        "UserParamFolderInfo": [
+            {
+                "ID": "ParamGroup",
+                "FolderIconFileName": "",
+                "HideInList": false,
+                "Localizations": [
+                    "パラメータ"
+                ]
+            },
+            {
+                "ID": "ParamGroup2",
+                "FolderIconFileName": "",
+                "HideInList": false,
+                "Localizations": [
+                    "物理演算パラメータ"
+                ]
+            }
+        ],
+        "UserParamInfo": [
+            {
+                "ID": "ShakeX",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れX"
+                ]
+            },
+            {
+                "ID": "ShakeY",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れY"
+                ]
+            },
+            {
+                "ID": "MadeForVtubeStudio",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "VTube Studio 用"
+                ]
+            },
+            {
+                "ID": "MadebyLittleMewn",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "Little Mewn 制作"
+                ]
+            },
+            {
+                "ID": "ShakePhyX1",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れ 物理 X1"
+                ]
+            },
+            {
+                "ID": "ShakePhyX2",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れ 物理 X2"
+                ]
+            },
+            {
+                "ID": "ShakePhyX3",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れ 物理 X3"
+                ]
+            },
+            {
+                "ID": "ShakePhyX4",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れ 物理 X4"
+                ]
+            },
+            {
+                "ID": "ShakePhyX5",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れ 物理 X5"
+                ]
+            },
+            {
+                "ID": "ShakePhyX6",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れ 物理 X6"
+                ]
+            },
+            {
+                "ID": "ShakePhyX7",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れ 物理 X7"
+                ]
+            },
+            {
+                "ID": "ShakePhyY1",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れ 物理 Y1"
+                ]
+            },
+            {
+                "ID": "ShakePhyY2",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れ 物理 Y2"
+                ]
+            },
+            {
+                "ID": "ShakePhyY3",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れ 物理 Y3"
+                ]
+            },
+            {
+                "ID": "ShakePhyY4",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れ 物理 Y4"
+                ]
+            },
+            {
+                "ID": "ShakePhyY5",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れ 物理 Y5"
+                ]
+            },
+            {
+                "ID": "ShakePhyY6",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れ 物理 Y6"
+                ]
+            },
+            {
+                "ID": "ShakePhyY7",
+                "AddSpaceAfter": false,
+                "HideInList": false,
+                "Localizations": [
+                    "揺れ 物理 Y7"
+                ]
+            }
+        ]
+    },
+    "SavedActiveExpressions": [],
+    "ModelFolder": "<VTS_MODEL_BASE_PATH_PLACEHOLDER>"
+}

@@ -17,6 +17,10 @@ import {
   Trash2,
   Wind
 } from 'lucide-vue-next';
+import {
+  geolocationErrorMessage,
+  reverseGeocodeCoordinates
+} from '../services/weatherLocation';
 
 const WEATHER_LOCATIONS_STORAGE_KEY = 'hermesAgentOsWeatherLocations:v1';
 const WEATHER_ACTIVE_STORAGE_KEY = 'hermesAgentOsWeatherActiveLocation:v1';
@@ -36,6 +40,7 @@ const searchQuery = ref('');
 const searchResults = ref([]);
 const searchLoading = ref(false);
 const loading = ref(false);
+const locating = ref(false);
 const errorText = ref('');
 const forecast = ref(null);
 const lastUpdated = ref(0);
@@ -113,9 +118,7 @@ watch(unit, () => {
   fetchForecast();
 });
 
-onMounted(() => {
-  fetchForecast();
-});
+onMounted(() => initializeWeather());
 
 function readArray(key, fallback) {
   try {
@@ -146,7 +149,7 @@ function weatherMeta(code, isDay = 1) {
 }
 
 function formatLocation(location) {
-  return [location.name, location.admin1, location.country].filter(Boolean).join(' · ');
+  return [...new Set([location.name, location.admin1, location.country].filter(Boolean))].join(' · ');
 }
 
 function formatHour(value) {
@@ -200,7 +203,12 @@ async function searchLocations() {
 function selectLocation(location) {
   const id = locationId(location);
   const stored = { ...location, id };
-  if (!locations.value.some((item) => locationId(item) === id)) locations.value = [...locations.value, stored];
+  const existingIndex = locations.value.findIndex((item) => locationId(item) === id);
+  if (existingIndex >= 0) {
+    locations.value = locations.value.map((item, index) => index === existingIndex ? stored : item);
+  } else {
+    locations.value = [...locations.value, stored];
+  }
   activeLocationId.value = id;
   searchQuery.value = '';
   searchResults.value = [];
@@ -212,29 +220,67 @@ function removeLocation(locationIdValue) {
   if (activeLocationId.value === locationIdValue) activeLocationId.value = locations.value[0]?.id || defaultLocation.id;
 }
 
-function useCurrentLocation() {
+function requestCurrentPosition() {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject, {
+      enableHighAccuracy: false,
+      timeout: 12000,
+      maximumAge: 300000
+    });
+  });
+}
+
+async function canRequestGeolocation() {
+  if (!navigator.permissions?.query) return true;
+  try {
+    const permission = await navigator.permissions.query({ name: 'geolocation' });
+    return permission.state !== 'denied';
+  } catch (_) {
+    return true;
+  }
+}
+
+async function initializeWeather() {
+  if (navigator.geolocation && await canRequestGeolocation()) {
+    const located = await useCurrentLocation({ silent: true });
+    if (located) return;
+  }
+  await fetchForecast();
+}
+
+async function useCurrentLocation(options = {}) {
   if (!navigator.geolocation) {
     errorText.value = '浏览器不支持定位。';
-    return;
+    return false;
   }
-  loading.value = true;
+  locating.value = true;
   errorText.value = '';
-  navigator.geolocation.getCurrentPosition((position) => {
+  try {
+    const position = await requestCurrentPosition();
+    const resolved = await reverseGeocodeCoordinates(
+      position.coords.latitude,
+      position.coords.longitude
+    );
     const location = {
-      id: `geo-${position.coords.latitude.toFixed(3)}-${position.coords.longitude.toFixed(3)}`,
-      name: '当前位置',
-      admin1: '',
-      country: '',
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
-      timezone: 'auto'
+      ...resolved,
+      id: 'current-location',
+      isCurrent: true,
+      accuracy: Math.round(position.coords.accuracy || 0)
     };
+    const alreadyActive = activeLocationId.value === location.id;
     selectLocation(location);
-    loading.value = false;
-  }, (error) => {
-    loading.value = false;
-    errorText.value = error?.message || '无法获取当前位置。';
-  }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 600000 });
+    if (alreadyActive) await fetchForecast();
+    return true;
+  } catch (error) {
+    if (!options.silent || Number(error?.code) !== 1) {
+      errorText.value = Number(error?.code)
+        ? geolocationErrorMessage(error)
+        : error?.message || '无法识别当前城市。';
+    }
+    return false;
+  } finally {
+    locating.value = false;
+  }
 }
 
 async function fetchForecast() {
@@ -340,14 +386,18 @@ defineExpose({
 </script>
 
 <template>
-  <section class="weather-panel" :aria-busy="loading">
+  <section class="weather-panel" :aria-busy="loading || locating">
     <header class="weather-toolbar">
       <form class="weather-search" @submit.prevent="searchLocations">
         <Search :size="16" />
         <input v-model="searchQuery" placeholder="搜索城市或邮编" />
         <button type="submit" :disabled="searchLoading">{{ searchLoading ? '搜索中' : '搜索' }}</button>
       </form>
-      <button class="soft-btn" type="button" @click="useCurrentLocation"><LocateFixed :size="15" /> 定位</button>
+      <button class="soft-btn" type="button" :disabled="locating" @click="useCurrentLocation()">
+        <Loader2 v-if="locating" :size="15" class="spinning" />
+        <LocateFixed v-else :size="15" />
+        {{ locating ? '定位中' : '定位' }}
+      </button>
       <button class="soft-btn" type="button" :disabled="loading" @click="fetchForecast"><RefreshCw :size="15" :class="{ spinning: loading }" /> {{ loading ? '更新中' : '刷新' }}</button>
       <div class="weather-unit-toggle" aria-label="温度单位">
         <button type="button" :class="{ active: unit === 'celsius' }" @click="unit = 'celsius'">°C</button>
@@ -363,7 +413,9 @@ defineExpose({
     </div>
 
     <p v-if="errorText" class="weather-error">{{ errorText }}</p>
-    <p v-else-if="loading && !forecast" class="weather-loading-state"><Loader2 :size="17" /> 正在获取 {{ activeLocation.name }} 的天气</p>
+    <p v-else-if="(loading || locating) && !forecast" class="weather-loading-state">
+      <Loader2 :size="17" /> {{ locating ? '正在识别当前位置' : `正在获取 ${activeLocation.name} 的天气` }}
+    </p>
 
     <main class="weather-layout">
       <aside class="weather-location-list">
@@ -375,7 +427,7 @@ defineExpose({
           @click="activeLocationId = locationId(location)"
         >
           <span>{{ location.name }}</span>
-          <small>{{ location.country || '实时位置' }}</small>
+          <small>{{ location.isCurrent ? `当前位置${location.country ? ` · ${location.country}` : ''}` : location.country || '已保存城市' }}</small>
           <Trash2
             v-if="locations.length > 1"
             :size="14"

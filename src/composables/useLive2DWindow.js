@@ -8,12 +8,16 @@ function readLive2DModelState(storageKey, defaultModel) {
   }
 }
 
-export function useLive2DWindow({ defaultModel, getStageElement, live2d, openApps, storageKey }) {
+export function useLive2DWindow({ defaultModel, enabled, getStageElement, live2d, openApps, storageKey }) {
   const live2dModel = reactive(readLive2DModelState(storageKey, defaultModel));
   const live2dDragging = ref(false);
   let pointerState = null;
   let stageResizeObserver = null;
   let initSerial = 0;
+
+  function canBootLive2D() {
+    return openApps.yachiyo && enabled?.value !== false;
+  }
 
   function applyLive2DModel() {
     if (typeof window === 'undefined' || typeof window.setLive2DModelSettings !== 'function') return;
@@ -81,12 +85,12 @@ export function useLive2DWindow({ defaultModel, getStageElement, live2d, openApp
   }
 
   async function bootLive2DWindow() {
-    if (!openApps.yachiyo) return;
+    if (!canBootLive2D()) return;
     const serial = ++initSerial;
     await nextTick();
     observeLive2DStage();
     await live2d.init();
-    if (serial !== initSerial || !openApps.yachiyo) return;
+    if (serial !== initSerial || !canBootLive2D()) return;
     window.setTimeout(fitLive2DModel, 350);
   }
 
@@ -102,8 +106,8 @@ export function useLive2DWindow({ defaultModel, getStageElement, live2d, openApp
     applyLive2DModel();
   }, { deep: true });
 
-  watch(() => openApps.yachiyo, (open) => {
-    if (open) {
+  watch([() => openApps.yachiyo, () => enabled?.value ?? true], ([open, isEnabled]) => {
+    if (open && isEnabled) {
       bootLive2DWindow();
     } else {
       shutdownLive2DWindow();
@@ -114,7 +118,7 @@ export function useLive2DWindow({ defaultModel, getStageElement, live2d, openApp
     window.addEventListener('pointermove', moveLive2DModelPointer);
     window.addEventListener('pointerup', endLive2DModelPointer);
     window.addEventListener('pointercancel', endLive2DModelPointer);
-    if (openApps.yachiyo) bootLive2DWindow();
+    if (canBootLive2D()) bootLive2DWindow();
   });
 
   onBeforeUnmount(() => {

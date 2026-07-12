@@ -122,6 +122,15 @@ const launchFlags = readLaunchFlags();
 const settings = reactive(readSettings());
 if (launchFlags.petMode) settings.petMode = true;
 const nativePetShell = ref(launchFlags.nativePetShell);
+const loginVisible = ref(!nativePetShell.value);
+const loginExiting = ref(false);
+const onboardingVisible = ref(false);
+const legacyLocalDataAvailable = ref(false);
+const storageScopeReloading = ref(false);
+const live2dAllowed = computed(() => (
+  nativePetShell.value
+  || (!loginVisible.value && !onboardingVisible.value && !storageScopeReloading.value)
+));
 migrateLegacyHermesDesktopUrl();
 const mode = ref('operate');
 const socketState = ref('idle');
@@ -185,6 +194,7 @@ const {
   zoomLive2DModel
 } = useLive2DWindow({
   defaultModel: DEFAULT_LIVE2D_MODEL,
+  enabled: live2dAllowed,
   getStageElement: () => yachiyoPanelRef.value?.getStageElement?.(),
   live2d,
   openApps,
@@ -244,11 +254,6 @@ const selectedModel = ref(settings.llmModel || 'gpt-4o-mini');
 const thinkingEnabled = ref(true);
 
 const isConnected = computed(() => socketState.value === 'open');
-const loginVisible = ref(!nativePetShell.value);
-const loginExiting = ref(false);
-const onboardingVisible = ref(false);
-const legacyLocalDataAvailable = ref(false);
-const storageScopeReloading = ref(false);
 const loginForm = reactive({
   method: 'password',
   username: '',

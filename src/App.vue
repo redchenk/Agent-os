@@ -35,6 +35,7 @@ import {
   tsukuyomiSiteUrl
 } from './services/tsukuyomiAuth';
 import { HermesSocketClient } from './services/hermesSocket';
+import { migrateAgentLlmProviderSettings } from './services/llmProviderProfiles';
 import {
   activateUserStorageScope,
   hasLegacyLocalData,
@@ -120,6 +121,7 @@ function migrateLegacyHermesDesktopUrl() {
 
 const launchFlags = readLaunchFlags();
 const settings = reactive(readSettings());
+Object.assign(settings, migrateAgentLlmProviderSettings(settings));
 if (launchFlags.petMode) settings.petMode = true;
 const nativePetShell = ref(launchFlags.nativePetShell);
 const loginVisible = ref(!nativePetShell.value);

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {
+  migrateAgentLlmProviderSettings,
   normalizeAgentLlmProvider,
   switchAgentLlmProvider
 } from '../src/services/llmProviderProfiles.js';
@@ -17,7 +18,7 @@ test('switches model API defaults with the selected provider', () => {
   assert.equal(next.llmProvider, 'deepseek');
   assert.equal(next.llmApiUrl, 'https://api.deepseek.com/v1/chat/completions');
   assert.equal(next.llmApiKey, '');
-  assert.equal(next.llmModel, 'deepseek-chat');
+  assert.equal(next.llmModel, 'deepseek-v4-flash');
   assert.deepEqual(next.llmProviderProfiles.openai, {
     apiUrl: 'https://api.openai.com/v1/chat/completions',
     apiKey: 'openai-key',
@@ -51,4 +52,25 @@ test('normalizes provider aliases and unknown providers', () => {
   assert.equal(normalizeAgentLlmProvider('kimi'), 'moonshot');
   assert.equal(normalizeAgentLlmProvider('silicon-flow'), 'siliconflow');
   assert.equal(normalizeAgentLlmProvider('unknown-provider'), 'custom');
+});
+
+test('migrates the legacy official DeepSeek default without dropping its API key', () => {
+  const migrated = migrateAgentLlmProviderSettings({
+    llmProvider: 'deepseek',
+    llmApiUrl: 'https://api.deepseek.com/v1/chat/completions',
+    llmApiKey: 'kept-private',
+    llmModel: 'deepseek-chat',
+    llmProviderProfiles: {
+      deepseek: {
+        apiUrl: 'https://api.deepseek.com/v1/chat/completions',
+        apiKey: 'kept-private',
+        model: 'deepseek-chat'
+      }
+    }
+  });
+
+  assert.equal(migrated.llmApiUrl, 'https://api.deepseek.com/v1/chat/completions');
+  assert.equal(migrated.llmApiKey, 'kept-private');
+  assert.equal(migrated.llmModel, 'deepseek-v4-flash');
+  assert.equal(migrated.llmProviderProfiles.deepseek.model, 'deepseek-v4-flash');
 });

@@ -84,7 +84,7 @@ export const live2dPresets = [
 
 export const agentModels = [
   { id: 'gpt-4o-mini', name: 'GPT-4o Mini', detail: 'System API settings' },
-  { id: 'deepseek-chat', name: 'DeepSeek Chat', detail: 'OpenAI-compatible provider' },
+  { id: 'deepseek-v4-flash', name: 'DeepSeek V4 Flash', detail: 'DeepSeek API preset' },
   { id: 'auto', name: 'Model Auto', detail: 'Use the configured provider default' },
   { id: 'fast', name: 'Fast Draft', detail: 'Short tasks and quick checks' }
 ];

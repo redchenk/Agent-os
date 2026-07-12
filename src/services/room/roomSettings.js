@@ -41,7 +41,7 @@ export const ROOM_LLM_PROVIDER_PRESETS = {
   deepseek: {
     label: 'DeepSeek',
     apiUrl: 'https://api.deepseek.com/v1/chat/completions',
-    model: 'deepseek-chat',
+    model: 'deepseek-v4-flash',
     useProxy: true
   },
   moonshot: {
@@ -242,6 +242,7 @@ function normalizeProviderKey(provider) {
 function sameLlmDefaultModel(model) {
   const value = asText(model).toLowerCase();
   if (!value) return true;
+  if (value === 'deepseek-chat') return true;
   return Object.values(ROOM_LLM_PROVIDER_PRESETS).some((preset) => asText(preset.model).toLowerCase() === value);
 }
 

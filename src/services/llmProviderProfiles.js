@@ -12,7 +12,7 @@ export const AGENT_LLM_PROVIDER_PRESETS = Object.freeze({
   deepseek: Object.freeze({
     label: 'DeepSeek',
     apiUrl: 'https://api.deepseek.com/v1/chat/completions',
-    model: 'deepseek-chat'
+    model: 'deepseek-v4-flash'
   }),
   openrouter: Object.freeze({
     label: 'OpenRouter',
@@ -73,13 +73,27 @@ function normalizeProfile(profile = {}, preset = AGENT_LLM_PROVIDER_PRESETS.cust
   };
 }
 
+function migrateLegacyProfile(provider, profile) {
+  if (
+    provider === 'deepseek'
+    && profile.apiUrl === AGENT_LLM_PROVIDER_PRESETS.deepseek.apiUrl
+    && profile.model === 'deepseek-chat'
+  ) {
+    return { ...profile, model: AGENT_LLM_PROVIDER_PRESETS.deepseek.model };
+  }
+  return profile;
+}
+
 function readStoredProfiles(settings = {}) {
   const stored = settings.llmProviderProfiles;
   if (!stored || typeof stored !== 'object' || Array.isArray(stored)) return {};
   return Object.fromEntries(Object.keys(AGENT_LLM_PROVIDER_PRESETS).flatMap((provider) => {
     const profile = stored[provider];
     if (!profile || typeof profile !== 'object' || Array.isArray(profile)) return [];
-    return [[provider, normalizeProfile(profile, AGENT_LLM_PROVIDER_PRESETS[provider])]];
+    return [[provider, migrateLegacyProfile(
+      provider,
+      normalizeProfile(profile, AGENT_LLM_PROVIDER_PRESETS[provider])
+    )]];
   }));
 }
 
@@ -109,6 +123,21 @@ export function switchAgentLlmProvider(settings = {}, nextProvider = '') {
     llmProviderProfiles: {
       ...profiles,
       [targetProvider]: targetProfile
+    }
+  };
+}
+
+export function migrateAgentLlmProviderSettings(settings = {}) {
+  const provider = normalizeAgentLlmProvider(settings.llmProvider);
+  const profiles = readStoredProfiles(settings);
+  const current = migrateLegacyProfile(provider, currentProfile(settings, provider));
+  return {
+    llmApiUrl: current.apiUrl,
+    llmApiKey: current.apiKey,
+    llmModel: current.model,
+    llmProviderProfiles: {
+      ...profiles,
+      [provider]: current
     }
   };
 }

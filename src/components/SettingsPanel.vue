@@ -1,11 +1,19 @@
 <script setup>
 import { Activity, Bot, BookOpen, Clapperboard, Gauge, HardDrive, KeyRound, Link2, MessageSquareText, Server, ShieldCheck } from 'lucide-vue-next';
+import {
+  AGENT_LLM_PROVIDER_OPTIONS,
+  switchAgentLlmProvider
+} from '../services/llmProviderProfiles';
 
-defineProps({
+const props = defineProps({
   settings: { type: Object, required: true }
 });
 
 const emit = defineEmits(['open-onboarding']);
+
+function changeLlmProvider(event) {
+  Object.assign(props.settings, switchAgentLlmProvider(props.settings, event.target.value));
+}
 </script>
 
 <template>
@@ -70,12 +78,10 @@ const emit = defineEmits(['open-onboarding']);
       <div class="settings-grid two-columns">
         <label>
           <span>服务商</span>
-          <select v-model="settings.llmProvider">
-            <option value="openai-compatible">OpenAI Compatible</option>
-            <option value="openai">OpenAI</option>
-            <option value="deepseek">DeepSeek</option>
-            <option value="openrouter">OpenRouter</option>
-            <option value="custom">Custom</option>
+          <select :value="settings.llmProvider" @change="changeLlmProvider">
+            <option v-for="provider in AGENT_LLM_PROVIDER_OPTIONS" :key="provider.value" :value="provider.value">
+              {{ provider.label }}
+            </option>
           </select>
         </label>
         <label>

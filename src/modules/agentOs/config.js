@@ -51,6 +51,7 @@ export const defaultSettings = {
   llmApiUrl: 'https://api.openai.com/v1/chat/completions',
   llmApiKey: '',
   llmModel: 'gpt-4o-mini',
+  llmProviderProfiles: {},
   petSystemPrompt: '你是 Agent OS 的常驻桌宠。直接调用 Agent OS 内部 app 接口完成任务，不通过 Hermes。',
   live2dStudioUrl: agentOsPublicUrl(),
   live2dBridgeMode: 'event',

@@ -1,22 +1,34 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import {
   ArrowLeft,
   ArrowRight,
   Bot,
   Check,
   HardDrive,
+  KeyRound,
+  Link2,
   LockKeyhole,
   Monitor,
+  Server,
   ShieldCheck,
   Sparkles
 } from 'lucide-vue-next';
+import {
+  AGENT_LLM_PROVIDER_OPTIONS,
+  switchAgentLlmProvider
+} from '../services/llmProviderProfiles';
 
 const props = defineProps({
   user: { type: Object, default: null },
   legacyDataAvailable: { type: Boolean, default: false },
   initialTheme: { type: String, default: 'light' },
-  initialPetMode: { type: Boolean, default: false }
+  initialPetMode: { type: Boolean, default: false },
+  initialLlmProvider: { type: String, default: 'openai-compatible' },
+  initialLlmApiUrl: { type: String, default: 'https://api.openai.com/v1/chat/completions' },
+  initialLlmApiKey: { type: String, default: '' },
+  initialLlmModel: { type: String, default: 'gpt-4o-mini' },
+  initialLlmProviderProfiles: { type: Object, default: () => ({}) }
 });
 
 const emit = defineEmits(['finish']);
@@ -25,12 +37,28 @@ const theme = ref(props.initialTheme === 'dark' ? 'dark' : 'light');
 const experience = ref(props.initialPetMode ? 'pet' : 'desktop');
 const importLegacy = ref(false);
 const userLabel = computed(() => props.user?.username || props.user?.email || '当前账号');
+const llm = reactive({
+  llmProvider: props.initialLlmProvider,
+  llmApiUrl: props.initialLlmApiUrl,
+  llmApiKey: props.initialLlmApiKey,
+  llmModel: props.initialLlmModel,
+  llmProviderProfiles: { ...props.initialLlmProviderProfiles }
+});
+
+function changeLlmProvider(event) {
+  Object.assign(llm, switchAgentLlmProvider(llm, event.target.value));
+}
 
 function finish() {
   emit('finish', {
     theme: theme.value,
     petMode: experience.value === 'pet',
-    importLegacy: Boolean(props.legacyDataAvailable && importLegacy.value)
+    importLegacy: Boolean(props.legacyDataAvailable && importLegacy.value),
+    llmProvider: llm.llmProvider,
+    llmApiUrl: llm.llmApiUrl,
+    llmApiKey: llm.llmApiKey,
+    llmModel: llm.llmModel,
+    llmProviderProfiles: llm.llmProviderProfiles
   });
 }
 </script>
@@ -52,6 +80,7 @@ function finish() {
       <div class="onboarding-progress" aria-label="引导进度">
         <i :class="{ active: step >= 0 }"></i>
         <i :class="{ active: step >= 1 }"></i>
+        <i :class="{ active: step >= 2 }"></i>
       </div>
 
       <main v-if="step === 0" class="onboarding-content">
@@ -86,6 +115,40 @@ function finish() {
             <small>旧数据默认不会自动归入任何账号。确认是你的数据后再导入。</small>
           </span>
         </label>
+      </main>
+
+      <main v-else-if="step === 1" class="onboarding-content">
+        <div class="onboarding-heading">
+          <span><KeyRound :size="26" /></span>
+          <div>
+            <small>模型 API</small>
+            <h1 id="onboarding-title">连接你的模型服务</h1>
+            <p>桌宠会直连此 API。服务商切换时会自动填写对应模型与地址，所有凭据仅保存在当前账号的本地空间。</p>
+          </div>
+        </div>
+
+        <div class="onboarding-api-grid">
+          <label>
+            <span>服务商</span>
+            <select :value="llm.llmProvider" @change="changeLlmProvider">
+              <option v-for="provider in AGENT_LLM_PROVIDER_OPTIONS" :key="provider.value" :value="provider.value">
+                {{ provider.label }}
+              </option>
+            </select>
+          </label>
+          <label>
+            <span><Server :size="13" /> 模型</span>
+            <input v-model="llm.llmModel" spellcheck="false" placeholder="gpt-4o-mini" />
+          </label>
+          <label class="onboarding-api-span">
+            <span><Link2 :size="13" /> API URL</span>
+            <input v-model="llm.llmApiUrl" type="url" spellcheck="false" autocomplete="url" placeholder="https://api.openai.com/v1/chat/completions" />
+          </label>
+          <label class="onboarding-api-span">
+            <span><KeyRound :size="13" /> API Key</span>
+            <input v-model="llm.llmApiKey" type="password" spellcheck="false" autocomplete="off" placeholder="sk-...（可稍后填写）" />
+          </label>
+        </div>
       </main>
 
       <main v-else class="onboarding-content">
@@ -125,7 +188,7 @@ function finish() {
           <ArrowLeft :size="16" /> 返回
         </button>
         <span v-else></span>
-        <button v-if="step === 0" type="button" class="onboarding-next" @click="step = 1">
+        <button v-if="step < 2" type="button" class="onboarding-next" @click="step += 1">
           继续 <ArrowRight :size="16" />
         </button>
         <button v-else type="button" class="onboarding-next" @click="finish">
@@ -233,7 +296,7 @@ function finish() {
 
 .onboarding-progress {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 6px;
   padding: 14px 28px 0;
 }
@@ -249,7 +312,9 @@ function finish() {
 .onboarding-content {
   display: grid;
   align-content: start;
+  min-height: 0;
   gap: 24px;
+  overflow: auto;
   padding: 30px 44px 32px;
 }
 
@@ -323,6 +388,45 @@ function finish() {
 
 .onboarding-import input { margin: 2px 0 0; accent-color: var(--ts-accent); }
 
+.onboarding-api-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.onboarding-api-grid label {
+  display: grid;
+  min-width: 0;
+  gap: 7px;
+}
+
+.onboarding-api-grid label > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ts-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.onboarding-api-grid input,
+.onboarding-api-grid select {
+  min-width: 0;
+  width: 100%;
+  height: 40px;
+  border: 1px solid var(--os-border);
+  border-radius: 7px;
+  padding: 0 11px;
+  color: var(--ts-text);
+  background: var(--os-control);
+  outline: none;
+}
+
+.onboarding-api-grid input:focus,
+.onboarding-api-grid select:focus { border-color: var(--ts-accent); }
+.onboarding-api-grid select option { color: #15171a; background: #fff; }
+.onboarding-api-span { grid-column: 1 / -1; }
+
 .onboarding-choice-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -386,6 +490,8 @@ function finish() {
   .onboarding-footer { padding-inline: 18px; }
   .onboarding-progress { padding-inline: 18px; }
   .onboarding-content { padding: 24px 18px; }
+  .onboarding-api-grid { grid-template-columns: 1fr; }
+  .onboarding-api-span { grid-column: auto; }
   .onboarding-choice-grid { grid-template-columns: 1fr; }
   .onboarding-heading { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; }
   .onboarding-heading > span { width: 40px; height: 40px; }

@@ -161,10 +161,30 @@ const {
   apps,
   defaultWindowState: DEFAULT_WINDOW_STATE,
   storageKey: WINDOWS_STORAGE_KEY,
-  initialOpenApps: { agent: true, browser: false, notepad: false, calculator: false, clock: false, weather: false, music: false, appCenter: false, yachiyo: true, stream: false, settings: false },
-  initialActiveApp: 'agent',
+  initialOpenApps: { agent: false, browser: false, notepad: false, calculator: false, clock: false, weather: false, music: false, appCenter: false, yachiyo: nativePetShell.value, stream: false, settings: false },
+  initialActiveApp: nativePetShell.value ? 'yachiyo' : '',
   overlays: [startOpen, controlOpen]
 });
+
+function closeAllWorkspaceApps() {
+  apps.forEach((app) => {
+    openApps[app.key] = false;
+  });
+  activeApp.value = '';
+  startOpen.value = false;
+  controlOpen.value = false;
+}
+
+function openDefaultWorkspace(petMode = settings.petMode) {
+  closeAllWorkspaceApps();
+  openApps.yachiyo = true;
+  if (petMode) {
+    activeApp.value = 'yachiyo';
+    return;
+  }
+  openApps.agent = true;
+  activeApp.value = 'agent';
+}
 const desktopRef = ref(null);
 const {
   addDesktopIcon,
@@ -671,7 +691,10 @@ function applyTsukuyomiSession(session, { verified = true } = {}) {
       return user;
     }
     legacyLocalDataAvailable.value = hasLegacyLocalData();
-    onboardingVisible.value = localStorage.getItem(ONBOARDING_STORAGE_KEY) !== 'complete';
+    const needsOnboarding = localStorage.getItem(ONBOARDING_STORAGE_KEY) !== 'complete';
+    onboardingVisible.value = needsOnboarding;
+    if (needsOnboarding) closeAllWorkspaceApps();
+    else openDefaultWorkspace(settings.petMode);
   }
   return user;
 }
@@ -680,6 +703,13 @@ function finishOnboarding(options = {}) {
   const theme = options.theme === 'dark' ? 'dark' : 'light';
   const petMode = Boolean(options.petMode);
   const importedCount = options.importLegacy ? importLegacyLocalData() : 0;
+  const llmPatch = {
+    llmProvider: options.llmProvider || settings.llmProvider,
+    llmApiUrl: options.llmApiUrl || settings.llmApiUrl,
+    llmApiKey: options.llmApiKey ?? settings.llmApiKey,
+    llmModel: options.llmModel || settings.llmModel,
+    llmProviderProfiles: options.llmProviderProfiles || settings.llmProviderProfiles
+  };
 
   if (importedCount > 0) {
     let importedSettings = {};
@@ -688,15 +718,18 @@ function finishOnboarding(options = {}) {
     } catch (_) {
       importedSettings = {};
     }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...importedSettings, theme, petMode }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...importedSettings, ...llmPatch, theme, petMode }));
   } else {
-    settings.theme = theme;
-    settings.petMode = petMode;
+    Object.assign(settings, llmPatch, { theme, petMode });
   }
 
   localStorage.setItem(ONBOARDING_STORAGE_KEY, 'complete');
   onboardingVisible.value = false;
-  if (importedCount > 0 && typeof window !== 'undefined') window.location.reload();
+  if (importedCount > 0 && typeof window !== 'undefined') {
+    window.location.reload();
+    return;
+  }
+  openDefaultWorkspace(petMode);
 }
 
 function reopenOnboarding() {
@@ -1290,11 +1323,17 @@ onBeforeUnmount(() => {
         :legacy-data-available="legacyLocalDataAvailable"
         :initial-theme="settings.theme"
         :initial-pet-mode="settings.petMode"
+        :initial-llm-provider="settings.llmProvider"
+        :initial-llm-api-url="settings.llmApiUrl"
+        :initial-llm-api-key="settings.llmApiKey"
+        :initial-llm-model="settings.llmModel"
+        :initial-llm-provider-profiles="settings.llmProviderProfiles"
         @finish="finishOnboarding"
       />
     </Transition>
 
     <main
+      v-show="!onboardingVisible"
       ref="desktopRef"
       class="desktop"
       :inert="loginVisible || onboardingVisible || storageScopeReloading"
@@ -1670,6 +1709,7 @@ onBeforeUnmount(() => {
     </main>
 
     <Taskbar
+      v-show="!onboardingVisible"
       :inert="loginVisible || onboardingVisible || storageScopeReloading"
       :aria-hidden="loginVisible || onboardingVisible || storageScopeReloading ? 'true' : undefined"
       :apps="apps"

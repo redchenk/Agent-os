@@ -4,7 +4,7 @@ const CORE_SCRIPT = '/lib/live2dcubismcore-v5.min.js';
 const ROOM_SCRIPT = '/lib/bundled/live2d-room-neuro-live.agent-os-v2.iife.js';
 const LIVE2D_READY_EVENT = 'tsukuyomi:live2d-ready';
 const LIVE2D_READY_TIMEOUT = 20000;
-const LIVE2D_ASSET_VERSION = Date.now().toString(36);
+const LIVE2D_ASSET_VERSION = import.meta.env.PROD ? 'agent-os-v2' : Date.now().toString(36);
 const DESKTOP_LIVE2D_DEFAULT_DPR = 6;
 const DESKTOP_LIVE2D_MAX_DPR = 8;
 const MOBILE_LIVE2D_MAX_DPR = 3;
@@ -17,7 +17,7 @@ if (typeof window !== 'undefined') {
   window.TSUKUYOMI_EXTERNAL_LIVE2D = true;
 }
 
-function loadScript(src) {
+function loadScriptOnce(src) {
   return new Promise((resolve, reject) => {
     const existing = document.querySelector(`script[data-live2d-script="${src}"]`);
     if (existing) {
@@ -25,9 +25,13 @@ function loadScript(src) {
         resolve();
         return;
       }
-      existing.addEventListener('load', resolve, { once: true });
-      existing.addEventListener('error', reject, { once: true });
-      return;
+      if (existing.dataset.failed === 'true') {
+        existing.remove();
+      } else {
+        existing.addEventListener('load', resolve, { once: true });
+        existing.addEventListener('error', reject, { once: true });
+        return;
+      }
     }
 
     const script = document.createElement('script');
@@ -38,9 +42,29 @@ function loadScript(src) {
       script.dataset.loaded = 'true';
       resolve();
     }, { once: true });
-    script.addEventListener('error', () => reject(new Error(`Failed to load ${src}`)), { once: true });
+    script.addEventListener('error', () => {
+      script.dataset.failed = 'true';
+      reject(new Error(`Failed to load ${src}`));
+    }, { once: true });
     document.body.appendChild(script);
   });
+}
+
+async function loadScript(src, attempts = 3) {
+  let lastError = null;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      await loadScriptOnce(src);
+      return;
+    } catch (error) {
+      lastError = error;
+      document.querySelector(`script[data-live2d-script="${src}"]`)?.remove();
+      if (attempt < attempts) {
+        await new Promise((resolve) => window.setTimeout(resolve, attempt * 350));
+      }
+    }
+  }
+  throw lastError || new Error(`Failed to load ${src}`);
 }
 
 function live2DAssetUrl(path) {

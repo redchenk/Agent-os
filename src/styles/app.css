@@ -3615,11 +3615,12 @@ textarea:focus,
   display: grid;
   width: min(330px, calc(100vw - 1.5rem));
   --pet-stage-height: clamp(310px, 48vh, 390px);
-  grid-template-rows: var(--pet-stage-height) auto;
-  gap: 0.58rem;
-  align-items: end;
-  height: auto;
-  max-height: calc(100vh - 6.4rem);
+  --pet-dialogue-height: 150px;
+  --pet-layout-gap: 0.58rem;
+  grid-template-rows: var(--pet-stage-height) var(--pet-dialogue-height);
+  gap: var(--pet-layout-gap);
+  align-items: stretch;
+  height: calc(var(--pet-stage-height) + var(--pet-dialogue-height) + var(--pet-layout-gap));
   overflow: visible;
   pointer-events: none;
 }
@@ -3646,20 +3647,26 @@ textarea:focus,
 .pet-dialogue-box {
   z-index: 2;
   display: grid;
+  grid-template-rows: minmax(0, 1fr) 54px;
   gap: 0.46rem;
-  max-height: 178px;
+  height: var(--pet-dialogue-height);
+  min-height: var(--pet-dialogue-height);
+  max-height: var(--pet-dialogue-height);
+  box-sizing: border-box;
   border: 1px solid var(--os-border);
   border-radius: 18px;
   padding: 0.72rem;
   background: var(--fluent-glass);
   box-shadow: var(--fluent-shadow);
   backdrop-filter: blur(18px) saturate(1.18);
+  overflow: hidden;
   pointer-events: auto;
 }
 
 .pet-dialogue-box p {
   margin: 0;
-  max-height: 64px;
+  min-height: 0;
+  max-height: none;
   border: 1px solid var(--os-border);
   border-radius: 12px;
   padding: 0.58rem 0.66rem;
@@ -5063,10 +5070,25 @@ textarea:focus,
 
 .weather-section header {
   display: flex;
+  min-width: 0;
+  min-height: 1rem;
   align-items: center;
   justify-content: space-between;
   color: var(--ts-text-strong);
   font-weight: 950;
+  line-height: 1;
+}
+
+.weather-section header strong {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.weather-section header svg {
+  flex: 0 0 auto;
 }
 
 .weather-hourly-strip {
@@ -7515,13 +7537,16 @@ textarea::placeholder {
 
 .app-center-actions {
   position: static;
+  width: 100%;
   justify-content: center;
+  gap: 3px;
   margin-top: auto;
   opacity: 1;
   pointer-events: auto;
 }
 
 .app-center-actions button {
+  flex: 0 0 28px;
   width: 28px;
   height: 28px;
   border-radius: 7px;
@@ -7531,14 +7556,19 @@ textarea::placeholder {
 
 .app-center-actions .app-center-open {
   display: inline-flex;
+  flex: 1 1 auto;
   width: auto;
-  gap: 4px;
-  padding: 0 8px;
+  min-width: 53px;
+  gap: 3px;
+  padding: 0 6px;
+  white-space: nowrap;
 }
 
 .app-center-open span {
   font-size: 0.68rem;
   font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .app-center-empty {

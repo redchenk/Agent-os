@@ -1,7 +1,4 @@
-import { createApp } from 'vue';
-import App from './App.vue';
-import './styles/tokens.css';
-import './styles/themes.css';
-import './styles/app.css';
+import { installUserScopedLocalStorage } from './services/userLocalStorage';
 
-createApp(App).mount('#app');
+installUserScopedLocalStorage();
+import('./bootstrapApp');

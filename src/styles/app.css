@@ -7636,6 +7636,50 @@ textarea::placeholder {
   font-weight: 750;
 }
 
+.settings-privacy-status {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  border: 1px solid var(--os-border);
+  border-radius: 8px;
+  padding: 12px;
+  color: var(--ts-accent);
+  background: var(--os-panel);
+}
+
+.settings-privacy-status > span {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.settings-privacy-status strong {
+  color: var(--ts-text-strong);
+  font-size: 0.78rem;
+}
+
+.settings-privacy-status small {
+  color: var(--ts-muted);
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
+.settings-privacy-status button {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid var(--os-border);
+  border-radius: 7px;
+  padding: 0 10px;
+  color: var(--ts-text);
+  background: var(--os-control);
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
 .spinning,
 .weather-loading-state svg,
 .browser-loading svg,
@@ -7683,6 +7727,15 @@ textarea::placeholder {
 
   .settings-intro > small {
     justify-self: start;
+  }
+
+  .settings-privacy-status {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+
+  .settings-privacy-status button {
+    grid-column: 1 / -1;
+    justify-self: stretch;
   }
 }
 

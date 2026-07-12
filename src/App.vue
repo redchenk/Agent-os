@@ -14,6 +14,7 @@ import ClockPanel from './components/ClockPanel.vue';
 import DesktopWindow from './components/DesktopWindow.vue';
 import DesktopIconLayer from './components/DesktopIconLayer.vue';
 import ControlCenter from './components/ControlCenter.vue';
+import FirstRunOnboarding from './components/FirstRunOnboarding.vue';
 import HermesAgentPanel from './components/HermesAgentPanel.vue';
 import MusicPanel from './components/MusicPanel.vue';
 import NotepadPanel from './components/NotepadPanel.vue';
@@ -34,6 +35,11 @@ import {
   tsukuyomiSiteUrl
 } from './services/tsukuyomiAuth';
 import { HermesSocketClient } from './services/hermesSocket';
+import {
+  activateUserStorageScope,
+  hasLegacyLocalData,
+  importLegacyLocalData
+} from './services/userLocalStorage';
 import { dispatchRoomLive2D } from './services/room/live2dControl';
 import { writeRoomLLMSettings } from './services/room/roomSettings';
 import { extractLive2DIntent, normalizeLive2DIntent } from './services/live2dBridge';
@@ -79,6 +85,8 @@ const apps = [
   { key: 'stream', label: 'Stream', iconName: 'stream' },
   { key: 'settings', label: '设置', iconName: 'settings' }
 ];
+
+const ONBOARDING_STORAGE_KEY = 'agentOsOnboarding:v1';
 
 function readSettings() {
   try {
@@ -238,6 +246,9 @@ const thinkingEnabled = ref(true);
 const isConnected = computed(() => socketState.value === 'open');
 const loginVisible = ref(!nativePetShell.value);
 const loginExiting = ref(false);
+const onboardingVisible = ref(false);
+const legacyLocalDataAvailable = ref(false);
+const storageScopeReloading = ref(false);
 const loginForm = reactive({
   method: 'password',
   username: '',
@@ -629,7 +640,45 @@ function applyTsukuyomiSession(session, { verified = true } = {}) {
   if (user) loginForm.username = user.username || user.email || loginForm.username;
   loginForm.user = verified ? user : null;
   loginForm.sessionVerified = Boolean(user && verified);
+  if (user && verified) {
+    const scopeChanged = activateUserStorageScope(user);
+    if (scopeChanged && typeof window !== 'undefined') {
+      storageScopeReloading.value = true;
+      window.location.reload();
+      return user;
+    }
+    legacyLocalDataAvailable.value = hasLegacyLocalData();
+    onboardingVisible.value = localStorage.getItem(ONBOARDING_STORAGE_KEY) !== 'complete';
+  }
   return user;
+}
+
+function finishOnboarding(options = {}) {
+  const theme = options.theme === 'dark' ? 'dark' : 'light';
+  const petMode = Boolean(options.petMode);
+  const importedCount = options.importLegacy ? importLegacyLocalData() : 0;
+
+  if (importedCount > 0) {
+    let importedSettings = {};
+    try {
+      importedSettings = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') || {};
+    } catch (_) {
+      importedSettings = {};
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...importedSettings, theme, petMode }));
+  } else {
+    settings.theme = theme;
+    settings.petMode = petMode;
+  }
+
+  localStorage.setItem(ONBOARDING_STORAGE_KEY, 'complete');
+  onboardingVisible.value = false;
+  if (importedCount > 0 && typeof window !== 'undefined') window.location.reload();
+}
+
+function reopenOnboarding() {
+  legacyLocalDataAvailable.value = hasLegacyLocalData();
+  onboardingVisible.value = true;
 }
 
 async function hydrateTsukuyomiLogin({ allowCachedOnNetworkError = true } = {}) {
@@ -1211,11 +1260,22 @@ onBeforeUnmount(() => {
       </section>
     </Transition>
 
+    <Transition name="login-gate">
+      <FirstRunOnboarding
+        v-if="!loginVisible && onboardingVisible"
+        :user="loginForm.user"
+        :legacy-data-available="legacyLocalDataAvailable"
+        :initial-theme="settings.theme"
+        :initial-pet-mode="settings.petMode"
+        @finish="finishOnboarding"
+      />
+    </Transition>
+
     <main
       ref="desktopRef"
       class="desktop"
-      :inert="loginVisible"
-      :aria-hidden="loginVisible ? 'true' : undefined"
+      :inert="loginVisible || onboardingVisible || storageScopeReloading"
+      :aria-hidden="loginVisible || onboardingVisible || storageScopeReloading ? 'true' : undefined"
       @click.self="startOpen = false; controlOpen = false"
     >
       <DesktopIconLayer
@@ -1559,7 +1619,7 @@ onBeforeUnmount(() => {
             <button type="button" title="关闭" @click.stop="closeApp('settings')"><X :size="15" /></button>
           </template>
 
-          <SettingsPanel :settings="settings" />
+          <SettingsPanel :settings="settings" @open-onboarding="reopenOnboarding" />
         </DesktopWindow>
       </TransitionGroup>
 
@@ -1587,8 +1647,8 @@ onBeforeUnmount(() => {
     </main>
 
     <Taskbar
-      :inert="loginVisible"
-      :aria-hidden="loginVisible ? 'true' : undefined"
+      :inert="loginVisible || onboardingVisible || storageScopeReloading"
+      :aria-hidden="loginVisible || onboardingVisible || storageScopeReloading ? 'true' : undefined"
       :apps="apps"
       :active-app="activeApp"
       :open-apps="openApps"

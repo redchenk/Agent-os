@@ -10,7 +10,8 @@
     "dev:ui": "vite --host 127.0.0.1 --port 5173",
     "desktop:pet": "node desktop/pet-dev.mjs",
     "build": "vite build",
-    "preview": "vite preview --host 127.0.0.1 --port 4173"
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@neteasecloudmusicapienhanced/api": "^4.36.1",

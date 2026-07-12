@@ -1,9 +1,11 @@
 <script setup>
-import { Activity, Bot, Clapperboard, Gauge, KeyRound, Link2, MessageSquareText, Server } from 'lucide-vue-next';
+import { Activity, Bot, BookOpen, Clapperboard, Gauge, HardDrive, KeyRound, Link2, MessageSquareText, Server, ShieldCheck } from 'lucide-vue-next';
 
 defineProps({
   settings: { type: Object, required: true }
 });
+
+const emit = defineEmits(['open-onboarding']);
 </script>
 
 <template>
@@ -16,6 +18,26 @@ defineProps({
       </div>
       <small>自动保存</small>
     </header>
+
+    <section class="settings-section settings-privacy-section">
+      <header>
+        <ShieldCheck :size="16" />
+        <div>
+          <strong>隐私与本地数据</strong>
+          <small>当前账号使用独立的浏览器本地空间。</small>
+        </div>
+      </header>
+      <div class="settings-privacy-status">
+        <HardDrive :size="18" />
+        <span>
+          <strong>仅在本机持久化</strong>
+          <small>对话、笔记、历史、API Key 与第三方音乐凭据不会保存到 Agent OS 服务器。</small>
+        </span>
+        <button type="button" @click="emit('open-onboarding')">
+          <BookOpen :size="14" /> 重新查看引导
+        </button>
+      </div>
+    </section>
 
     <section class="settings-section">
       <header>

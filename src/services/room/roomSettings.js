@@ -1,4 +1,4 @@
-import { readJson, writeJson } from './roomStorage';
+import { readJson, writeJson } from './roomStorage.js';
 
 export const ROOM_LLM_SETTINGS_KEY = 'roomLLMSettings';
 export const ROOM_TTS_SETTINGS_KEY = 'roomTTSSettings';
@@ -137,7 +137,7 @@ export const DEFAULT_ROOM_VTS_SETTINGS = {
 };
 
 export const DEFAULT_ROOM_MEMORY_SETTINGS = {
-  enabled: true,
+  enabled: false,
   provider: 'sqlite-milvus',
   vaultPath: '',
   databasePath: '',
@@ -152,12 +152,12 @@ export const DEFAULT_ROOM_MEMORY_SETTINGS = {
   embeddingApiKey: '',
   embeddingModel: 'text-embedding-3-small',
   embeddingDimension: 384,
-  writeMode: 'auto-approved',
-  retrievalMode: 'hybrid',
+  writeMode: 'off',
+  retrievalMode: 'off',
   maxNotesPerTurn: 4,
-  allowViewerMemory: true,
-  allowSessionMemory: true,
-  sessionRollupEnabled: true,
+  allowViewerMemory: false,
+  allowSessionMemory: false,
+  sessionRollupEnabled: false,
   gcEnabled: true,
   gcArchiveDays: 30,
   gcForgetDays: 120,
@@ -665,13 +665,12 @@ function upgradeLegacyRoomMemoryDefaults(settings, rawSettings = {}) {
 
     const upgraded = normalizeRoomMemorySettings({
       ...settings,
-      enabled: true,
-      provider: 'sqlite-milvus',
-      milvusEnabled: true,
-      milvusManaged: true,
-      retrievalMode: 'hybrid',
-      writeMode: 'auto-approved',
-      maxNotesPerTurn: 4
+      enabled: false,
+      retrievalMode: 'off',
+      writeMode: 'off',
+      allowViewerMemory: false,
+      allowSessionMemory: false,
+      sessionRollupEnabled: false
     });
     writeJson(ROOM_MEMORY_SETTINGS_KEY, upgraded);
     return upgraded;

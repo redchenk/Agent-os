@@ -165,7 +165,7 @@ function chooseModel(model) {
       <header class="codex-agent-header">
         <div>
           <span><Bot :size="17" /> Hermes Agent</span>
-          <strong>设计纯前端 Agent OS</strong>
+          <strong>控制 Agent OS 的全部应用</strong>
         </div>
         <div class="codex-agent-connect">
           <label>
@@ -174,11 +174,11 @@ function chooseModel(model) {
           </label>
           <button v-if="!isConnected" class="accent-btn" type="button" @click="emit('connect')">
             <Play :size="15" />
-            Connect
+            连接
           </button>
           <button v-else class="soft-btn" type="button" @click="emit('disconnect')">
             <Unplug :size="15" />
-            Disconnect
+            断开
           </button>
         </div>
       </header>
@@ -238,7 +238,7 @@ function chooseModel(model) {
 
         <textarea
           v-model="prompt"
-          placeholder="Ask Hermes to build, inspect, edit, or explain..."
+          placeholder="输入任务，让 Hermes 检查、编辑或调用应用..."
           @paste="emit('paste', $event)"
           @keydown.ctrl.enter.prevent="emit('send-prompt')"
         ></textarea>
@@ -250,7 +250,7 @@ function chooseModel(model) {
             <button class="soft-btn icon-btn" type="button" title="添加 Hermes @file/@folder 引用" @click="emit('add-context-reference')"><FileText :size="15" /></button>
             <button class="soft-btn" type="button" :class="{ active: thinkingEnabled }" @click="thinkingEnabled = !thinkingEnabled">
               <BrainCircuit :size="15" />
-              Think
+              深度思考
             </button>
             <div class="mode-switch compact">
               <button v-for="item in agentModes" :key="item.key" type="button" :class="{ active: mode === item.key }" @click="mode = item.key">
@@ -273,7 +273,7 @@ function chooseModel(model) {
                 <CheckCircle2 v-if="selectedModel === model.id" :size="15" />
               </button>
             </div>
-            <button v-if="currentRequestId" class="danger-btn" type="button" @click="emit('stop-run')"><Square :size="14" />Stop</button>
+            <button v-if="currentRequestId" class="danger-btn" type="button" @click="emit('stop-run')"><Square :size="14" />停止</button>
             <button class="accent-btn send-agent-btn" type="button" :disabled="!composerHasContent" @click="emit('send-prompt')">
               <Send :size="15" />
             </button>

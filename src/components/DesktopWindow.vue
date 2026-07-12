@@ -15,10 +15,13 @@ const emit = defineEmits(['drag', 'focus', 'resize']);
     class="os-window"
     :class="[windowClass, { active }]"
     :style="styleValue"
+    :data-app-key="appKey"
+    :aria-labelledby="`${appKey}-window-title`"
+    role="region"
     @pointerdown="emit('focus')"
   >
     <header class="window-titlebar" @pointerdown.prevent="emit('drag', $event)">
-      <span class="window-title"><slot name="title" /></span>
+      <span :id="`${appKey}-window-title`" class="window-title"><slot name="title" /></span>
       <div class="window-actions" @pointerdown.stop>
         <slot name="actions" />
       </div>

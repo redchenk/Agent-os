@@ -61,15 +61,16 @@ export function useWindowManager({
   function viewportBounds(state = {}) {
     const width = Math.max(window.innerWidth || 0, 360);
     const height = Math.max(window.innerHeight || 0, 520);
+    const dockSafeArea = 112;
     const maxW = Math.max(width - 24, 320);
-    const maxH = Math.max(height - 104, 260);
+    const maxH = Math.max(height - dockSafeArea - 16, 260);
     const windowW = Math.min(Math.max(state.w || 320, state.minW || 320), maxW);
     const windowH = Math.min(Math.max(state.h || 240, state.minH || 240), maxH);
     return {
       minX: 12,
       minY: 12,
       maxX: Math.max(12, width - windowW - 12),
-      maxY: Math.max(12, height - windowH - 84),
+      maxY: Math.max(12, height - windowH - dockSafeArea),
       maxW,
       maxH
     };
@@ -83,6 +84,10 @@ export function useWindowManager({
     state.h = Math.min(Math.max(state.h, state.minH || 240), bounds.maxH);
     state.x = Math.min(Math.max(state.x, bounds.minX), Math.max(bounds.minX, bounds.maxX));
     state.y = Math.min(Math.max(state.y, bounds.minY), Math.max(bounds.minY, bounds.maxY));
+  }
+
+  function clampAllWindows() {
+    Object.keys(windowState).forEach(clampWindow);
   }
 
   function startWindowDrag(event, key) {
@@ -197,15 +202,18 @@ export function useWindowManager({
   }, { deep: true });
 
   onMounted(() => {
+    clampAllWindows();
     window.addEventListener('pointermove', moveWindowPointer);
     window.addEventListener('pointerup', endWindowPointer);
     window.addEventListener('pointercancel', endWindowPointer);
+    window.addEventListener('resize', clampAllWindows);
   });
 
   onBeforeUnmount(() => {
     window.removeEventListener('pointermove', moveWindowPointer);
     window.removeEventListener('pointerup', endWindowPointer);
     window.removeEventListener('pointercancel', endWindowPointer);
+    window.removeEventListener('resize', clampAllWindows);
   });
 
   return {

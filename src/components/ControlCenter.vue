@@ -1,5 +1,5 @@
 <script setup>
-import { Gauge, Moon, Radio, Sun, Wifi, Zap, Cpu } from 'lucide-vue-next';
+import { Bot, Gauge, Moon, Radio, Sun, Wifi, Zap, Cpu } from 'lucide-vue-next';
 
 defineProps({
   doneToolCount: { type: Number, required: true },
@@ -14,7 +14,7 @@ const emit = defineEmits(['toggle-theme']);
 <template>
   <aside class="control-center acrylic-popover" @click.stop>
     <div class="quick-toggles">
-      <button type="button" class="active"><Wifi :size="18" /> Wi-Fi<span>已连接</span></button>
+      <div class="quick-status active"><Wifi :size="18" /> Wi-Fi<span>由系统管理</span></div>
       <button type="button" :class="{ active: settings.theme === 'dark' }" @click="emit('toggle-theme')">
         <component :is="settings.theme === 'dark' ? Moon : Sun" :size="18" />
         {{ settings.theme === 'dark' ? '深色' : '浅色' }}
@@ -26,6 +26,10 @@ const emit = defineEmits(['toggle-theme']);
       <button type="button" :class="{ active: settings.motion }" @click="settings.motion = !settings.motion">
         <Zap :size="18" />
         动画
+      </button>
+      <button type="button" :class="{ active: settings.petMode }" @click="settings.petMode = !settings.petMode">
+        <Bot :size="18" />
+        桌宠
       </button>
     </div>
     <div class="system-stats">

@@ -338,6 +338,30 @@ onBeforeUnmount(() => {
   localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(historyItems.value.slice(0, 12)));
   localStorage.setItem(MEMORY_STORAGE_KEY, String(memory.value));
 });
+
+defineExpose({
+  evaluate: (source = '') => {
+    const input = String(source || result.value || '0');
+    expression.value = input;
+    calculate();
+    return {
+      expression: input,
+      result: previewResult.value,
+      error: error.value
+    };
+  },
+  clear: () => {
+    clearAll();
+    return { result: result.value };
+  },
+  state: () => ({
+    expression: expression.value,
+    result: previewResult.value,
+    angleMode: angleMode.value,
+    memory: memory.value,
+    history: historyItems.value
+  })
+});
 </script>
 
 <template>

@@ -1,13 +1,20 @@
 <script setup>
 import { Search } from 'lucide-vue-next';
+import { computed } from 'vue';
 import SystemIcon from './SystemIcon.vue';
 
-defineProps({
+const props = defineProps({
   apps: { type: Array, required: true }
 });
 
 const searchQuery = defineModel('searchQuery', { type: String, required: true });
 const emit = defineEmits(['focus-app', 'inspect-project', 'open-stream']);
+
+const filteredApps = computed(() => {
+  const query = searchQuery.value.trim().toLowerCase();
+  if (!query) return props.apps;
+  return props.apps.filter((app) => `${app.label} ${app.key}`.toLowerCase().includes(query));
+});
 </script>
 
 <template>
@@ -20,13 +27,14 @@ const emit = defineEmits(['focus-app', 'inspect-project', 'open-stream']);
     <div class="start-section">
       <div class="section-title">
         <strong>已固定</strong>
-        <button type="button">所有应用</button>
+        <button type="button" @click="emit('focus-app', 'appCenter')">所有应用</button>
       </div>
       <div class="start-grid">
-        <button v-for="app in apps" :key="app.key" type="button" @click="emit('focus-app', app.key)">
+        <button v-for="app in filteredApps" :key="app.key" type="button" @click="emit('focus-app', app.key)">
           <SystemIcon :name="app.iconName" :size="36" />
           {{ app.label }}
         </button>
+        <p v-if="!filteredApps.length" class="start-empty">没有匹配的应用</p>
       </div>
     </div>
 

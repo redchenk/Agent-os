@@ -12,17 +12,14 @@ import {
   ShieldAlert,
   Trash2
 } from 'lucide-vue-next';
+import { agentOsRuntimeHttpUrl } from '../modules/agentOs/runtimeUrls';
 
 const HOME_URL = 'agentos://home';
 const SEARCH_URL_PREFIX = 'agentos://search?q=';
 const HISTORY_STORAGE_KEY = 'hermesAgentOsBrowserHistory:v1';
 const MAX_HISTORY_ITEMS = 24;
-const SEARCH_TIMEOUT_MS = 9000;
-const SEARX_INSTANCES = [
-  'https://searx.be/search',
-  'https://search.inetol.net/search',
-  'https://searx.tiekoetter.com/search'
-];
+const SEARCH_TIMEOUT_MS = 12000;
+const SEARCH_PROXY_ENDPOINT = agentOsRuntimeHttpUrl('browser/search');
 
 const quickLinks = [
   { label: 'Hermes Docs', url: 'https://hermes-agent.nousresearch.com/docs' },
@@ -72,10 +69,6 @@ function isLikelyHost(value) {
 
 function searchUrl(query) {
   return `${SEARCH_URL_PREFIX}${encodeURIComponent(query)}`;
-}
-
-function externalSearchUrl(query) {
-  return `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
 }
 
 function isSearchUrl(url) {
@@ -232,6 +225,11 @@ function openExternal(url = currentUrl.value) {
   window.open(url, '_blank', 'noopener,noreferrer');
 }
 
+function openSearchResult(result) {
+  if (!result?.url) return;
+  navigateTo(result.url);
+}
+
 function onFrameLoad() {
   clearLoadTimer();
   loading.value = false;
@@ -268,69 +266,6 @@ function cleanSearchText(value) {
     .trim();
 }
 
-function parseJinaResults(markdown) {
-  const lines = String(markdown || '').split(/\r?\n/);
-  const results = [];
-  const seen = new Set();
-
-  for (let index = 0; index < lines.length; index += 1) {
-    const titleMatch = lines[index].match(/^Title:\s*(.+)$/i);
-    if (!titleMatch) continue;
-
-    let url = '';
-    let cursor = index + 1;
-    for (; cursor < lines.length; cursor += 1) {
-      const urlMatch = lines[cursor].match(/^(?:URL Source|URL):\s*(https?:\/\/\S+)/i);
-      if (urlMatch) {
-        url = urlMatch[1].trim();
-        break;
-      }
-      if (/^Title:\s*/i.test(lines[cursor])) break;
-    }
-
-    if (!url || seen.has(url)) continue;
-
-    const snippetLines = [];
-    for (let snippetIndex = cursor + 1; snippetIndex < lines.length; snippetIndex += 1) {
-      const line = lines[snippetIndex].trim();
-      if (/^Title:\s*/i.test(line)) break;
-      if (!line || /^(Markdown Content|Published Time|Warning):/i.test(line)) continue;
-      snippetLines.push(line);
-      if (snippetLines.join(' ').length > 260) break;
-    }
-
-    seen.add(url);
-    results.push({
-      title: cleanSearchText(titleMatch[1]) || titleFromUrl(url),
-      url,
-      displayUrl: detailFromUrl(url),
-      snippet: cleanSearchText(snippetLines.join(' ')).slice(0, 260)
-    });
-
-    if (results.length >= 8) break;
-  }
-
-  if (results.length) return results;
-
-  const linkPattern = /\[([^\]]{3,180})]\((https?:\/\/[^)\s]+)\)/g;
-  let match = linkPattern.exec(markdown);
-  while (match && results.length < 8) {
-    const [, title, url] = match;
-    if (!seen.has(url) && !/jina\.ai\/?(?:$|[?#])/i.test(url)) {
-      seen.add(url);
-      results.push({
-        title: cleanSearchText(title) || titleFromUrl(url),
-        url,
-        displayUrl: detailFromUrl(url),
-        snippet: ''
-      });
-    }
-    match = linkPattern.exec(markdown);
-  }
-
-  return results;
-}
-
 async function fetchWithTimeout(url, options = {}) {
   const controller = new AbortController();
   const timeout = window.setTimeout(() => controller.abort(), SEARCH_TIMEOUT_MS);
@@ -342,14 +277,6 @@ async function fetchWithTimeout(url, options = {}) {
   } finally {
     window.clearTimeout(timeout);
   }
-}
-
-async function fetchJinaResults(query) {
-  const response = await fetchWithTimeout(`https://s.jina.ai/${encodeURIComponent(query)}`, {
-    headers: { Accept: 'text/plain' }
-  });
-  if (!response.ok) throw new Error(`Jina search returned ${response.status}`);
-  return parseJinaResults(await response.text());
 }
 
 function normalizeProviderResults(items) {
@@ -370,33 +297,17 @@ function normalizeProviderResults(items) {
     }));
 }
 
-async function fetchSearxResults(query, instanceUrl) {
-  const url = `${instanceUrl}?q=${encodeURIComponent(query)}&format=json&language=auto`;
-  const response = await fetchWithTimeout(url, {
+async function fetchSearchResults(query) {
+  const url = new URL(SEARCH_PROXY_ENDPOINT);
+  url.searchParams.set('q', query);
+  const response = await fetchWithTimeout(url.toString(), {
     headers: { Accept: 'application/json' }
   });
-  if (!response.ok) throw new Error(`SearXNG search returned ${response.status}`);
-  const data = await response.json();
-  return normalizeProviderResults((data.results || []).map((item) => ({
-    title: item.title,
-    url: item.url,
-    snippet: item.content || item.description || item.pretty_url
-  })));
-}
-
-async function fetchSearchResults(query) {
-  const providers = [
-    fetchJinaResults(query),
-    ...SEARX_INSTANCES.map((instanceUrl) => fetchSearxResults(query, instanceUrl))
-  ];
-  const settled = await Promise.allSettled(providers);
-  const fulfilled = settled
-    .filter((item) => item.status === 'fulfilled')
-    .map((item) => item.value);
-  const firstWithResults = fulfilled.find((items) => items.length);
-  if (firstWithResults) return firstWithResults;
-  if (fulfilled.length) return [];
-  throw settled.find((item) => item.status === 'rejected')?.reason || new Error('Search failed');
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data?.error || `Agent OS search returned ${response.status}`);
+  }
+  return normalizeProviderResults(data.results || []);
 }
 
 async function runSearch(query) {
@@ -418,10 +329,11 @@ async function runSearch(query) {
     const results = await fetchSearchResults(normalizedQuery);
     if (activeSearchToken.value !== token) return;
     searchResults.value = results;
-    searchError.value = results.length ? '' : '没有找到可显示的结果';
-  } catch (error) {
+    searchError.value = results.length ? '' : 'Agent OS 搜索没有找到可显示的结果';
+  } catch (_) {
     if (activeSearchToken.value !== token) return;
-    searchError.value = error?.name === 'AbortError' ? '搜索超时' : '搜索服务暂时不可用';
+    searchResults.value = [];
+    searchError.value = 'Agent OS 本地搜索没有连接，请确认本地桥接服务正在运行';
   } finally {
     if (activeSearchToken.value === token) searchLoading.value = false;
   }
@@ -429,6 +341,29 @@ async function runSearch(query) {
 
 onBeforeUnmount(() => {
   clearLoadTimer();
+});
+
+defineExpose({
+  open: (url = '') => {
+    navigateTo(String(url || HOME_URL));
+    return { url: activeEntry.value?.url, title: activeEntry.value?.title };
+  },
+  search: (query = '') => {
+    navigateTo(searchUrl(String(query || '')));
+    return { query: currentSearchQuery.value, results: searchResults.value };
+  },
+  home: () => {
+    navigateTo(HOME_URL);
+    return { url: HOME_URL };
+  },
+  state: () => ({
+    url: activeEntry.value?.url || HOME_URL,
+    title: activeEntry.value?.title || '首页',
+    isHome: isHome.value,
+    isSearch: isSearch.value,
+    searchQuery: currentSearchQuery.value,
+    history: recentItems.value
+  })
 });
 </script>
 
@@ -511,9 +446,9 @@ onBeforeUnmount(() => {
             <strong>{{ currentSearchQuery }}</strong>
             <small>搜索结果</small>
           </div>
-          <button type="button" @click="navigateTo(externalSearchUrl(currentSearchQuery))">
-            <Globe2 :size="14" />
-            搜索页
+          <button type="button" @click="runSearch(currentSearchQuery)">
+            <RefreshCw :size="14" />
+            重新搜索
           </button>
         </header>
 
@@ -527,12 +462,12 @@ onBeforeUnmount(() => {
             <ShieldAlert :size="18" />
             <span>{{ searchError }}</span>
           </div>
-          <button type="button" class="browser-result-card" @click="navigateTo(externalSearchUrl(currentSearchQuery))">
+          <button type="button" class="browser-result-card" @click="runSearch(currentSearchQuery)">
             <span>
-              <strong>在当前窗口打开搜索页</strong>
-              <small>{{ externalSearchUrl(currentSearchQuery) }}</small>
+              <strong>重新搜索</strong>
+              <small>Agent OS Browser Search</small>
             </span>
-            <Globe2 :size="15" />
+            <RefreshCw :size="15" />
           </button>
         </div>
 
@@ -542,14 +477,14 @@ onBeforeUnmount(() => {
             :key="result.url"
             type="button"
             class="browser-result-card"
-            @click="navigateTo(result.url)"
+            @click="openSearchResult(result)"
           >
             <span>
               <strong>{{ result.title }}</strong>
               <small>{{ result.displayUrl }}</small>
               <p v-if="result.snippet">{{ result.snippet }}</p>
             </span>
-            <ExternalLink :size="15" />
+            <Globe2 :size="15" />
           </button>
         </div>
       </section>

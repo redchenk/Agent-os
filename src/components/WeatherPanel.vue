@@ -9,6 +9,7 @@ import {
   CloudSnow,
   CloudSun,
   LocateFixed,
+  Loader2,
   MapPin,
   RefreshCw,
   Search,
@@ -298,10 +299,48 @@ async function fetchForecast() {
     loading.value = false;
   }
 }
+
+defineExpose({
+  current: () => ({
+    location: locationTitle.value,
+    current: current.value,
+    summary: currentMeta.value.label,
+    details: detailItems.value,
+    updatedAt: lastUpdated.value
+  }),
+  refresh: async () => {
+    await fetchForecast();
+    return {
+      location: locationTitle.value,
+      current: current.value,
+      summary: currentMeta.value.label,
+      error: errorText.value
+    };
+  },
+  searchCity: async (query = '', options = {}) => {
+    searchQuery.value = String(query || '');
+    await searchLocations();
+    if (options.selectFirst !== false && searchResults.value[0]) {
+      selectLocation(searchResults.value[0]);
+      await fetchForecast();
+    }
+    return {
+      query: searchQuery.value,
+      results: searchResults.value,
+      activeLocation: activeLocation.value,
+      error: errorText.value
+    };
+  },
+  setUnit: async (nextUnit = 'celsius') => {
+    unit.value = nextUnit === 'fahrenheit' ? 'fahrenheit' : 'celsius';
+    await fetchForecast();
+    return { unit: unit.value, location: locationTitle.value, current: current.value };
+  }
+});
 </script>
 
 <template>
-  <section class="weather-panel">
+  <section class="weather-panel" :aria-busy="loading">
     <header class="weather-toolbar">
       <form class="weather-search" @submit.prevent="searchLocations">
         <Search :size="16" />
@@ -309,7 +348,7 @@ async function fetchForecast() {
         <button type="submit" :disabled="searchLoading">{{ searchLoading ? '搜索中' : '搜索' }}</button>
       </form>
       <button class="soft-btn" type="button" @click="useCurrentLocation"><LocateFixed :size="15" /> 定位</button>
-      <button class="soft-btn" type="button" @click="fetchForecast"><RefreshCw :size="15" /> 刷新</button>
+      <button class="soft-btn" type="button" :disabled="loading" @click="fetchForecast"><RefreshCw :size="15" :class="{ spinning: loading }" /> {{ loading ? '更新中' : '刷新' }}</button>
       <div class="weather-unit-toggle" aria-label="温度单位">
         <button type="button" :class="{ active: unit === 'celsius' }" @click="unit = 'celsius'">°C</button>
         <button type="button" :class="{ active: unit === 'fahrenheit' }" @click="unit = 'fahrenheit'">°F</button>
@@ -324,6 +363,7 @@ async function fetchForecast() {
     </div>
 
     <p v-if="errorText" class="weather-error">{{ errorText }}</p>
+    <p v-else-if="loading && !forecast" class="weather-loading-state"><Loader2 :size="17" /> 正在获取 {{ activeLocation.name }} 的天气</p>
 
     <main class="weather-layout">
       <aside class="weather-location-list">

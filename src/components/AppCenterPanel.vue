@@ -54,8 +54,9 @@ function toggleDesktopIcon(app) {
         <strong>{{ app.label }}</strong>
         <small>{{ openApps[app.key] ? '运行中' : '未打开' }}</small>
         <div class="app-center-actions">
-          <button type="button" title="打开或切换" @click="emit('focus-app', app.key)">
+          <button type="button" class="app-center-open" :title="openApps[app.key] ? '切换到应用' : '打开应用'" @click="emit('focus-app', app.key)">
             <ExternalLink :size="14" />
+            <span>{{ openApps[app.key] ? '切换' : '打开' }}</span>
           </button>
           <button
             type="button"
@@ -74,7 +75,11 @@ function toggleDesktopIcon(app) {
           </button>
         </div>
       </article>
-      <p v-if="!filteredApps.length" class="app-center-empty">没有匹配的应用</p>
+      <div v-if="!filteredApps.length" class="app-center-empty">
+        <Search :size="22" />
+        <strong>没有匹配的应用</strong>
+        <span>换一个名称或关键词试试。</span>
+      </div>
     </div>
   </section>
 </template>

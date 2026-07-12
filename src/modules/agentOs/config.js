@@ -1,3 +1,5 @@
+import { agentOsPublicUrl, agentOsRuntimeWebSocketUrl } from './runtimeUrls';
+
 export const STORAGE_KEY = 'hermesAgentOsSettings:v2';
 export const WINDOWS_STORAGE_KEY = 'hermesAgentOsWindows:v11';
 export const DESKTOP_ICONS_STORAGE_KEY = 'hermesAgentOsDesktopIcons:v1';
@@ -12,7 +14,8 @@ export const LEGACY_HERMES_DESKTOP_URLS = new Set([
   'http://127.0.0.1:65356'
 ]);
 
-export const DEFAULT_HERMES_DESKTOP_URL = 'auto';
+export const DEFAULT_HERMES_BRIDGE_URL = agentOsRuntimeWebSocketUrl('hermes');
+export const DEFAULT_HERMES_DESKTOP_URL = DEFAULT_HERMES_BRIDGE_URL;
 
 export const DEFAULT_WINDOW_STATE = {
   agent: { x: 160, y: 64, w: 860, h: 600, minW: 720, minH: 520 },
@@ -21,10 +24,11 @@ export const DEFAULT_WINDOW_STATE = {
   calculator: { x: 390, y: 122, w: 560, h: 530, minW: 430, minH: 460 },
   clock: { x: 430, y: 132, w: 590, h: 530, minW: 430, minH: 440 },
   weather: { x: 280, y: 104, w: 720, h: 560, minW: 540, minH: 480 },
+  music: { x: 110, y: 54, w: 1040, h: 660, minW: 680, minH: 500 },
   appCenter: { x: 230, y: 104, w: 660, h: 500, minW: 480, minH: 380 },
   yachiyo: { x: 850, y: 84, w: 400, h: 560, minW: 330, minH: 420 },
   stream: { x: 320, y: 430, w: 560, h: 360, minW: 380, minH: 260 },
-  settings: { x: 880, y: 180, w: 360, h: 320, minW: 300, minH: 260 }
+  settings: { x: 640, y: 64, w: 600, h: 540, minW: 500, minH: 420 }
 };
 
 export const DEFAULT_DESKTOP_ICON_STATE = [
@@ -41,9 +45,15 @@ export const defaultSettings = {
   wsUrl: DEFAULT_HERMES_DESKTOP_URL,
   workspace: '',
   agent: 'hermes',
-  live2dStudioUrl: 'http://127.0.0.1:5174',
+  llmProvider: 'openai-compatible',
+  llmApiUrl: 'https://api.openai.com/v1/chat/completions',
+  llmApiKey: '',
+  llmModel: 'gpt-4o-mini',
+  petSystemPrompt: '你是 Agent OS 的常驻桌宠。直接调用 Agent OS 内部 app 接口完成任务，不通过 Hermes。',
+  live2dStudioUrl: agentOsPublicUrl(),
   live2dBridgeMode: 'event',
   autoLive2D: true,
+  petMode: false,
   theme: 'light',
   fluentBlur: true,
   motion: true
@@ -70,8 +80,9 @@ export const live2dPresets = [
 ];
 
 export const agentModels = [
-  { id: 'deepseek-v4-pro', name: 'DeepSeek V4 Pro', detail: 'Current Hermes provider' },
-  { id: 'auto', name: 'Hermes Auto', detail: 'Let Hermes choose the active model' },
+  { id: 'gpt-4o-mini', name: 'GPT-4o Mini', detail: 'System API settings' },
+  { id: 'deepseek-chat', name: 'DeepSeek Chat', detail: 'OpenAI-compatible provider' },
+  { id: 'auto', name: 'Model Auto', detail: 'Use the configured provider default' },
   { id: 'fast', name: 'Fast Draft', detail: 'Short tasks and quick checks' }
 ];
 

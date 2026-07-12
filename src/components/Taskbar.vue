@@ -4,7 +4,7 @@ import { Circle } from 'lucide-vue-next';
 import { formatDate, formatTime } from '../modules/agentOs/formatters';
 import SystemIcon from './SystemIcon.vue';
 
-const pinnedDockKeys = ['agent', 'browser', 'notepad', 'appCenter'];
+const pinnedDockKeys = ['agent', 'browser', 'notepad', 'music', 'appCenter'];
 
 const props = defineProps({
   activeApp: { type: String, default: '' },
@@ -13,11 +13,12 @@ const props = defineProps({
   isConnected: { type: Boolean, default: false },
   now: { type: Number, required: true },
   openApps: { type: Object, required: true },
+  petMode: { type: Boolean, default: false },
   socketState: { type: String, required: true },
   startOpen: { type: Boolean, default: false }
 });
 
-const emit = defineEmits(['focus-app', 'toggle-connection', 'toggle-control', 'toggle-start']);
+const emit = defineEmits(['focus-app', 'toggle-connection', 'toggle-control', 'toggle-pet-mode', 'toggle-start']);
 
 const pinnedApps = computed(() => (
   props.apps.filter((app) => pinnedDockKeys.includes(app.key))
@@ -74,12 +75,16 @@ const runningOnlyApps = computed(() => (
       </TransitionGroup>
     </div>
 
-    <button class="taskbar-status" type="button" :class="socketState" @click.stop="emit('toggle-connection')">
+    <button class="taskbar-status" type="button" :class="socketState" :title="isConnected ? '断开 Hermes' : '连接 Hermes'" @click.stop="emit('toggle-connection')">
       <Circle :size="8" fill="currentColor" />
       {{ connectionLabel }}
     </button>
 
-    <button class="taskbar-clock" type="button" @click.stop="emit('toggle-control')">
+    <button class="taskbar-status pet-toggle" type="button" :class="{ open: petMode }" :title="petMode ? '关闭桌宠模式' : '开启桌宠模式'" @click.stop="emit('toggle-pet-mode')">
+      桌宠
+    </button>
+
+    <button class="taskbar-clock" type="button" title="打开控制中心" @click.stop="emit('toggle-control')">
       <span>{{ formatTime(now) }}</span>
       <small>{{ formatDate(now) }}</small>
     </button>

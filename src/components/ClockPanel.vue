@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import {
   AlarmClock,
   Bell,
+  Flag,
   Globe2,
   Pause,
   Play,
@@ -20,6 +21,13 @@ const tabs = [
   { key: 'timer', label: '计时器', icon: Timer },
   { key: 'stopwatch', label: '秒表', icon: Play },
   { key: 'alarm', label: '闹钟', icon: AlarmClock }
+];
+
+const timerPresets = [
+  { label: '1 分钟', seconds: 60 },
+  { label: '5 分钟', seconds: 5 * 60 },
+  { label: '10 分钟', seconds: 10 * 60 },
+  { label: '25 分钟', seconds: 25 * 60 }
 ];
 
 const availableZones = [
@@ -56,6 +64,7 @@ const stopwatchRunning = ref(false);
 const stopwatchLaps = ref([]);
 
 let tickTimer = 0;
+let stopwatchFrame = 0;
 
 const currentDate = computed(() => new Date(now.value));
 const currentTimeText = computed(() => new Intl.DateTimeFormat('zh-CN', {
@@ -100,8 +109,39 @@ const timerProgress = computed(() => {
   const total = Math.max(1, timerTotalInput.value || timerRemaining.value || 1);
   return `${Math.max(0, Math.min(1, timerRemaining.value / total)) * 100}%`;
 });
-const timerText = computed(() => formatDuration(timerRemaining.value * 1000));
+const timerText = computed(() => formatTimerDuration(timerRemaining.value));
+const timerEndText = computed(() => {
+  if (!timerRunning.value || !timerEndAt.value) return '';
+  return new Intl.DateTimeFormat('zh-CN', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  }).format(timerEndAt.value);
+});
 const stopwatchText = computed(() => formatDuration(stopwatchElapsed.value));
+const stopwatchParts = computed(() => {
+  const text = stopwatchText.value;
+  const [main, fraction = '00'] = text.split('.');
+  return { main, fraction };
+});
+const stopwatchLapRows = computed(() => {
+  const ascending = [...stopwatchLaps.value].sort((left, right) => left.index - right.index);
+  const elapsedByIndex = new Map(ascending.map((lap) => [lap.index, lap.value]));
+  const rows = stopwatchLaps.value.map((lap) => ({
+    ...lap,
+    split: lap.value - (elapsedByIndex.get(lap.index - 1) || 0)
+  }));
+  if (rows.length < 2) return rows;
+  const splits = rows.map((lap) => lap.split);
+  const fastest = Math.min(...splits);
+  const slowest = Math.max(...splits);
+  return rows.map((lap) => ({
+    ...lap,
+    fastest: lap.split === fastest,
+    slowest: lap.split === slowest
+  }));
+});
 
 watch(worldZones, () => {
   localStorage.setItem(CLOCK_ZONES_STORAGE_KEY, JSON.stringify(worldZones.value));
@@ -122,6 +162,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.clearInterval(tickTimer);
+  stopStopwatchFrame();
 });
 
 function readStoredArray(key, fallback) {
@@ -142,7 +183,6 @@ function id() {
 function tick() {
   now.value = Date.now();
   updateTimer();
-  updateStopwatch();
   checkAlarms();
 }
 
@@ -174,6 +214,15 @@ function formatDuration(milliseconds) {
   return `${pad(minutes)}:${pad(seconds)}.${pad(centiseconds)}`;
 }
 
+function formatTimerDuration(secondsValue) {
+  const totalSeconds = Math.max(0, Math.floor(Number(secondsValue) || 0));
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  if (hours > 0) return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+  return `${pad(minutes)}:${pad(seconds)}`;
+}
+
 function pad(value) {
   return String(value).padStart(2, '0');
 }
@@ -195,6 +244,16 @@ function startTimer() {
   timerFinished.value = false;
   timerRunning.value = true;
   timerEndAt.value = Date.now() + timerRemaining.value * 1000;
+}
+
+function setTimerPreset(secondsValue) {
+  if (timerRunning.value) return;
+  const totalSeconds = Math.max(0, Math.floor(Number(secondsValue) || 0));
+  timerHours.value = Math.floor(totalSeconds / 3600);
+  timerMinutes.value = Math.floor((totalSeconds % 3600) / 60);
+  timerSeconds.value = totalSeconds % 60;
+  timerRemaining.value = totalSeconds;
+  timerFinished.value = false;
 }
 
 function pauseTimer() {
@@ -221,17 +280,20 @@ function updateTimer() {
 
 function startStopwatch() {
   if (stopwatchRunning.value) return;
-  stopwatchStartedAt.value = Date.now() - stopwatchElapsed.value;
+  stopwatchStartedAt.value = monotonicNow() - stopwatchElapsed.value;
   stopwatchRunning.value = true;
+  startStopwatchFrame();
 }
 
 function pauseStopwatch() {
   updateStopwatch();
   stopwatchRunning.value = false;
+  stopStopwatchFrame();
 }
 
 function resetStopwatch() {
   stopwatchRunning.value = false;
+  stopStopwatchFrame();
   stopwatchElapsed.value = 0;
   stopwatchStartedAt.value = 0;
   stopwatchLaps.value = [];
@@ -248,7 +310,29 @@ function lapStopwatch() {
 
 function updateStopwatch() {
   if (!stopwatchRunning.value) return;
-  stopwatchElapsed.value = Date.now() - stopwatchStartedAt.value;
+  stopwatchElapsed.value = monotonicNow() - stopwatchStartedAt.value;
+}
+
+function monotonicNow() {
+  return typeof performance !== 'undefined' && typeof performance.now === 'function'
+    ? performance.now()
+    : Date.now();
+}
+
+function startStopwatchFrame() {
+  stopStopwatchFrame();
+  const step = () => {
+    if (!stopwatchRunning.value) return;
+    updateStopwatch();
+    stopwatchFrame = window.requestAnimationFrame(step);
+  };
+  stopwatchFrame = window.requestAnimationFrame(step);
+}
+
+function stopStopwatchFrame() {
+  if (!stopwatchFrame) return;
+  window.cancelAnimationFrame(stopwatchFrame);
+  stopwatchFrame = 0;
 }
 
 function addAlarm() {
@@ -311,6 +395,61 @@ function playChime() {
     // Audio feedback is optional; visual state still shows the alert.
   }
 }
+
+defineExpose({
+  state: () => ({
+    activeTab: activeTab.value,
+    localTime: currentTimeText.value,
+    localDate: currentDateText.value,
+    worldZones: activeZoneCards.value,
+    timer: {
+      text: timerText.value,
+      remainingSeconds: timerRemaining.value,
+      running: timerRunning.value,
+      finished: timerFinished.value
+    },
+    stopwatch: {
+      text: stopwatchText.value,
+      running: stopwatchRunning.value,
+      laps: stopwatchLaps.value
+    },
+    alarms: alarms.value
+  }),
+  show: (tab = 'world') => {
+    if (tabs.some((item) => item.key === tab)) activeTab.value = tab;
+    return { activeTab: activeTab.value };
+  },
+  setTimer: ({ hours = 0, minutes = 0, seconds = 0, start = false } = {}) => {
+    activeTab.value = 'timer';
+    timerHours.value = Math.max(0, Number(hours) || 0);
+    timerMinutes.value = Math.max(0, Number(minutes) || 0);
+    timerSeconds.value = Math.max(0, Number(seconds) || 0);
+    timerRemaining.value = timerTotalInput.value;
+    if (start) startTimer();
+    return {
+      text: timerText.value,
+      remainingSeconds: timerRemaining.value,
+      running: timerRunning.value
+    };
+  },
+  startTimer: () => {
+    activeTab.value = 'timer';
+    startTimer();
+    return { text: timerText.value, running: timerRunning.value };
+  },
+  addAlarm: ({ time = '', label = '提醒' } = {}) => {
+    activeTab.value = 'alarm';
+    alarmTime.value = String(time || alarmTime.value);
+    alarmLabel.value = String(label || '提醒');
+    addAlarm();
+    return { alarms: alarms.value };
+  },
+  startStopwatch: () => {
+    activeTab.value = 'stopwatch';
+    startStopwatch();
+    return { text: stopwatchText.value, running: stopwatchRunning.value };
+  }
+});
 </script>
 
 <template>
@@ -365,39 +504,69 @@ function playChime() {
       </section>
 
       <section v-else-if="activeTab === 'timer'" class="clock-view timer-view">
-        <div class="clock-timer-ring" :style="{ '--timer-progress': timerProgress }">
-          <strong>{{ timerText }}</strong>
-          <small>{{ timerFinished ? '时间到' : timerRunning ? '计时中' : '已就绪' }}</small>
-        </div>
-        <div class="clock-duration-inputs">
-          <label><span>小时</span><input v-model.number="timerHours" type="number" min="0" max="23" /></label>
-          <label><span>分钟</span><input v-model.number="timerMinutes" type="number" min="0" max="59" /></label>
-          <label><span>秒</span><input v-model.number="timerSeconds" type="number" min="0" max="59" /></label>
-        </div>
-        <div class="clock-actions">
-          <button v-if="!timerRunning" type="button" class="accent-btn" @click="startTimer"><Play :size="15" /> 开始</button>
-          <button v-else type="button" class="soft-btn" @click="pauseTimer"><Pause :size="15" /> 暂停</button>
-          <button type="button" class="soft-btn" @click="resetTimer"><RotateCcw :size="15" /> 重置</button>
+        <div class="clock-timer-workspace">
+          <div class="clock-timer-ring" :style="{ '--timer-progress': timerProgress }" :aria-label="`剩余 ${timerText}`">
+            <span class="clock-timer-status" :class="{ running: timerRunning, finished: timerFinished }">
+              <i></i>{{ timerFinished ? '时间到' : timerRunning ? '计时中' : '准备就绪' }}
+            </span>
+            <strong>{{ timerText }}</strong>
+            <small v-if="timerRunning">将在 {{ timerEndText }} 结束</small>
+            <small v-else>选择预设或输入时长</small>
+          </div>
+
+          <div class="clock-timer-controls">
+            <div class="clock-control-heading">
+              <span>快速设定</span>
+              <small>{{ timerRunning ? '计时期间不可修改' : '选择常用时长' }}</small>
+            </div>
+            <div class="clock-timer-presets">
+              <button
+                v-for="preset in timerPresets"
+                :key="preset.seconds"
+                type="button"
+                :disabled="timerRunning"
+                :class="{ active: timerTotalInput === preset.seconds }"
+                @click="setTimerPreset(preset.seconds)"
+              >
+                {{ preset.label }}
+              </button>
+            </div>
+            <div class="clock-duration-inputs">
+              <label><span>小时</span><input v-model.number="timerHours" type="number" min="0" max="23" :disabled="timerRunning" /></label>
+              <label><span>分钟</span><input v-model.number="timerMinutes" type="number" min="0" max="59" :disabled="timerRunning" /></label>
+              <label><span>秒</span><input v-model.number="timerSeconds" type="number" min="0" max="59" :disabled="timerRunning" /></label>
+            </div>
+            <div class="clock-actions timer-actions">
+              <button v-if="!timerRunning" type="button" class="accent-btn" :disabled="!timerRemaining && !timerTotalInput" @click="startTimer"><Play :size="15" fill="currentColor" /> 开始计时</button>
+              <button v-else type="button" class="accent-btn" @click="pauseTimer"><Pause :size="15" fill="currentColor" /> 暂停</button>
+              <button type="button" class="soft-btn" @click="resetTimer"><RotateCcw :size="15" /> 重置</button>
+            </div>
+          </div>
         </div>
       </section>
 
       <section v-else-if="activeTab === 'stopwatch'" class="clock-view stopwatch-view">
-        <div class="clock-stopwatch-display">
-          <strong>{{ stopwatchText }}</strong>
-          <small>{{ stopwatchRunning ? '运行中' : '已暂停' }}</small>
+        <div class="clock-stopwatch-stage">
+          <span class="clock-stopwatch-kicker">高精度秒表</span>
+          <div class="clock-stopwatch-display" aria-label="秒表时间">
+            <strong>{{ stopwatchParts.main }}</strong><em>.{{ stopwatchParts.fraction }}</em>
+          </div>
+          <small class="clock-stopwatch-status" :class="{ running: stopwatchRunning }"><i></i>{{ stopwatchRunning ? '正在计时' : stopwatchElapsed ? '已暂停' : '准备就绪' }}</small>
         </div>
-        <div class="clock-actions">
-          <button v-if="!stopwatchRunning" type="button" class="accent-btn" @click="startStopwatch"><Play :size="15" /> 开始</button>
-          <button v-else type="button" class="soft-btn" @click="pauseStopwatch"><Pause :size="15" /> 暂停</button>
-          <button type="button" class="soft-btn" @click="lapStopwatch">计圈</button>
-          <button type="button" class="soft-btn" @click="resetStopwatch"><RotateCcw :size="15" /> 重置</button>
+        <div class="clock-actions stopwatch-actions">
+          <button v-if="!stopwatchRunning" type="button" class="accent-btn" @click="startStopwatch"><Play :size="15" fill="currentColor" /> {{ stopwatchElapsed ? '继续' : '开始' }}</button>
+          <button v-else type="button" class="accent-btn" @click="pauseStopwatch"><Pause :size="15" fill="currentColor" /> 暂停</button>
+          <button type="button" class="soft-btn" :disabled="!stopwatchRunning" @click="lapStopwatch"><Flag :size="15" /> 计圈</button>
+          <button type="button" class="soft-btn" :disabled="!stopwatchElapsed" @click="resetStopwatch"><RotateCcw :size="15" /> 重置</button>
         </div>
-        <div class="clock-lap-list">
-          <article v-for="lap in stopwatchLaps" :key="lap.id">
-            <span>第 {{ lap.index }} 圈</span>
-            <strong>{{ formatDuration(lap.value) }}</strong>
+        <div class="clock-lap-list" :class="{ empty: !stopwatchLapRows.length }">
+          <header v-if="stopwatchLapRows.length"><span>圈次</span><span>单圈</span><span>总计</span></header>
+          <article v-for="lap in stopwatchLapRows" :key="lap.id" :class="{ fastest: lap.fastest, slowest: lap.slowest }">
+            <span>第 {{ pad(lap.index) }} 圈</span>
+            <strong>{{ formatDuration(lap.split) }}</strong>
+            <span>{{ formatDuration(lap.value) }}</span>
           </article>
-          <p v-if="!stopwatchLaps.length">暂无计圈</p>
+          <p v-if="!stopwatchLapRows.length"><Flag :size="18" /> 运行秒表后点击“计圈”记录分段</p>
         </div>
       </section>
 

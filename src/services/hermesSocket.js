@@ -342,6 +342,7 @@ export class HermesSocketClient {
     this.socket = null;
     this.protocol = 'custom';
     this.gatewaySessionId = '';
+    this.lastRequestId = '';
     this.rpcCounter = 0;
     this.pendingRpc = new Map();
     this.state = SOCKET_STATES.idle;
@@ -497,12 +498,14 @@ export class HermesSocketClient {
       });
       await this.request('prompt.submit', {
         session_id: sessionId,
-        text: input
+        text: input,
+        metadata
       }, 1800000);
       return sessionId;
     }
 
     const requestId = createRequestId('hermes');
+    this.lastRequestId = requestId;
     this.send('agent.run', {
       requestId,
       agent: this.agent,

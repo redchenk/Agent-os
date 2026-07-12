@@ -147,6 +147,7 @@ function addNote(seed = {}) {
   notes.value.unshift(note);
   activeNoteId.value = note.id;
   viewMode.value = 'edit';
+  return note;
 }
 
 function duplicateNote() {
@@ -211,6 +212,36 @@ function openImportPicker() {
 onBeforeUnmount(() => {
   window.clearTimeout(saveTimer);
   writeNotes(notes.value);
+});
+
+defineExpose({
+  createNote: (seed = {}) => addNote(seed),
+  appendActiveNote: (text = '') => {
+    if (!activeNote.value) addNote();
+    updateActiveNote({ body: `${activeNote.value?.body || ''}${text}` });
+    return activeNote.value;
+  },
+  updateActiveNote: (patch = {}) => {
+    if (!activeNote.value) addNote();
+    updateActiveNote(patch);
+    return activeNote.value;
+  },
+  readActiveNote: () => activeNote.value,
+  listNotes: () => filteredNotes.value.map((note) => ({
+    id: note.id,
+    title: note.title,
+    pinned: note.pinned,
+    updatedAt: note.updatedAt
+  })),
+  searchNotes: (query = '') => {
+    searchQuery.value = String(query || '');
+    return filteredNotes.value.map((note) => ({
+      id: note.id,
+      title: note.title,
+      body: note.body.slice(0, 500),
+      updatedAt: note.updatedAt
+    }));
+  }
 });
 </script>
 
@@ -313,7 +344,8 @@ onBeforeUnmount(() => {
       <section v-else class="notepad-empty-editor">
         <FileText :size="34" />
         <strong>还没有笔记</strong>
-        <button type="button" @click="addNote()">新建笔记</button>
+        <p>创建第一篇笔记，内容会自动保存在本机。</p>
+        <button type="button" class="accent-btn" @click="addNote()"><Plus :size="15" /> 新建笔记</button>
       </section>
 
       <input

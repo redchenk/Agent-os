@@ -108,6 +108,7 @@ function applyLive2DGlobalSettings() {
 function live2DModelJson(mode = live2DPerformanceMode()) {
   if (mode === 'lite') return '/models/tsukimi-yachiyo/tsukimi-yachiyo-lite.model3.json';
   if (mode === 'low') return '/models/tsukimi-yachiyo/tsukimi-yachiyo-mobile.model3.json';
+  if (import.meta.env.PROD) return '/models/tsukimi-yachiyo/tsukimi-yachiyo-desktop.model3.json';
   return '/models/tsukimi-yachiyo/tsukimi-yachiyo.model3.json';
 }
 

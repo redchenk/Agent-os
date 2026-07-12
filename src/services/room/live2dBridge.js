@@ -1,10 +1,10 @@
 import { assetUrl } from '../../utils/assetUrl';
 
 const CORE_SCRIPT = '/lib/live2dcubismcore-v5.min.js';
-const ROOM_SCRIPT = '/lib/bundled/live2d-room-neuro-live.agent-os-v2.iife.js';
+const ROOM_SCRIPT = '/lib/bundled/live2d-room-neuro-live.agent-os-v3.iife.js';
 const LIVE2D_READY_EVENT = 'tsukuyomi:live2d-ready';
 const LIVE2D_READY_TIMEOUT = 20000;
-const LIVE2D_ASSET_VERSION = import.meta.env.PROD ? 'agent-os-v2' : Date.now().toString(36);
+const LIVE2D_ASSET_VERSION = import.meta.env.PROD ? 'agent-os-v3' : Date.now().toString(36);
 const DESKTOP_LIVE2D_DEFAULT_DPR = 6;
 const DESKTOP_LIVE2D_MAX_DPR = 8;
 const MOBILE_LIVE2D_MAX_DPR = 3;
@@ -132,7 +132,7 @@ function applyLive2DGlobalSettings() {
 function live2DModelJson(mode = live2DPerformanceMode()) {
   if (mode === 'lite') return '/models/tsukimi-yachiyo/tsukimi-yachiyo-lite.model3.json';
   if (mode === 'low') return '/models/tsukimi-yachiyo/tsukimi-yachiyo-mobile.model3.json';
-  if (import.meta.env.PROD) return '/models/tsukimi-yachiyo/tsukimi-yachiyo-desktop.model3.json';
+  if (import.meta.env.PROD) return '/models/tsukimi-yachiyo/tsukimi-yachiyo-web.model3.json';
   return '/models/tsukimi-yachiyo/tsukimi-yachiyo.model3.json';
 }
 

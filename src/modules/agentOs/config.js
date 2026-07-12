@@ -11,11 +11,13 @@ export const MAX_CONVERSATIONS = 50;
 
 export const LEGACY_HERMES_DESKTOP_URLS = new Set([
   'http://127.0.0.1:56854',
-  'http://127.0.0.1:65356'
+  'http://127.0.0.1:65356',
+  'wss://127.0.0.1/runtime/hermes',
+  'wss://localhost/runtime/hermes'
 ]);
 
 export const DEFAULT_HERMES_BRIDGE_URL = agentOsRuntimeWebSocketUrl('hermes');
-export const DEFAULT_HERMES_DESKTOP_URL = DEFAULT_HERMES_BRIDGE_URL;
+export const DEFAULT_HERMES_DESKTOP_URL = 'desktop';
 
 export const DEFAULT_WINDOW_STATE = {
   agent: { x: 160, y: 64, w: 860, h: 600, minW: 720, minH: 520 },

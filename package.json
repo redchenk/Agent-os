@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "node server/dev-all.mjs",
     "dev:bridge": "node server/hermes-system-bridge.mjs",
+    "connector": "node server/hermes-system-bridge.mjs",
     "dev:ui": "vite --host 127.0.0.1 --port 5173",
     "desktop:pet": "node desktop/pet-dev.mjs",
     "build": "vite build",

@@ -23,11 +23,12 @@ import {
   X,
   Zap
 } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { DEFAULT_HERMES_BRIDGE_URL } from '../modules/agentOs/config';
 import { formatBytes, formatDate, formatTime, normalizeWorkspacePath } from '../modules/agentOs/formatters';
 import { readablePacketTitle } from '../modules/hermes/hermesPackets';
 
-defineProps({
+const props = defineProps({
   activeConversationId: { type: String, default: '' },
   activeModel: { type: Object, required: true },
   agentModels: { type: Array, required: true },
@@ -81,6 +82,29 @@ const emit = defineEmits([
 ]);
 
 const agentFileInputRef = ref(null);
+
+function connectionTargetFor(url) {
+  const value = String(url || '').trim();
+  if (!value || ['auto', 'desktop', 'hermes', 'hermes-desktop'].includes(value.toLowerCase())) return 'desktop';
+  try {
+    const parsed = new URL(value);
+    const loopback = ['127.0.0.1', 'localhost', '::1', '[::1]'].includes(parsed.hostname.toLowerCase());
+    if (loopback && /(?:^|\/)runtime\/hermes\/?$/i.test(parsed.pathname)) return 'desktop';
+  } catch (_) {
+    // Keep malformed or non-URL values available for custom editing.
+  }
+  if (value === DEFAULT_HERMES_BRIDGE_URL) return 'cloud';
+  return 'custom';
+}
+
+const connectionTarget = computed({
+  get: () => connectionTargetFor(props.settings.wsUrl),
+  set: (target) => {
+    if (target === 'desktop') props.settings.wsUrl = 'desktop';
+    if (target === 'cloud') props.settings.wsUrl = DEFAULT_HERMES_BRIDGE_URL;
+    if (target === 'custom' && connectionTargetFor(props.settings.wsUrl) !== 'custom') props.settings.wsUrl = '';
+  }
+});
 
 function chooseModel(model) {
   selectedModel.value = model.id;
@@ -168,9 +192,16 @@ function chooseModel(model) {
           <strong>控制 Agent OS 的全部应用</strong>
         </div>
         <div class="codex-agent-connect">
-          <label>
+          <label class="codex-agent-target">
             <Cable :size="14" />
-            <input v-model="settings.wsUrl" aria-label="Hermes WebSocket URL" spellcheck="false" />
+            <select v-model="connectionTarget" aria-label="Hermes 连接目标">
+              <option value="desktop">本机 Hermes Desktop</option>
+              <option value="cloud">云端 Agent OS</option>
+              <option value="custom">自定义地址</option>
+            </select>
+          </label>
+          <label v-if="connectionTarget === 'custom'" class="codex-agent-custom-url">
+            <input v-model="settings.wsUrl" aria-label="Hermes WebSocket URL" placeholder="ws:// 或 wss://" spellcheck="false" />
           </label>
           <button v-if="!isConnected" class="accent-btn" type="button" @click="emit('connect')">
             <Play :size="15" />

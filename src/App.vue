@@ -476,7 +476,23 @@ async function connectHermes() {
       agent: settings.agent,
       onState: onSocketState,
       onMessage: onSocketMessage,
-      onError: () => addMessage({ type: 'error', title: 'WebSocket 异常', text: '连接 Hermes 时出现错误。' })
+      onError: (error) => addMessage({
+        type: 'error',
+        title: 'Hermes 连接异常',
+        text: error?.message || (settings.wsUrl === 'desktop'
+          ? '无法连接本机 connector。请先运行 Agent OS local connector。'
+          : '连接 Hermes 时出现错误。')
+      }),
+      onClose: (event) => {
+        if (event?.code === 1000) return;
+        addMessage({
+          type: 'error',
+          title: 'Hermes 已断开',
+          text: event?.reason || (settings.wsUrl === 'desktop'
+            ? '未找到本机 Hermes Desktop。请确认 Hermes Desktop 与 Agent OS local connector 都在运行。'
+            : 'Hermes 连接已中断。')
+        });
+      }
     });
   }
   client.value.agent = settings.agent;

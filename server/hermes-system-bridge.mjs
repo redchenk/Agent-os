@@ -8,6 +8,10 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { WebSocketServer } from 'ws';
+import {
+  HERMES_DESKTOP_PROXY_PATH,
+  proxyHermesDesktopSocket
+} from './hermes-desktop-proxy.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +22,10 @@ const neteaseApi = require('@neteasecloudmusicapienhanced/api');
 const HOST = process.env.HERMES_HOST || '127.0.0.1';
 const PORT = Number(process.env.HERMES_PORT || 8787);
 const WS_PATH = process.env.HERMES_WS_PATH || '/hermes';
+const ALLOWED_BROWSER_ORIGINS = new Set(String(
+  process.env.HERMES_ALLOWED_ORIGINS
+  || 'https://yachiyo.hk,http://127.0.0.1:5173,http://127.0.0.1:5176,http://localhost:5173,http://localhost:5176'
+).split(',').map((value) => value.trim()).filter(Boolean));
 const WORKSPACE_ROOT = path.resolve(process.env.HERMES_WORKSPACE || projectRoot);
 const OUTPUT_ROOT = path.resolve(process.env.HERMES_OUTPUT || path.join(projectRoot, 'output', 'system-bridge'));
 const ALLOWED_ROOTS = readPathList(process.env.HERMES_ALLOWED_ROOTS || WORKSPACE_ROOT);
@@ -151,14 +159,32 @@ const server = http.createServer(async (req, res) => {
 });
 
 const wss = new WebSocketServer({ noServer: true });
+const desktopWss = new WebSocketServer({ noServer: true });
 
 server.on('upgrade', (req, socket, head) => {
   const url = new URL(req.url || '/', `http://${req.headers.host || `${HOST}:${PORT}`}`);
+  if (!isAllowedBrowserOrigin(req.headers.origin)) {
+    socket.write('HTTP/1.1 403 Forbidden\r\nConnection: close\r\n\r\n');
+    socket.destroy();
+    return;
+  }
+  if (url.pathname === HERMES_DESKTOP_PROXY_PATH) {
+    desktopWss.handleUpgrade(req, socket, head, (ws) => desktopWss.emit('connection', ws, req));
+    return;
+  }
   if (url.pathname !== WS_PATH) {
     socket.destroy();
     return;
   }
   wss.handleUpgrade(req, socket, head, (ws) => wss.emit('connection', ws, req));
+});
+
+desktopWss.on('connection', (ws, req) => {
+  const url = new URL(req.url || HERMES_DESKTOP_PROXY_PATH, `http://${req.headers.host || `${HOST}:${PORT}`}`);
+  const preferredUrl = String(url.searchParams.get('desktopUrl') || '').trim();
+  proxyHermesDesktopSocket(ws, {
+    preferredUrls: preferredUrl ? [preferredUrl] : []
+  });
 });
 
 wss.on('connection', (ws, req) => {
@@ -184,10 +210,16 @@ wss.on('connection', (ws, req) => {
 
 server.listen(PORT, HOST, () => {
   console.log(`[bridge] Hermes System Bridge listening on ws://${HOST}:${PORT}${WS_PATH}`);
+  console.log(`[bridge] Hermes Desktop proxy listening on ws://${HOST}:${PORT}${HERMES_DESKTOP_PROXY_PATH}`);
   console.log(`[bridge] workspace: ${WORKSPACE_ROOT}`);
   console.log(`[bridge] allowed roots: ${ALLOWED_ROOTS.join(path.delimiter)}`);
   console.log(`[bridge] shell=${SHELL_ENABLED ? 'enabled' : 'disabled'} write=${WRITE_ENABLED ? 'enabled' : 'disabled'} input=${INPUT_ENABLED ? 'enabled' : 'disabled'}`);
 });
+
+function isAllowedBrowserOrigin(origin) {
+  if (!origin) return true;
+  return ALLOWED_BROWSER_ORIGINS.has(String(origin));
+}
 
 async function handleBrowserSearch(url, res) {
   const query = String(url.searchParams.get('q') || '').trim();

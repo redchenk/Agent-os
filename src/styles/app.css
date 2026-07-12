@@ -2780,13 +2780,23 @@ html[data-theme="dark"] .system-icon-image--dark {
   background: rgba(255, 255, 255, 0.08);
 }
 
-.codex-agent-connect input {
+.codex-agent-connect input,
+.codex-agent-connect select {
   min-width: 0;
   width: 100%;
   border: 0;
   color: var(--ts-text);
   background: transparent;
   outline: none;
+}
+
+.codex-agent-connect select {
+  cursor: pointer;
+}
+
+.codex-agent-connect select option {
+  color: #15171a;
+  background: #fff;
 }
 
 .codex-chat-scroll {

@@ -22,6 +22,7 @@ function createRequestId(prefix = 'req') {
 
 const HERMES_DESKTOP_DISCOVERY_STORAGE_KEY = 'hermesAgentOsHermesDesktopUrls:v1';
 const AUTO_HERMES_URLS = new Set(['auto', 'desktop', 'hermes', 'hermes-desktop']);
+export const LOCAL_HERMES_DESKTOP_PROXY_URL = 'ws://127.0.0.1:8787/hermes-desktop/api/ws';
 const HERMES_DESKTOP_KNOWN_URLS = [
   'http://127.0.0.1:56854',
   'http://127.0.0.1:65356'
@@ -54,6 +55,17 @@ function isAutoHermesUrl(value) {
 
 function isLoopbackHost(hostname) {
   return ['127.0.0.1', 'localhost', '::1', '[::1]'].includes(String(hostname || '').toLowerCase());
+}
+
+function localHermesDesktopProxyUrl(preferredUrl = '') {
+  const url = new URL(LOCAL_HERMES_DESKTOP_PROXY_URL);
+  if (preferredUrl) url.searchParams.set('desktopUrl', preferredUrl);
+  return url.toString();
+}
+
+function isMisconfiguredLoopbackRuntimeUrl(parsed) {
+  return isLoopbackHost(parsed.hostname)
+    && /(?:^|\/)runtime\/hermes\/?$/i.test(parsed.pathname);
 }
 
 function normalizeDiscoveryBaseUrl(rawUrl) {
@@ -257,13 +269,20 @@ export function redactHermesUrl(url) {
 
 export async function resolveHermesConnectionUrl(rawUrl) {
   const value = String(rawUrl || '').trim();
-  if (!value || isAutoHermesUrl(value)) return discoverHermesDesktopConnectionUrl();
-  if (/^wss?:\/\//i.test(value)) return value;
+  if (!value || isAutoHermesUrl(value)) return localHermesDesktopProxyUrl();
+  if (/^wss?:\/\//i.test(value)) {
+    const parsed = new URL(value);
+    if (isMisconfiguredLoopbackRuntimeUrl(parsed)) return localHermesDesktopProxyUrl();
+    return value;
+  }
   if (!/^https?:\/\//i.test(value)) {
     throw new Error('Hermes URL must be auto or start with ws://, wss://, http://, or https://');
   }
 
   const baseUrl = normalizeHttpBaseUrl(value);
+  if (isLoopbackHost(baseUrl.hostname)) {
+    return localHermesDesktopProxyUrl(baseUrl.toString());
+  }
   try {
     return await resolveHermesDesktopBaseUrlWithTimeout(baseUrl);
   } catch (error) {

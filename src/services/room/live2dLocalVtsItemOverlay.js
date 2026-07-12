@@ -1,6 +1,7 @@
 import { createLocalVtsCubismItemRenderer } from './live2dLocalVtsCubismItemRenderer';
+import { assetUrl } from '../../utils/assetUrl';
 
-const DEFAULT_MODEL_BASE_URL = '/models/tsukimi-yachiyo/';
+const DEFAULT_MODEL_BASE_URL = assetUrl('/models/tsukimi-yachiyo/');
 const DEFAULT_ITEM_BASE_PATH = 'items';
 const DEFAULT_MANIFEST_URLS = [
   `${DEFAULT_MODEL_BASE_URL}vts-items.local.json`,

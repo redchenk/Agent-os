@@ -12,7 +12,9 @@ import {
   Monitor,
   Server,
   ShieldCheck,
-  Sparkles
+  Sparkles,
+  Volume2,
+  Zap
 } from 'lucide-vue-next';
 import {
   AGENT_LLM_PROVIDER_OPTIONS,
@@ -28,7 +30,8 @@ const props = defineProps({
   initialLlmApiUrl: { type: String, default: 'https://api.openai.com/v1/chat/completions' },
   initialLlmApiKey: { type: String, default: '' },
   initialLlmModel: { type: String, default: 'gpt-4o-mini' },
-  initialLlmProviderProfiles: { type: Object, default: () => ({}) }
+  initialLlmProviderProfiles: { type: Object, default: () => ({}) },
+  initialTtsSettings: { type: Object, default: () => ({}) }
 });
 
 const emit = defineEmits(['finish']);
@@ -44,6 +47,24 @@ const llm = reactive({
   llmModel: props.initialLlmModel,
   llmProviderProfiles: { ...props.initialLlmProviderProfiles }
 });
+const tts = reactive({
+  enabled: true,
+  provider: 'gpt-sovits',
+  apiUrl: 'http://localhost:9880/tts',
+  apiKey: '',
+  model: 'auto',
+  voice: '',
+  refAudioPath: '',
+  promptText: '',
+  textLang: 'auto',
+  promptLang: 'ja',
+  gptWeightPath: 'GPT_weights_v2ProPlus/yachiyo-v2pro-e15.ckpt',
+  sovitsWeightPath: 'SoVITS_weights_v2ProPlus/yachiyo-v2pro_e8_s456.pth',
+  useProxy: false,
+  ...props.initialTtsSettings,
+  provider: 'gpt-sovits',
+  useProxy: false
+});
 
 function changeLlmProvider(event) {
   Object.assign(llm, switchAgentLlmProvider(llm, event.target.value));
@@ -58,7 +79,8 @@ function finish() {
     llmApiUrl: llm.llmApiUrl,
     llmApiKey: llm.llmApiKey,
     llmModel: llm.llmModel,
-    llmProviderProfiles: llm.llmProviderProfiles
+    llmProviderProfiles: llm.llmProviderProfiles,
+    tts: { ...tts }
   });
 }
 </script>
@@ -81,6 +103,7 @@ function finish() {
         <i :class="{ active: step >= 0 }"></i>
         <i :class="{ active: step >= 1 }"></i>
         <i :class="{ active: step >= 2 }"></i>
+        <i :class="{ active: step >= 3 }"></i>
       </div>
 
       <main v-if="step === 0" class="onboarding-content">
@@ -151,6 +174,62 @@ function finish() {
         </div>
       </main>
 
+      <main v-else-if="step === 2" class="onboarding-content">
+        <div class="onboarding-heading">
+          <span><Volume2 :size="26" /></span>
+          <div>
+            <small>本地语音</small>
+            <h1 id="onboarding-title">让桌宠立即开口</h1>
+            <p>Agent OS 会预热本机 GPT-SoVITS 权重，并使用流式音频驱动 Live2D 口型。语音配置同样只保存在当前设备。</p>
+          </div>
+        </div>
+
+        <label class="onboarding-voice-toggle">
+          <input v-model="tts.enabled" type="checkbox" />
+          <span>
+            <strong>启用本地 GPT-SoVITS</strong>
+            <small>进入系统后自动预热；也可以稍后在设置中试听和修改完整参数。</small>
+          </span>
+        </label>
+
+        <div class="onboarding-api-grid" :class="{ disabled: !tts.enabled }">
+          <label class="onboarding-api-span">
+            <span><Server :size="13" /> 本地 API URL</span>
+            <input v-model="tts.apiUrl" type="url" spellcheck="false" autocomplete="url" :disabled="!tts.enabled" placeholder="http://localhost:9880/tts" />
+          </label>
+          <label>
+            <span>输出语言</span>
+            <select v-model="tts.textLang" :disabled="!tts.enabled">
+              <option value="auto">自动检测，最快</option>
+              <option value="zh">中文</option>
+              <option value="ja">日文</option>
+              <option value="en">英文</option>
+            </select>
+          </label>
+          <label>
+            <span>参考音频语言</span>
+            <select v-model="tts.promptLang" :disabled="!tts.enabled">
+              <option value="ja">日文</option>
+              <option value="zh">中文</option>
+              <option value="en">英文</option>
+            </select>
+          </label>
+          <label class="onboarding-api-span">
+            <span>参考音频路径</span>
+            <input v-model="tts.refAudioPath" spellcheck="false" :disabled="!tts.enabled" placeholder="可留空，或填写 GPT-SoVITS 所在机器可访问的路径" />
+          </label>
+          <label class="onboarding-api-span">
+            <span>参考音频文本</span>
+            <input v-model="tts.promptText" spellcheck="false" :disabled="!tts.enabled" placeholder="参考音频中实际说出的文本" />
+          </label>
+        </div>
+
+        <div class="onboarding-voice-note">
+          <Zap :size="17" />
+          <span><strong>低延迟建议</strong><small>先启动本地 API，再进入 Agent OS。保持“自动检测”可跳过额外翻译，首段音频会直接流式播放。</small></span>
+        </div>
+      </main>
+
       <main v-else class="onboarding-content">
         <div class="onboarding-heading">
           <span><Monitor :size="26" /></span>
@@ -188,7 +267,7 @@ function finish() {
           <ArrowLeft :size="16" /> 返回
         </button>
         <span v-else></span>
-        <button v-if="step < 2" type="button" class="onboarding-next" @click="step += 1">
+        <button v-if="step < 3" type="button" class="onboarding-next" @click="step += 1">
           继续 <ArrowRight :size="16" />
         </button>
         <button v-else type="button" class="onboarding-next" @click="finish">
@@ -216,7 +295,9 @@ function finish() {
 .onboarding-shell {
   display: grid;
   width: min(760px, 100%);
+  height: min(680px, calc(100vh - 48px));
   min-height: 520px;
+  max-height: calc(100vh - 48px);
   grid-template-rows: auto auto 1fr auto;
   overflow: hidden;
   border: 1px solid var(--os-border-strong);
@@ -296,7 +377,7 @@ function finish() {
 
 .onboarding-progress {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 6px;
   padding: 14px 28px 0;
 }
@@ -426,6 +507,29 @@ function finish() {
 .onboarding-api-grid select:focus { border-color: var(--ts-accent); }
 .onboarding-api-grid select option { color: #15171a; background: #fff; }
 .onboarding-api-span { grid-column: 1 / -1; }
+.onboarding-api-grid.disabled { opacity: 0.58; }
+
+.onboarding-voice-toggle,
+.onboarding-voice-note {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: start;
+  gap: 11px;
+  border: 1px solid var(--os-border);
+  border-radius: 8px;
+  padding: 13px 15px;
+  background: var(--os-panel);
+}
+
+.onboarding-voice-toggle { cursor: pointer; }
+.onboarding-voice-toggle input { margin: 3px 0 0; accent-color: var(--ts-accent); }
+.onboarding-voice-toggle span,
+.onboarding-voice-note span { display: grid; min-width: 0; gap: 3px; }
+.onboarding-voice-toggle strong,
+.onboarding-voice-note strong { color: var(--ts-text-strong); font-size: 0.8rem; }
+.onboarding-voice-toggle small,
+.onboarding-voice-note small { color: var(--ts-muted); font-size: 0.71rem; line-height: 1.45; }
+.onboarding-voice-note { color: var(--ts-accent); }
 
 .onboarding-choice-grid {
   display: grid;
@@ -485,7 +589,7 @@ function finish() {
 
 @media (max-width: 680px) {
   .onboarding-screen { padding: 0; }
-  .onboarding-shell { min-height: 100%; border: 0; border-radius: 0; }
+  .onboarding-shell { height: 100%; min-height: 100%; max-height: 100%; border: 0; border-radius: 0; }
   .onboarding-header,
   .onboarding-footer { padding-inline: 18px; }
   .onboarding-progress { padding-inline: 18px; }

@@ -7488,6 +7488,113 @@ textarea::placeholder {
   transform: translateX(14px);
 }
 
+.settings-tts-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--os-border);
+  border-radius: 10px;
+  padding: 9px 10px;
+  background: var(--os-control);
+}
+
+.settings-tts-enable {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.settings-tts-enable input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--ts-accent);
+}
+
+.settings-pane .settings-tts-enable > span {
+  display: grid;
+  min-width: 0;
+  gap: 1px;
+}
+
+.settings-tts-enable strong {
+  color: var(--ts-text-strong);
+  font-size: 0.76rem;
+}
+
+.settings-tts-enable small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.settings-tts-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ts-muted);
+  font-size: 0.68rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.settings-tts-state i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.settings-tts-state.playing,
+.settings-tts-state.idle { color: var(--ui-success); }
+.settings-tts-state.loading { color: var(--ts-accent); }
+.settings-tts-state.error { color: var(--ui-danger); }
+
+.settings-tts-toolbar > button {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 1px solid var(--os-border);
+  border-radius: 7px;
+  padding: 0 9px;
+  color: var(--ts-text-strong);
+  background: var(--os-panel);
+  font-size: 0.7rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.settings-tts-toolbar > button:hover:not(:disabled) {
+  border-color: var(--os-border-strong);
+  background: var(--os-control-hover);
+}
+
+.settings-tts-toolbar > button:disabled { opacity: 0.5; }
+
+.settings-tts-advanced {
+  border-top: 1px solid var(--os-border);
+  padding-top: 10px;
+}
+
+.settings-tts-advanced summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ts-muted);
+  font-size: 0.72rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.settings-tts-advanced[open] summary { margin-bottom: 10px; }
+.settings-tts-error { color: var(--ui-danger); }
+
 .notepad-empty-editor {
   padding: 24px;
   text-align: center;
@@ -7763,6 +7870,15 @@ textarea::placeholder {
 
   .settings-span-full {
     grid-column: auto;
+  }
+
+  .settings-tts-toolbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .settings-tts-state {
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 
   .settings-intro {

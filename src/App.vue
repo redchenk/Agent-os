@@ -42,7 +42,12 @@ import {
   importLegacyLocalData
 } from './services/userLocalStorage';
 import { dispatchRoomLive2D } from './services/room/live2dControl';
-import { writeRoomLLMSettings } from './services/room/roomSettings';
+import { createLive2DSpeechPlayer } from './services/room/live2dSpeech';
+import {
+  readRoomTTSSettings,
+  writeRoomLLMSettings,
+  writeRoomTTSSettings
+} from './services/room/roomSettings';
 import { extractLive2DIntent, normalizeLive2DIntent } from './services/live2dBridge';
 import {
   DEFAULT_HERMES_DESKTOP_URL,
@@ -208,6 +213,15 @@ const streamRef = ref(null);
 const now = ref(Date.now());
 const client = ref(null);
 const live2d = useLive2D();
+const ttsSettings = reactive(writeRoomTTSSettings({
+  ...readRoomTTSSettings(),
+  provider: 'gpt-sovits',
+  useProxy: false
+}));
+const ttsState = reactive({ status: ttsSettings.enabled ? 'idle' : 'disabled', error: '' });
+const speechPlayer = createLive2DSpeechPlayer({
+  onState: (patch = {}) => Object.assign(ttsState, patch)
+});
 const {
   live2dDragging,
   reloadLive2DFrame,
@@ -353,6 +367,20 @@ watch(() => [
 
 watch(() => settings.llmModel, (model) => {
   if (model && !['auto', 'fast'].includes(selectedModel.value)) selectedModel.value = model;
+});
+
+watch(ttsSettings, () => {
+  writeRoomTTSSettings(ttsSettings);
+}, { deep: true });
+
+watch(() => ttsSettings.enabled, (enabled) => {
+  if (!enabled) {
+    speechPlayer.stop();
+    Object.assign(ttsState, { status: 'disabled', error: '' });
+    return;
+  }
+  Object.assign(ttsState, { status: 'idle', error: '' });
+  speechPlayer.warmup();
 });
 
 watch(messages, () => {
@@ -625,6 +653,32 @@ function triggerLive2D(source, origin = 'manual') {
   });
 }
 
+function speakLive2DReply(reply, intent = {}) {
+  const text = String(reply || '').trim();
+  if (!text || !ttsSettings.enabled) return;
+  speechPlayer.play(text, {
+    emotion: intent.emotion || intent.expression || 'neutral',
+    speechStyle: intent.speechStyle || intent.speech_style || null
+  }).catch(() => {
+    // Playback state is surfaced in Settings without interrupting the model result.
+  });
+}
+
+async function testLocalTts() {
+  if (!ttsSettings.enabled) return;
+  speechPlayer.stop();
+  Object.assign(ttsState, { status: 'loading', error: '' });
+  try {
+    await speechPlayer.warmup({ force: true });
+    await speechPlayer.play('你好，我是月见夜千代。', {
+      emotion: 'happy',
+      speechStyle: { speed: 1.04, pitch: 0.04, pause: 'bright' }
+    });
+  } catch (_) {
+    // The speech player publishes a readable error through ttsState.
+  }
+}
+
 function triggerPreset(preset) {
   triggerLive2D({ ...preset, reply: `${preset.label} preset`, source: 'manual-preset' }, 'preset');
 }
@@ -710,6 +764,8 @@ function finishOnboarding(options = {}) {
     llmModel: options.llmModel || settings.llmModel,
     llmProviderProfiles: options.llmProviderProfiles || settings.llmProviderProfiles
   };
+  const savedTtsSettings = writeRoomTTSSettings(options.tts || ttsSettings);
+  Object.assign(ttsSettings, savedTtsSettings);
 
   if (importedCount > 0) {
     let importedSettings = {};
@@ -729,6 +785,7 @@ function finishOnboarding(options = {}) {
     window.location.reload();
     return;
   }
+  speechPlayer.warmup({ force: true });
   openDefaultWorkspace(petMode);
 }
 
@@ -1141,6 +1198,7 @@ async function sendPetPrompt() {
   const input = prompt.value.trim();
   if (!input || petBusy.value) return;
   petBusy.value = true;
+  speechPlayer.stop();
   petError.value = '';
   petReply.value = '正在直连模型 API...';
   ensureActiveConversation(input);
@@ -1162,8 +1220,9 @@ async function sendPetPrompt() {
       text: `${reply}${actionResults.length ? `\n\n${actionResults.map((item) => `${item.name}: ${item.summary}`).join('\n')}` : ''}`,
       at: Date.now()
     });
-    if (result.live2d) triggerLive2D(result.live2d, 'pet-api');
-    else triggerLive2D({ emotion: 'happy', actions: ['look_at_chat', 'nod'], reply }, 'pet-api');
+    const speechIntent = result.live2d || { emotion: 'happy', actions: ['look_at_chat', 'nod'], reply };
+    triggerLive2D(speechIntent, 'pet-api');
+    speakLive2DReply(reply, speechIntent);
     prompt.value = '';
   } catch (error) {
     petError.value = error?.message || '桌宠模型调用失败。';
@@ -1205,6 +1264,7 @@ onBeforeUnmount(() => {
   window.clearInterval(clockTimer);
   window.clearInterval(loginCodeTimer);
   clearAttachedItems();
+  speechPlayer.destroy();
   client.value?.close();
 });
 </script>
@@ -1328,6 +1388,7 @@ onBeforeUnmount(() => {
         :initial-llm-api-key="settings.llmApiKey"
         :initial-llm-model="settings.llmModel"
         :initial-llm-provider-profiles="settings.llmProviderProfiles"
+        :initial-tts-settings="ttsSettings"
         @finish="finishOnboarding"
       />
     </Transition>
@@ -1681,7 +1742,13 @@ onBeforeUnmount(() => {
             <button type="button" title="关闭" @click.stop="closeApp('settings')"><X :size="15" /></button>
           </template>
 
-          <SettingsPanel :settings="settings" @open-onboarding="reopenOnboarding" />
+          <SettingsPanel
+            :settings="settings"
+            :tts-settings="ttsSettings"
+            :tts-state="ttsState"
+            @open-onboarding="reopenOnboarding"
+            @test-tts="testLocalTts"
+          />
         </DesktopWindow>
       </TransitionGroup>
 

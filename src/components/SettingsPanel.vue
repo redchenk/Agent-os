@@ -1,15 +1,26 @@
 <script setup>
-import { Activity, Bot, BookOpen, Clapperboard, Gauge, HardDrive, KeyRound, Link2, MessageSquareText, Server, ShieldCheck } from 'lucide-vue-next';
+import { computed } from 'vue';
+import { Activity, AudioLines, Bot, BookOpen, Clapperboard, Gauge, HardDrive, KeyRound, Link2, MessageSquareText, Play, Server, ShieldCheck, Zap } from 'lucide-vue-next';
 import {
   AGENT_LLM_PROVIDER_OPTIONS,
   switchAgentLlmProvider
 } from '../services/llmProviderProfiles';
 
 const props = defineProps({
-  settings: { type: Object, required: true }
+  settings: { type: Object, required: true },
+  ttsSettings: { type: Object, required: true },
+  ttsState: { type: Object, required: true }
 });
 
-const emit = defineEmits(['open-onboarding']);
+const emit = defineEmits(['open-onboarding', 'test-tts']);
+
+const ttsStatusLabel = computed(() => ({
+  disabled: '未启用',
+  loading: '正在生成语音',
+  playing: '正在播放',
+  error: '连接异常',
+  idle: '已启用'
+}[props.ttsState.status] || '待机'));
 
 function changeLlmProvider(event) {
   Object.assign(props.settings, switchAgentLlmProvider(props.settings, event.target.value));
@@ -102,6 +113,82 @@ function changeLlmProvider(event) {
         <textarea v-model="settings.petSystemPrompt" spellcheck="false"></textarea>
       </label>
       <p class="settings-help">API Key 仅保存在本机浏览器存储中，不会显示在界面上。</p>
+    </section>
+
+    <section class="settings-section settings-tts-section">
+      <header>
+        <AudioLines :size="16" />
+        <div>
+          <strong>本地语音</strong>
+          <small>复用 Yachiyo Live2D Studio 的低延迟 GPT-SoVITS 流程。</small>
+        </div>
+      </header>
+
+      <div class="settings-tts-toolbar">
+        <label class="settings-tts-enable">
+          <input v-model="ttsSettings.enabled" type="checkbox" />
+          <span><strong>启用 GPT-SoVITS</strong><small>桌宠回复完成后立即流式播放并驱动口型</small></span>
+        </label>
+        <span class="settings-tts-state" :class="ttsState.status">
+          <i aria-hidden="true"></i>{{ ttsStatusLabel }}
+        </span>
+        <button type="button" :disabled="!ttsSettings.enabled || ttsState.status === 'loading' || ttsState.status === 'playing'" @click="emit('test-tts')">
+          <Play :size="14" /> 试听并预热
+        </button>
+      </div>
+
+      <div class="settings-grid two-columns">
+        <label class="settings-span-full">
+          <span><Server :size="13" /> 本地 API URL</span>
+          <input v-model="ttsSettings.apiUrl" type="url" spellcheck="false" autocomplete="url" placeholder="http://localhost:9880/tts" />
+        </label>
+        <label>
+          <span>输出语言</span>
+          <select v-model="ttsSettings.textLang">
+            <option value="auto">自动检测，最快</option>
+            <option value="zh">中文</option>
+            <option value="ja">日文，必要时先翻译</option>
+            <option value="en">英文</option>
+            <option value="ko">韩文</option>
+            <option value="yue">粤语</option>
+          </select>
+        </label>
+        <label>
+          <span>参考音频语言</span>
+          <select v-model="ttsSettings.promptLang">
+            <option value="ja">日文</option>
+            <option value="zh">中文</option>
+            <option value="en">英文</option>
+            <option value="ko">韩文</option>
+            <option value="yue">粤语</option>
+          </select>
+        </label>
+        <label class="settings-span-full">
+          <span>参考音频路径</span>
+          <input v-model="ttsSettings.refAudioPath" spellcheck="false" placeholder="E:\voice\yachiyo.wav" />
+        </label>
+        <label class="settings-span-full">
+          <span>参考音频文本</span>
+          <input v-model="ttsSettings.promptText" spellcheck="false" placeholder="填写参考音频中实际说出的文本" />
+        </label>
+      </div>
+
+      <details class="settings-tts-advanced">
+        <summary><Zap :size="14" /> 模型权重</summary>
+        <div class="settings-grid">
+          <label>
+            <span>GPT Weight</span>
+            <input v-model="ttsSettings.gptWeightPath" spellcheck="false" placeholder="GPT_weights_v2ProPlus/yachiyo-v2pro-e15.ckpt" />
+          </label>
+          <label>
+            <span>SoVITS Weight</span>
+            <input v-model="ttsSettings.sovitsWeightPath" spellcheck="false" placeholder="SoVITS_weights_v2ProPlus/yachiyo-v2pro_e8_s456.pth" />
+          </label>
+        </div>
+      </details>
+
+      <p v-if="ttsState.error" class="settings-help settings-tts-error">{{ ttsState.error }}</p>
+      <p v-else class="settings-help">本地服务需保持运行。自动或中文模式不会额外调用模型翻译，首段音频可直接开始输出。</p>
     </section>
 
     <section class="settings-section">

@@ -1,5 +1,5 @@
-import { normalizeLLMApiUrl, readRoomLLMSettings, readRoomTTSSettings } from './roomSettings';
-import { cleanLive2DReply } from './live2dText';
+import { normalizeLLMApiUrl, readRoomLLMSettings, readRoomTTSSettings } from './roomSettings.js';
+import { cleanLive2DReply } from './live2dText.js';
 
 const DEFAULT_GPT_SOVITS_GPT_WEIGHT = 'GPT_weights_v2ProPlus/yachiyo-v2pro-e15.ckpt';
 const DEFAULT_GPT_SOVITS_SOVITS_WEIGHT = 'SoVITS_weights_v2ProPlus/yachiyo-v2pro_e8_s456.pth';
@@ -138,6 +138,20 @@ function detectTextLang(text) {
   if (/[\uac00-\ud7af]/u.test(value)) return 'ko';
   if (/[\u4e00-\u9fff]/u.test(value)) return 'zh';
   return 'en';
+}
+
+export function shouldTranslateLocalGptSovitsText(text, settings = {}) {
+  const source = cleanTtsText(text);
+  if (!source) return false;
+  return normalizeGptSovitsLang(settings.textLang || settings.model, 'auto') === 'ja'
+    && detectTextLang(source) !== 'ja';
+}
+
+async function prepareLocalGptSovitsText(text, settings, options = {}) {
+  const source = cleanTtsText(text);
+  if (!source) return '';
+  if (!shouldTranslateLocalGptSovitsText(source, settings)) return source;
+  return translateForJapaneseTts(source, options);
 }
 
 function compactSpeechText(text) {
@@ -311,8 +325,12 @@ function gptSovitsWeightSignature(settings) {
   ].join('|');
 }
 
-async function ensureGptSovitsWeights(settings) {
+async function ensureGptSovitsWeights(settings, options = {}) {
   const signature = gptSovitsWeightSignature(settings);
+  if (options.force) {
+    gptSovitsWeightsSignature = '';
+    gptSovitsWeightsPromise = null;
+  }
   if (gptSovitsWeightsSignature === signature && gptSovitsWeightsPromise) {
     await gptSovitsWeightsPromise;
     return;
@@ -561,12 +579,13 @@ export function createLive2DSpeechPlayer({ onState } = {}) {
   async function makeAudio(text, settings, options = {}) {
     const directLocalGptSovits = isDirectLocalGptSovits(settings);
     if (directLocalGptSovits) {
-      const ttsText = await translateForJapaneseTts(text, options);
-      if (!ttsText) throw new Error('日文翻译结果为空，已取消语音播放。');
+      const ttsText = await prepareLocalGptSovitsText(text, settings, options);
+      if (!ttsText) throw new Error('语音文本为空，已取消播放。');
       await ensureGptSovitsWeights(settings);
+      const configuredTextLang = normalizeGptSovitsLang(settings.textLang || settings.model, 'auto');
       const audio = createFastAudioFromUrl(buildGptSovitsAudioUrl(ttsText, {
         ...settings,
-        textLang: 'ja',
+        textLang: configuredTextLang,
         promptLang: settings.promptLang || 'ja'
       }), ttsText);
       audio.dataset.speechText = ttsText;
@@ -833,11 +852,12 @@ export function createLive2DSpeechPlayer({ onState } = {}) {
     }
   }
 
-  function warmup() {
+  function warmup(options = {}) {
     const settings = readRoomTTSSettings();
     if (settings.enabled && isDirectLocalGptSovits(settings)) {
-      ensureGptSovitsWeights(settings).catch(() => {});
+      return ensureGptSovitsWeights(settings, { force: Boolean(options.force) }).catch(() => false);
     }
+    return Promise.resolve(false);
   }
 
   warmup();

@@ -13,9 +13,15 @@ import {
   Trash2
 } from 'lucide-vue-next';
 import { agentOsRuntimeHttpUrl } from '../modules/agentOs/runtimeUrls';
+import {
+  AGENT_OS_SEARCH_URL_PREFIX,
+  buildAgentOsSearchUrl,
+  isAgentOsSearchUrl,
+  normalizeBrowserSearchQuery
+} from '../services/browserNavigation';
 
 const HOME_URL = 'agentos://home';
-const SEARCH_URL_PREFIX = 'agentos://search?q=';
+const SEARCH_URL_PREFIX = AGENT_OS_SEARCH_URL_PREFIX;
 const HISTORY_STORAGE_KEY = 'hermesAgentOsBrowserHistory:v1';
 const MAX_HISTORY_ITEMS = 24;
 const SEARCH_TIMEOUT_MS = 12000;
@@ -68,21 +74,23 @@ function isLikelyHost(value) {
 }
 
 function searchUrl(query) {
-  return `${SEARCH_URL_PREFIX}${encodeURIComponent(query)}`;
+  return buildAgentOsSearchUrl(query);
 }
 
 function isSearchUrl(url) {
-  return String(url || '').startsWith(SEARCH_URL_PREFIX);
+  return isAgentOsSearchUrl(url);
 }
 
 function queryFromSearchUrl(url) {
   if (!isSearchUrl(url)) return '';
-  return decodeURIComponent(String(url).slice(SEARCH_URL_PREFIX.length));
+  return normalizeBrowserSearchQuery(url);
 }
 
 function normalizeAddressInput(input) {
   const value = input.trim();
   if (!value) return HOME_URL;
+  if (value === HOME_URL) return HOME_URL;
+  if (isSearchUrl(value)) return searchUrl(value);
 
   let candidate = '';
   if (/^https?:\/\//i.test(value)) candidate = value;
@@ -311,7 +319,7 @@ async function fetchSearchResults(query) {
 }
 
 async function runSearch(query) {
-  const normalizedQuery = query.trim();
+  const normalizedQuery = normalizeBrowserSearchQuery(query);
   if (!normalizedQuery) {
     searchResults.value = [];
     searchLoading.value = false;

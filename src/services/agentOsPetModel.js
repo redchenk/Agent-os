@@ -1,3 +1,5 @@
+import { isAgentOsSearchUrl, normalizeBrowserSearchQuery } from './browserNavigation.js';
+
 function stripCodeFence(value = '') {
   return String(value || '')
     .replace(/^```(?:json)?\s*/i, '')
@@ -68,7 +70,33 @@ function buildSystemPrompt({ settings, tools, state }) {
 ${JSON.stringify(tools, null, 2)}
 
 当前 Agent OS 状态：
-${JSON.stringify(state, null, 2)}`;
+${JSON.stringify(state, null, 2)}
+
+浏览器搜索规则：调用 app.browser.search 时，args.query 只能填写原始搜索关键词。禁止生成或传入 agentos://search URL，也不要对关键词做 URL 编码。`;
+}
+
+export function normalizePetModelAction(action = {}) {
+  const originalName = String(action?.name || '').trim();
+  const name = originalName.replace(/^agentos\./, '');
+  const args = action?.args && typeof action.args === 'object' ? { ...action.args } : {};
+
+  if (name === 'app.browser.search') {
+    return {
+      ...action,
+      name,
+      args: { ...args, query: normalizeBrowserSearchQuery(args.query || args.url || '') }
+    };
+  }
+
+  if (name === 'app.browser.open' && isAgentOsSearchUrl(args.url || args.query)) {
+    return {
+      ...action,
+      name: 'app.browser.search',
+      args: { query: normalizeBrowserSearchQuery(args.url || args.query) }
+    };
+  }
+
+  return { ...action, name: originalName || name, args };
 }
 
 export function parsePetModelResponse(text) {
@@ -83,7 +111,7 @@ export function parsePetModelResponse(text) {
   }
   return {
     reply: String(parsed.reply || parsed.message || '').trim(),
-    actions: Array.isArray(parsed.actions) ? parsed.actions : [],
+    actions: Array.isArray(parsed.actions) ? parsed.actions.map(normalizePetModelAction) : [],
     live2d: parsed.live2d || parsed.intent || null,
     raw: parsed
   };

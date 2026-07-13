@@ -26,7 +26,8 @@ import SystemIcon from './components/SystemIcon.vue';
 import Taskbar from './components/Taskbar.vue';
 import WeatherPanel from './components/WeatherPanel.vue';
 import YachiyoPanel from './components/YachiyoPanel.vue';
-import { callPetModel } from './services/agentOsPetModel';
+import { callPetModel, normalizePetModelAction } from './services/agentOsPetModel';
+import { isAgentOsSearchUrl, normalizeBrowserSearchQuery } from './services/browserNavigation';
 import {
   loadTsukuyomiSession,
   loginTsukuyomiAccount,
@@ -966,7 +967,7 @@ function getAgentOsPetTools() {
     { name: 'app.notepad.search', args: { query: '关键词' }, description: '搜索笔记' },
     { name: 'app.notepad.readActive', args: {}, description: '读取当前笔记摘要' },
     { name: 'app.browser.open', args: { url: 'https://example.com' }, description: '在 Agent OS 浏览器中打开 URL' },
-    { name: 'app.browser.search', args: { query: '搜索词' }, description: '使用 Agent OS 浏览器搜索' },
+    { name: 'app.browser.search', args: { query: '原始搜索关键词' }, description: '使用 Agent OS 浏览器搜索。query 只填原始关键词，禁止传 agentos://search URL 或编码后的字符串' },
     { name: 'app.calculator.evaluate', args: { expression: '2*(3+4)' }, description: '调用计算器计算表达式' },
     { name: 'app.weather.current', args: {}, description: '读取当前天气' },
     { name: 'app.weather.searchCity', args: { query: '城市', selectFirst: true }, description: '搜索并切换天气城市' },
@@ -1043,11 +1044,15 @@ async function runAppAction(name, args = {}) {
     }
     case 'app.browser.open': {
       const api = await ensureAppInterface('browser');
-      return api?.open?.(args.url || args.query || '') || '浏览器接口未就绪';
+      const target = args.url || args.query || '';
+      if (isAgentOsSearchUrl(target)) {
+        return await api?.search?.(normalizeBrowserSearchQuery(target)) || '浏览器接口未就绪';
+      }
+      return await api?.open?.(target) || '浏览器接口未就绪';
     }
     case 'app.browser.search': {
       const api = await ensureAppInterface('browser');
-      return await api?.search?.(args.query || '') || '浏览器接口未就绪';
+      return await api?.search?.(normalizeBrowserSearchQuery(args.query || args.url || '')) || '浏览器接口未就绪';
     }
     case 'app.calculator.evaluate': {
       const api = await ensureAppInterface('calculator');
@@ -1171,7 +1176,8 @@ async function runLocalAgentOsAction(action = {}) {
 
 async function runPetActions(actions = [], label = '桌宠本地操控') {
   const results = [];
-  for (const action of actions) {
+  for (const rawAction of actions) {
+    const action = normalizePetModelAction(rawAction);
     if (!isLocalAgentOsAction(action)) {
       results.push({ status: 'error', name: action?.name || '', summary: '桌宠只允许调用 Agent OS 内部 app 接口。' });
       continue;

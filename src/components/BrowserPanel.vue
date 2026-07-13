@@ -158,8 +158,7 @@ function applyEntry(entry) {
     address.value = query;
     frameSrc.value = '';
     loading.value = false;
-    runSearch(query);
-    return;
+    return runSearch(query);
   }
 
   address.value = entry.url;
@@ -188,8 +187,9 @@ function navigateTo(url, options = {}) {
     navIndex.value = navStack.value.length - 1;
   }
 
-  applyEntry(entry);
+  const navigation = applyEntry(entry);
   recordVisit(normalizedUrl);
+  return navigation;
 }
 
 function submitAddress() {
@@ -316,7 +316,7 @@ async function runSearch(query) {
     searchResults.value = [];
     searchLoading.value = false;
     searchError.value = '';
-    return;
+    return [];
   }
 
   const token = Date.now();
@@ -327,13 +327,15 @@ async function runSearch(query) {
 
   try {
     const results = await fetchSearchResults(normalizedQuery);
-    if (activeSearchToken.value !== token) return;
+    if (activeSearchToken.value !== token) return [];
     searchResults.value = results;
     searchError.value = results.length ? '' : 'Agent OS 搜索没有找到可显示的结果';
+    return results;
   } catch (_) {
-    if (activeSearchToken.value !== token) return;
+    if (activeSearchToken.value !== token) return [];
     searchResults.value = [];
     searchError.value = 'Agent OS 本地搜索没有连接，请确认本地桥接服务正在运行';
+    return [];
   } finally {
     if (activeSearchToken.value === token) searchLoading.value = false;
   }
@@ -348,9 +350,9 @@ defineExpose({
     navigateTo(String(url || HOME_URL));
     return { url: activeEntry.value?.url, title: activeEntry.value?.title };
   },
-  search: (query = '') => {
-    navigateTo(searchUrl(String(query || '')));
-    return { query: currentSearchQuery.value, results: searchResults.value };
+  search: async (query = '') => {
+    const results = await navigateTo(searchUrl(String(query || '')));
+    return { query: currentSearchQuery.value, results };
   },
   home: () => {
     navigateTo(HOME_URL);

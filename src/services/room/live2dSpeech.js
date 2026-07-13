@@ -3,6 +3,8 @@ import { cleanLive2DReply } from './live2dText.js';
 
 const DEFAULT_GPT_SOVITS_GPT_WEIGHT = 'GPT_weights_v2ProPlus/yachiyo-v2pro-e15.ckpt';
 const DEFAULT_GPT_SOVITS_SOVITS_WEIGHT = 'SoVITS_weights_v2ProPlus/yachiyo-v2pro_e8_s456.pth';
+const DEFAULT_GPT_SOVITS_REFERENCE_AUDIO = 'reference/yachiyo_ref_ja.wav';
+const DEFAULT_GPT_SOVITS_PROMPT_TEXT = 'こんにちは、八千代です。';
 const MAX_TTS_PREFETCH = 4;
 const LLM_TRANSLATION_TIMEOUT_MS = 45000;
 const TTS_FETCH_TIMEOUT_MS = 90000;
@@ -27,6 +29,8 @@ const TTS_EMOTION_GUIDES = {
 };
 let gptSovitsWeightsSignature = '';
 let gptSovitsWeightsPromise = null;
+let gptSovitsWarmSignature = '';
+let gptSovitsWarmPromise = null;
 
 function timeoutError(message) {
   const error = new Error(message);
@@ -160,6 +164,35 @@ function compactSpeechText(text) {
     .replace(/\s+/g, '')
     .replace(/[,.!?;:'"()[\]{}<>\u3001\u3002\uff0c\uff01\uff1f\uff1b\uff1a\u201c\u201d\u2018\u2019\uff08\uff09\u3010\u3011\u300a\u300b~\-]/g, '')
     .trim();
+}
+
+export function splitSpeechText(text, maxLength = 28) {
+  const source = cleanTtsText(text);
+  if (!source) return [];
+  const limit = Math.max(16, Number(maxLength) || 28);
+  const sentences = source.match(/[^。！？!?；;\n]+[。！？!?；;]?|\n+/g) || [source];
+  const chunks = [];
+
+  for (const rawSentence of sentences) {
+    let sentence = rawSentence.trim();
+    if (!sentence) continue;
+    while (sentence.length > limit) {
+      const windowText = sentence.slice(0, limit + 1);
+      const punctuationIndex = Math.max(
+        windowText.lastIndexOf('，'),
+        windowText.lastIndexOf(','),
+        windowText.lastIndexOf('、'),
+        windowText.lastIndexOf('：'),
+        windowText.lastIndexOf(':')
+      );
+      const splitIndex = punctuationIndex >= Math.floor(limit * 0.45) ? punctuationIndex + 1 : limit;
+      chunks.push(sentence.slice(0, splitIndex).trim());
+      sentence = sentence.slice(splitIndex).trim();
+    }
+    if (sentence) chunks.push(sentence);
+  }
+
+  return chunks;
 }
 
 function estimateSpeechDurationMs(text) {
@@ -354,14 +387,45 @@ async function ensureGptSovitsWeights(settings, options = {}) {
   await gptSovitsWeightsPromise;
 }
 
+async function warmGptSovitsInference(settings, options = {}) {
+  const signature = gptSovitsWeightSignature(settings);
+  if (options.force) {
+    gptSovitsWarmSignature = '';
+    gptSovitsWarmPromise = null;
+  }
+  if (gptSovitsWarmSignature === signature && gptSovitsWarmPromise) {
+    return gptSovitsWarmPromise;
+  }
+
+  gptSovitsWarmSignature = signature;
+  gptSovitsWarmPromise = (async () => {
+    await ensureGptSovitsWeights(settings, options);
+    const response = await fetchWithTimeout(buildGptSovitsAudioUrl('嗯。', {
+      ...settings,
+      textLang: 'zh',
+      promptLang: settings.promptLang || 'ja'
+    }), { cache: 'no-store' }, TTS_FETCH_TIMEOUT_MS, 'GPT-SoVITS warmup');
+    if (!response.ok) throw new Error(`GPT-SoVITS warmup ${response.status}`);
+    await response.arrayBuffer();
+    return true;
+  })().catch((error) => {
+    if (gptSovitsWarmSignature === signature) {
+      gptSovitsWarmSignature = '';
+      gptSovitsWarmPromise = null;
+    }
+    throw error;
+  });
+  return gptSovitsWarmPromise;
+}
+
 function buildGptSovitsAudioUrl(text, settings) {
   const url = normalizeLocalGptSovitsUrl(settings.apiUrl || defaultTtsUrl(settings.provider));
   const speechText = String(text || '').trim() || 'OK.';
   const configuredLang = normalizeGptSovitsLang(settings.textLang || settings.model, 'auto');
   url.searchParams.set('text', speechText);
   url.searchParams.set('text_lang', configuredLang === 'auto' ? detectTextLang(speechText) : configuredLang);
-  url.searchParams.set('ref_audio_path', settings.refAudioPath || settings.voice || '');
-  url.searchParams.set('prompt_text', settings.promptText || '');
+  url.searchParams.set('ref_audio_path', settings.refAudioPath || settings.voice || DEFAULT_GPT_SOVITS_REFERENCE_AUDIO);
+  url.searchParams.set('prompt_text', settings.promptText || DEFAULT_GPT_SOVITS_PROMPT_TEXT);
   url.searchParams.set('prompt_lang', normalizeGptSovitsLang(settings.promptLang, 'ja'));
   url.searchParams.set('text_split_method', pickSplitMethod(speechText));
   url.searchParams.set('batch_size', '1');
@@ -792,9 +856,19 @@ export function createLive2DSpeechPlayer({ onState } = {}) {
     const speechText = cleanTtsText(text);
     if (!speechText) return;
     stop();
-    queueToken += 1;
-    await playInternal(speechText, options, queueToken);
-    setState({ status: 'idle', error: '' });
+    const settings = readRoomTTSSettings();
+    const segments = isDirectLocalGptSovits(settings) ? splitSpeechText(speechText) : [speechText];
+    const token = queueToken;
+    const completions = segments.map((segment, index) => new Promise((resolve, reject) => {
+      speechQueue.push({
+        text: segment,
+        options: index === 0 ? options : { ...options, onStart: undefined },
+        resolve,
+        reject
+      });
+    }));
+    runQueue(token);
+    await Promise.all(completions);
   }
 
   async function runQueue(token) {
@@ -855,7 +929,7 @@ export function createLive2DSpeechPlayer({ onState } = {}) {
   function warmup(options = {}) {
     const settings = readRoomTTSSettings();
     if (settings.enabled && isDirectLocalGptSovits(settings)) {
-      return ensureGptSovitsWeights(settings, { force: Boolean(options.force) }).catch(() => false);
+      return warmGptSovitsInference(settings, { force: Boolean(options.force) }).catch(() => false);
     }
     return Promise.resolve(false);
   }

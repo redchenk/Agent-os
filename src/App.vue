@@ -1047,7 +1047,7 @@ async function runAppAction(name, args = {}) {
     }
     case 'app.browser.search': {
       const api = await ensureAppInterface('browser');
-      return api?.search?.(args.query || '') || '浏览器接口未就绪';
+      return await api?.search?.(args.query || '') || '浏览器接口未就绪';
     }
     case 'app.calculator.evaluate': {
       const api = await ensureAppInterface('calculator');
@@ -1194,6 +1194,20 @@ async function runPetActions(actions = [], label = '桌宠本地操控') {
   return results;
 }
 
+function needsPetActionFollowup(actions = []) {
+  const groundedActions = new Set([
+    'app.browser.search',
+    'app.calculator.evaluate',
+    'app.music.search',
+    'app.music.nowPlaying',
+    'app.notepad.search',
+    'app.notepad.readActive',
+    'app.stream.summary',
+    'app.weather.current'
+  ]);
+  return actions.some((action) => groundedActions.has(String(action?.name || '').replace(/^agentos\./, '')));
+}
+
 async function sendPetPrompt() {
   const input = prompt.value.trim();
   if (!input || petBusy.value) return;
@@ -1212,7 +1226,17 @@ async function sendPetPrompt() {
       state: getAgentOsStateSnapshot()
     });
     const actionResults = await runPetActions(result.actions, '桌宠模型动作');
-    const reply = result.reply || actionResults.map((item) => item.summary).join('\n') || '已完成。';
+    const completedResult = actionResults.length && needsPetActionFollowup(result.actions)
+      ? await callPetModel({
+          settings,
+          input,
+          tools: getAgentOsPetTools(),
+          state: getAgentOsStateSnapshot(),
+          actionResults,
+          previousResponse: result.raw
+        })
+      : result;
+    const reply = completedResult.reply || result.reply || actionResults.map((item) => item.summary).join('\n') || '已完成。';
     petReply.value = reply;
     addMessage({
       type: 'assistant',
@@ -1220,7 +1244,7 @@ async function sendPetPrompt() {
       text: `${reply}${actionResults.length ? `\n\n${actionResults.map((item) => `${item.name}: ${item.summary}`).join('\n')}` : ''}`,
       at: Date.now()
     });
-    const speechIntent = result.live2d || { emotion: 'happy', actions: ['look_at_chat', 'nod'], reply };
+    const speechIntent = completedResult.live2d || result.live2d || { emotion: 'happy', actions: ['look_at_chat', 'nod'], reply };
     triggerLive2D(speechIntent, 'pet-api');
     speakLive2DReply(reply, speechIntent);
     prompt.value = '';

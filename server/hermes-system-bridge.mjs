@@ -12,6 +12,7 @@ import {
   HERMES_DESKTOP_PROXY_PATH,
   proxyHermesDesktopSocket
 } from './hermes-desktop-proxy.mjs';
+import { firstUsefulResult } from './first-useful-result.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -598,14 +599,7 @@ async function fetchBrowserSearchResults(query) {
     fetchJinaSearchResults(query),
     ...SEARCH_SEARX_INSTANCES.map((instanceUrl) => fetchSearxSearchResults(query, instanceUrl))
   ];
-  const settled = await Promise.allSettled(providers);
-  const fulfilled = settled
-    .filter((item) => item.status === 'fulfilled')
-    .map((item) => item.value);
-  const firstWithResults = fulfilled.find((items) => items.length);
-  if (firstWithResults) return firstWithResults;
-  if (fulfilled.length) return [];
-  throw settled.find((item) => item.status === 'rejected')?.reason || new Error('Search providers failed.');
+  return firstUsefulResult(providers);
 }
 
 async function fetchBingSearchResults(query) {

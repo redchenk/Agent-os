@@ -2,6 +2,7 @@
   "name": "hermes-agent-os",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "description": "Pure frontend Agent OS console for Hermes agent over WebSocket.",
   "scripts": {

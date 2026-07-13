@@ -1,5 +1,9 @@
 # Hermes Agent OS
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+License: [MIT](LICENSE).
+
 纯前端 Agent OS 控制台，通过 WebSocket 调用后端 Hermes agent，并把 Hermes 返回的 Live2D 语义动作桥接到 Tsukuyomi/Yachiyo 的本地 Cubism 控制事件。UI 采用更简洁的 Fluent Web OS 结构：桌面图标、可拖拽/可拉伸亚克力窗口、开始菜单、控制中心和居中任务栏。Live2D 舞台支持鼠标拖拽移动模型、滚轮缩放模型、双击还原模型位置。
 
 ## 启动

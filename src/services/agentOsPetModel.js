@@ -89,7 +89,7 @@ export function parsePetModelResponse(text) {
   };
 }
 
-export async function callPetModel({ settings, input, tools, state }) {
+export async function callPetModel({ settings, input, tools, state, actionResults = [], previousResponse = null }) {
   const apiUrl = normalizeApiUrl(settings.llmApiUrl);
   const apiKey = String(settings.llmApiKey || '').trim();
   const model = String(settings.llmModel || '').trim() || 'gpt-4o-mini';
@@ -100,6 +100,15 @@ export async function callPetModel({ settings, input, tools, state }) {
     { role: 'system', content: buildSystemPrompt({ settings, tools, state }) },
     { role: 'user', content: String(input || '').trim() }
   ];
+  if (actionResults.length) {
+    messages.push(
+      { role: 'assistant', content: JSON.stringify(previousResponse || { actions: [] }) },
+      {
+        role: 'user',
+        content: `Agent OS 已执行动作。请根据下面的真实结果回答用户，不要再次调用已经完成的动作；只返回 JSON。\n${JSON.stringify(actionResults, null, 2)}`
+      }
+    );
+  }
   const body = /\/responses$/i.test(apiUrl)
     ? {
         model,

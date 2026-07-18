@@ -5,6 +5,7 @@ import {
   resolveMusicTrack,
   saveMusicPreferences
 } from './musicPlatform';
+import { isAudioPriming, primeAudioForAsyncPlayback } from './musicPlaybackGesture';
 
 const preferences = readMusicPreferences();
 const playerState = reactive({
@@ -41,6 +42,7 @@ function ensureAudio() {
     playerState.duration = Number.isFinite(audio.duration) ? audio.duration : 0;
   });
   audio.addEventListener('play', () => {
+    if (isAudioPriming(audio)) return;
     playerState.playing = true;
   });
   audio.addEventListener('pause', () => {
@@ -55,6 +57,7 @@ function ensureAudio() {
     playNext().catch(setPlaybackError);
   });
   audio.addEventListener('error', () => {
+    if (isAudioPriming(audio)) return;
     if (audio?.error) setPlaybackError(new Error('音频流加载失败，请尝试其他音质或歌曲。'));
   });
   return audio;
@@ -107,12 +110,16 @@ async function hydrateLyrics(track) {
 export async function playMusicTrack(track, options = {}) {
   if (!track?.id) throw new Error('请选择一首歌曲。');
   const player = ensureAudio();
+  let playbackPriming = primeAudioForAsyncPlayback(player);
   playerState.loading = true;
   playerState.error = '';
 
   try {
     const result = await resolveMusicTrack(track, options.quality || playerState.quality);
     if (!result.playback?.url) throw new Error('音乐平台没有返回可播放地址。');
+    await playbackPriming?.ready.catch(() => {});
+    playbackPriming?.release();
+    playbackPriming = null;
     player.pause();
     player.src = result.playback.url;
     player.currentTime = 0;
@@ -130,6 +137,7 @@ export async function playMusicTrack(track, options = {}) {
     await player.play();
     return publicMusicState();
   } catch (error) {
+    playbackPriming?.release({ clearSource: true });
     setPlaybackError(error);
     throw error;
   } finally {

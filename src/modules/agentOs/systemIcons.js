@@ -1,3 +1,5 @@
+import { agentOsPublicUrl } from './runtimeUrls.js';
+
 const systemIconFiles = {
   agent: 'messages.png',
   appCenter: 'app-store.png',
@@ -32,9 +34,9 @@ const systemIconFiles = {
 };
 
 export const systemIconAssets = Object.fromEntries(
-  Object.entries(systemIconFiles).map(([key, file]) => [key, `/assets/system-icons/${file}`])
+  Object.entries(systemIconFiles).map(([key, file]) => [key, agentOsPublicUrl(`assets/system-icons/${file}`)])
 );
 
 export const systemIconDarkAssets = Object.fromEntries(
-  Object.entries(systemIconFiles).map(([key, file]) => [key, `/assets/system-icons-dark/${file}`])
+  Object.entries(systemIconFiles).map(([key, file]) => [key, agentOsPublicUrl(`assets/system-icons-dark/${file}`)])
 );

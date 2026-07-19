@@ -4,9 +4,58 @@ import test from 'node:test';
 import {
   callPetModel,
   callPetModelStream,
+  normalizePetModelAction,
   readStreamingJsonObjectField,
   readStreamingJsonStringField
 } from '../src/services/agentOsPetModel.js';
+
+test('repairs a one-character browser query truncated from an explicit search request', () => {
+  const action = normalizePetModelAction({
+    name: 'app.browser.search',
+    args: { query: '松' }
+  }, { input: '搜松饼的做法' });
+
+  assert.equal(action.args.query, '松饼的做法');
+});
+
+test('keeps complete or intentionally single-character browser queries unchanged', () => {
+  assert.equal(normalizePetModelAction({
+    name: 'app.browser.search',
+    args: { query: '松饼 做法' }
+  }, { input: '帮我搜索松饼的做法' }).args.query, '松饼 做法');
+
+  assert.equal(normalizePetModelAction({
+    name: 'app.browser.search',
+    args: { query: '松' }
+  }, { input: '搜松' }).args.query, '松');
+});
+
+test('repairs a truncated browser query at the model response boundary', async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response(JSON.stringify({
+    choices: [{ message: { content: JSON.stringify({
+      reply: '我来搜索。',
+      actions: [{ name: 'app.browser.search', args: { query: '松' } }]
+    }) } }]
+  }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+
+  try {
+    const result = await callPetModel({
+      settings: {
+        llmApiUrl: 'https://api.example.test/v1/chat/completions',
+        llmApiKey: 'test-key',
+        llmModel: 'test-model'
+      },
+      input: '搜松饼的做法',
+      tools: [{ name: 'app.browser.search' }],
+      state: {}
+    });
+
+    assert.equal(result.actions[0].args.query, '松饼的做法');
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
 
 test('reads a stable partial reply from streamed JSON', () => {
   assert.deepEqual(readStreamingJsonStringField('{"reply":"你好\\n世界'), {
@@ -115,3 +164,4 @@ test('feeds completed app action results back to the model for a grounded reply'
     globalThis.fetch = originalFetch;
   }
 });
+

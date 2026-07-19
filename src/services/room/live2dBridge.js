@@ -1,4 +1,3 @@
-import { assetUrl } from '../../utils/assetUrl';
 import { agentOsPublicUrl } from '../../modules/agentOs/runtimeUrls';
 
 const CORE_SCRIPT = '/lib/live2dcubismcore-v5.min.js';
@@ -69,7 +68,7 @@ async function loadScript(src, attempts = 3) {
 }
 
 function live2DAssetUrl(path) {
-  const url = assetUrl(path);
+  const url = agentOsPublicUrl(path);
   const separator = url.includes('?') ? '&' : '?';
   return `${url}${separator}v=${LIVE2D_ASSET_VERSION}`;
 }
@@ -126,6 +125,7 @@ export function live2DRenderDpr(mode = live2DPerformanceMode()) {
 
 function applyLive2DGlobalSettings() {
   const mode = live2DPerformanceMode();
+  window.TSUKUYOMI_LIVE2D_ASSET_BASE_URL = agentOsPublicUrl().replace(/\/+$/, '');
   window.TSUKUYOMI_LIVE2D_PERFORMANCE = mode;
   window.TSUKUYOMI_LIVE2D_DPR = live2DRenderDpr(mode);
   window.TSUKUYOMI_LIVE2D_MAX_DPR = isMobileLive2DDevice() ? MOBILE_LIVE2D_MAX_DPR : DESKTOP_LIVE2D_MAX_DPR;

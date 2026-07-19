@@ -26,7 +26,7 @@ import SystemIcon from './components/SystemIcon.vue';
 import Taskbar from './components/Taskbar.vue';
 import WeatherPanel from './components/WeatherPanel.vue';
 import YachiyoPanel from './components/YachiyoPanel.vue';
-import { callPetModel, normalizePetModelAction } from './services/agentOsPetModel';
+import { callPetModelStream, normalizePetModelAction } from './services/agentOsPetModel';
 import { isAgentOsSearchUrl, normalizeBrowserSearchQuery } from './services/browserNavigation';
 import {
   loadTsukuyomiSession,
@@ -43,7 +43,7 @@ import {
   importLegacyLocalData
 } from './services/userLocalStorage';
 import { dispatchRoomLive2D } from './services/room/live2dControl';
-import { createLive2DSpeechPlayer } from './services/room/live2dSpeech';
+import { createAgentLive2DSpeech } from './services/room/agentLive2DSpeech';
 import {
   readRoomTTSSettings,
   writeRoomLLMSettings,
@@ -220,9 +220,6 @@ const ttsSettings = reactive(writeRoomTTSSettings({
   useProxy: false
 }));
 const ttsState = reactive({ status: ttsSettings.enabled ? 'idle' : 'disabled', error: '' });
-const speechPlayer = createLive2DSpeechPlayer({
-  onState: (patch = {}) => Object.assign(ttsState, patch)
-});
 const {
   live2dDragging,
   reloadLive2DFrame,
@@ -242,6 +239,12 @@ const lastLive2DIntent = ref(normalizeLive2DIntent({
   actions: ['look_at_chat', 'breathe'],
   reply: 'Hermes Agent OS ready.'
 }));
+const agentLive2DSpeech = createAgentLive2DSpeech({
+  onState: (patch = {}) => Object.assign(ttsState, patch),
+  onIntent: (intent) => {
+    lastLive2DIntent.value = intent;
+  }
+});
 const {
   activeConversationId,
   addMessage,
@@ -376,12 +379,12 @@ watch(ttsSettings, () => {
 
 watch(() => ttsSettings.enabled, (enabled) => {
   if (!enabled) {
-    speechPlayer.stop();
+    agentLive2DSpeech.stop();
     Object.assign(ttsState, { status: 'disabled', error: '' });
     return;
   }
   Object.assign(ttsState, { status: 'idle', error: '' });
-  speechPlayer.warmup();
+  agentLive2DSpeech.warmup();
 });
 
 watch(messages, () => {
@@ -654,24 +657,13 @@ function triggerLive2D(source, origin = 'manual') {
   });
 }
 
-function speakLive2DReply(reply, intent = {}) {
-  const text = String(reply || '').trim();
-  if (!text || !ttsSettings.enabled) return;
-  speechPlayer.play(text, {
-    emotion: intent.emotion || intent.expression || 'neutral',
-    speechStyle: intent.speechStyle || intent.speech_style || null
-  }).catch(() => {
-    // Playback state is surfaced in Settings without interrupting the model result.
-  });
-}
-
 async function testLocalTts() {
   if (!ttsSettings.enabled) return;
-  speechPlayer.stop();
+  agentLive2DSpeech.stop();
   Object.assign(ttsState, { status: 'loading', error: '' });
   try {
-    await speechPlayer.warmup({ force: true });
-    await speechPlayer.play('你好，我是月见夜千代。', {
+    await agentLive2DSpeech.warmup({ force: true });
+    await agentLive2DSpeech.playOnce('你好，我是月见夜千代。', {
       emotion: 'happy',
       speechStyle: { speed: 1.04, pitch: 0.04, pause: 'bright' }
     });
@@ -786,7 +778,7 @@ function finishOnboarding(options = {}) {
     window.location.reload();
     return;
   }
-  speechPlayer.warmup({ force: true });
+  agentLive2DSpeech.warmup({ force: true });
   openDefaultWorkspace(petMode);
 }
 
@@ -1218,28 +1210,40 @@ async function sendPetPrompt() {
   const input = prompt.value.trim();
   if (!input || petBusy.value) return;
   petBusy.value = true;
-  speechPlayer.stop();
+  agentLive2DSpeech.begin();
   petError.value = '';
   petReply.value = '正在直连模型 API...';
   ensureActiveConversation(input);
   addMessage({ type: 'user', title: '桌宠 / Direct API', text: input });
 
   try {
-    const result = await callPetModel({
+    let streamedSpeech = '';
+    const onReplyDelta = (delta, accumulated) => {
+      if (!delta) return;
+      streamedSpeech += delta;
+      petReply.value = accumulated || streamedSpeech;
+      agentLive2DSpeech.push(delta);
+    };
+    const onLive2D = (intent) => agentLive2DSpeech.setIntent(intent);
+    const result = await callPetModelStream({
       settings,
       input,
       tools: getAgentOsPetTools(),
-      state: getAgentOsStateSnapshot()
+      state: getAgentOsStateSnapshot(),
+      onReplyDelta,
+      onLive2D
     });
     const actionResults = await runPetActions(result.actions, '桌宠模型动作');
     const completedResult = actionResults.length && needsPetActionFollowup(result.actions)
-      ? await callPetModel({
+      ? await callPetModelStream({
           settings,
           input,
           tools: getAgentOsPetTools(),
           state: getAgentOsStateSnapshot(),
           actionResults,
-          previousResponse: result.raw
+          previousResponse: result.raw,
+          onReplyDelta,
+          onLive2D
         })
       : result;
     const reply = completedResult.reply || result.reply || actionResults.map((item) => item.summary).join('\n') || '已完成。';
@@ -1251,10 +1255,12 @@ async function sendPetPrompt() {
       at: Date.now()
     });
     const speechIntent = completedResult.live2d || result.live2d || { emotion: 'happy', actions: ['look_at_chat', 'nod'], reply };
-    triggerLive2D(speechIntent, 'pet-api');
-    speakLive2DReply(reply, speechIntent);
+    agentLive2DSpeech.setIntent(speechIntent);
+    if (!streamedSpeech) agentLive2DSpeech.push(reply);
+    agentLive2DSpeech.finish();
     prompt.value = '';
   } catch (error) {
+    agentLive2DSpeech.cancel();
     petError.value = error?.message || '桌宠模型调用失败。';
     petReply.value = petError.value;
     addMessage({ type: 'error', title: '桌宠模型调用失败', text: petError.value });
@@ -1294,7 +1300,7 @@ onBeforeUnmount(() => {
   window.clearInterval(clockTimer);
   window.clearInterval(loginCodeTimer);
   clearAttachedItems();
-  speechPlayer.destroy();
+  agentLive2DSpeech.destroy();
   client.value?.close();
 });
 </script>
@@ -1826,4 +1832,3 @@ onBeforeUnmount(() => {
     />
   </div>
 </template>
-

@@ -1,8 +1,13 @@
-import { normalizeLLMApiUrl, readRoomLLMSettings, readRoomTTSSettings } from './roomSettings.js';
+import {
+  DEFAULT_GPT_SOVITS_GPT_WEIGHT,
+  DEFAULT_GPT_SOVITS_SOVITS_WEIGHT,
+  normalizeLLMApiUrl,
+  readRoomLLMSettings,
+  readRoomTTSSettings
+} from './roomSettings.js';
 import { cleanLive2DReply } from './live2dText.js';
+import { gptSovitsStreamingParams } from './gptSovitsQuality.js';
 
-const DEFAULT_GPT_SOVITS_GPT_WEIGHT = 'GPT_weights_v2ProPlus/yachiyo-v2pro-e15.ckpt';
-const DEFAULT_GPT_SOVITS_SOVITS_WEIGHT = 'SoVITS_weights_v2ProPlus/yachiyo-v2pro_e8_s456.pth';
 const DEFAULT_GPT_SOVITS_REFERENCE_AUDIO = 'reference/yachiyo_ref_ja.wav';
 const DEFAULT_GPT_SOVITS_PROMPT_TEXT = 'こんにちは、八千代です。';
 const MAX_TTS_PREFETCH = 4;
@@ -349,6 +354,29 @@ function requestLocalGptSovitsControl(url, timeout = 70000) {
   });
 }
 
+function warmLocalGptSovitsAudio(url, timeout = TTS_FETCH_TIMEOUT_MS) {
+  return new Promise((resolve) => {
+    const audio = new Audio(url);
+    let timer = 0;
+    let settled = false;
+    const done = (warmed) => {
+      if (settled) return;
+      settled = true;
+      if (timer) window.clearTimeout(timer);
+      audio.pause?.();
+      audio.removeAttribute?.('src');
+      audio.load?.();
+      resolve(warmed);
+    };
+    timer = window.setTimeout(() => done(false), timeout);
+    audio.preload = 'auto';
+    audio.oncanplay = () => done(true);
+    audio.onloadedmetadata = () => done(true);
+    audio.onerror = () => done(false);
+    audio.load?.();
+  });
+}
+
 function gptSovitsWeightSignature(settings) {
   const url = normalizeLocalGptSovitsUrl(settings.apiUrl || defaultTtsUrl(settings.provider));
   return [
@@ -400,14 +428,11 @@ async function warmGptSovitsInference(settings, options = {}) {
   gptSovitsWarmSignature = signature;
   gptSovitsWarmPromise = (async () => {
     await ensureGptSovitsWeights(settings, options);
-    const response = await fetchWithTimeout(buildGptSovitsAudioUrl('嗯。', {
+    return warmLocalGptSovitsAudio(buildGptSovitsAudioUrl('嗯。', {
       ...settings,
       textLang: 'zh',
       promptLang: settings.promptLang || 'ja'
-    }), { cache: 'no-store' }, TTS_FETCH_TIMEOUT_MS, 'GPT-SoVITS warmup');
-    if (!response.ok) throw new Error(`GPT-SoVITS warmup ${response.status}`);
-    await response.arrayBuffer();
-    return true;
+    }));
   })().catch((error) => {
     if (gptSovitsWarmSignature === signature) {
       gptSovitsWarmSignature = '';
@@ -430,8 +455,9 @@ function buildGptSovitsAudioUrl(text, settings) {
   url.searchParams.set('text_split_method', pickSplitMethod(speechText));
   url.searchParams.set('batch_size', '1');
   url.searchParams.set('media_type', 'wav');
-  url.searchParams.set('streaming_mode', 'true');
-  url.searchParams.set('parallel_infer', 'false');
+  Object.entries(gptSovitsStreamingParams()).forEach(([key, value]) => {
+    url.searchParams.set(key, value);
+  });
   url.searchParams.set('_', String(Date.now()));
   return url.toString();
 }

@@ -1,7 +1,80 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { callPetModel } from '../src/services/agentOsPetModel.js';
+import {
+  callPetModel,
+  callPetModelStream,
+  readStreamingJsonObjectField,
+  readStreamingJsonStringField
+} from '../src/services/agentOsPetModel.js';
+
+test('reads a stable partial reply from streamed JSON', () => {
+  assert.deepEqual(readStreamingJsonStringField('{"reply":"你好\\n世界'), {
+    value: '你好\n世界',
+    complete: false
+  });
+});
+
+test('reads a complete Live2D intent before the reply body is complete', () => {
+  assert.deepEqual(readStreamingJsonObjectField(
+    '{"live2d":{"emotion":"happy","actions":["nod"]},"reply":"第一句'
+  ), {
+    value: { emotion: 'happy', actions: ['nod'] },
+    complete: true
+  });
+});
+
+test('streams reply text before the final structured pet result', async () => {
+  const originalFetch = globalThis.fetch;
+  const replyDeltas = [];
+  const live2dIntents = [];
+  let requestBody = null;
+  globalThis.fetch = async (_url, options) => {
+    requestBody = JSON.parse(options.body);
+    const encoder = new TextEncoder();
+    const fragments = [
+      '{"live2d":{"emotion":"happy"},"reply":"第一句',
+      '完成。第二句',
+      '完成。","actions":[]}'
+    ];
+    const stream = new ReadableStream({
+      start(controller) {
+        fragments.forEach((content) => controller.enqueue(encoder.encode(
+          `data: ${JSON.stringify({ choices: [{ delta: { content } }] })}\n\n`
+        )));
+        controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+        controller.close();
+      }
+    });
+    return new Response(stream, {
+      status: 200,
+      headers: { 'Content-Type': 'text/event-stream' }
+    });
+  };
+
+  try {
+    const result = await callPetModelStream({
+      settings: {
+        llmApiUrl: 'https://api.example.test/v1/chat/completions',
+        llmApiKey: 'test-key',
+        llmModel: 'test-model'
+      },
+      input: '测试流式桌宠',
+      tools: [],
+      state: {},
+      onReplyDelta: (delta) => replyDeltas.push(delta),
+      onLive2D: (intent) => live2dIntents.push(intent)
+    });
+
+    assert.equal(requestBody.stream, true);
+    assert.equal(replyDeltas.join(''), '第一句完成。第二句完成。');
+    assert.equal(result.reply, '第一句完成。第二句完成。');
+    assert.equal(result.live2d.emotion, 'happy');
+    assert.deepEqual(live2dIntents, [{ emotion: 'happy' }]);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
 
 test('feeds completed app action results back to the model for a grounded reply', async () => {
   const originalFetch = globalThis.fetch;

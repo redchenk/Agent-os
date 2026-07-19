@@ -118,6 +118,7 @@ export function createLive2DStreamingSpeechSession(options = {}) {
   let active = false;
   let queuedLines = 0;
   let started = false;
+  let streamOpen = false;
   let finishTimer = 0;
 
   function clearFinishTimer() {
@@ -135,11 +136,11 @@ export function createLive2DStreamingSpeechSession(options = {}) {
   }
 
   function scheduleFinish(delayMs = STREAMING_SPEECH_BOUNDARY_GRACE_MS) {
-    if (!active || queuedLines > 0) return;
+    if (!active || streamOpen || queuedLines > 0) return;
     clearFinishTimer();
     finishTimer = setTimer(() => {
       finishTimer = 0;
-      if (!active || queuedLines > 0) return;
+      if (!active || streamOpen || queuedLines > 0) return;
       active = false;
       started = false;
       dispatchSettleState();
@@ -161,6 +162,7 @@ export function createLive2DStreamingSpeechSession(options = {}) {
       active = true;
       queuedLines = 0;
       started = false;
+      streamOpen = true;
       clearFinishTimer();
     },
     queueLine() {
@@ -182,13 +184,14 @@ export function createLive2DStreamingSpeechSession(options = {}) {
       const delayMs = Number.isFinite(Number(options.delayMs))
         ? Number(options.delayMs)
         : STREAMING_SPEECH_BOUNDARY_GRACE_MS;
-      queuedLines = 0;
+      streamOpen = false;
       scheduleFinish(delayMs);
     },
     cancel(options = {}) {
       active = false;
       queuedLines = 0;
       started = false;
+      streamOpen = false;
       clearFinishTimer();
       if (options.dispatchState) dispatchSettleState();
     },
@@ -211,7 +214,7 @@ export function createLive2DStreamingSpeechSession(options = {}) {
       return false;
     },
     getState() {
-      return { active, queuedLines, started, finishing: Boolean(finishTimer) };
+      return { active, queuedLines, started, streamOpen, finishing: Boolean(finishTimer) };
     }
   };
 }

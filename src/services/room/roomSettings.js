@@ -1,4 +1,11 @@
 import { readJson, writeJson } from './roomStorage.js';
+import {
+  DEFAULT_GPT_SOVITS_GPT_WEIGHT,
+  DEFAULT_GPT_SOVITS_SOVITS_WEIGHT,
+  upgradeLegacyGptSovitsQuality
+} from './gptSovitsQuality.js';
+
+export { DEFAULT_GPT_SOVITS_GPT_WEIGHT, DEFAULT_GPT_SOVITS_SOVITS_WEIGHT } from './gptSovitsQuality.js';
 
 export const ROOM_LLM_SETTINGS_KEY = 'roomLLMSettings';
 export const ROOM_TTS_SETTINGS_KEY = 'roomTTSSettings';
@@ -19,8 +26,6 @@ const LEGACY_ROOM_MODEL_STAGE_IDLE_SCALE = 0.9;
 const LEGACY_ROOM_MODEL_STAGE_MOTION_SCALE = 0.75;
 const LEGACY_ROOM_MODEL_RENDER_DPRS = [3, 4];
 
-export const DEFAULT_GPT_SOVITS_GPT_WEIGHT = 'GPT_weights_v2ProPlus/yachiyo-v2pro-e15.ckpt';
-export const DEFAULT_GPT_SOVITS_SOVITS_WEIGHT = 'SoVITS_weights_v2ProPlus/yachiyo-v2pro_e8_s456.pth';
 export const DEFAULT_MIMO_TTS_API_URL = 'https://api.xiaomimimo.com/v1/chat/completions';
 export const DEFAULT_MIMO_TTS_MODEL = 'mimo-v2.5-tts';
 export const DEFAULT_MIMO_TTS_VOICE = 'mimo_default';
@@ -685,7 +690,11 @@ export function readRoomLLMSettings() {
 }
 
 export function readRoomTTSSettings() {
-  return normalizeRoomTTSSettings(readJson(ROOM_TTS_SETTINGS_KEY, clone(DEFAULT_ROOM_TTS_SETTINGS)));
+  const raw = readJson(ROOM_TTS_SETTINGS_KEY, clone(DEFAULT_ROOM_TTS_SETTINGS));
+  const settings = normalizeRoomTTSSettings(raw);
+  const upgraded = upgradeLegacyGptSovitsQuality(settings, raw);
+  if (upgraded !== settings) writeJson(ROOM_TTS_SETTINGS_KEY, upgraded);
+  return upgraded;
 }
 
 export function readRoomASRSettings() {

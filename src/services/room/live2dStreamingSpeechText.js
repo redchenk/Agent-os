@@ -55,7 +55,7 @@ export function cleanStreamingSpeechChunk(value) {
 }
 
 export function createStreamingSpeechTextBuffer(options = {}) {
-  const firstClauseMinChars = Math.max(Number(options.firstClauseMinChars) || 24, 12);
+  const firstClauseMinChars = Math.max(Number(options.firstClauseMinChars) || 20, 12);
   const preferredChunkChars = Math.max(Number(options.preferredChunkChars) || 42, firstClauseMinChars);
   const maxChunkChars = Math.max(Number(options.maxChunkChars) || 72, preferredChunkChars);
   let receivedText = '';

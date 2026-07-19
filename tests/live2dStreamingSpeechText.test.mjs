@@ -30,3 +30,11 @@ test('does not send fenced code or URLs to speech synthesis', () => {
   ];
   assert.deepEqual(chunks, ['先检查配置。', '然后重新连接。']);
 });
+
+test('starts a natural clause early when the model has not emitted a full stop', () => {
+  const buffer = createStreamingSpeechTextBuffer();
+  assert.deepEqual(
+    buffer.push('This opening clause is ready, while the rest is still arriving'),
+    ['This opening clause is ready,']
+  );
+});

@@ -1,4 +1,5 @@
 import { assetUrl } from '../../utils/assetUrl';
+import { agentOsPublicUrl } from '../../modules/agentOs/runtimeUrls';
 
 const CORE_SCRIPT = '/lib/live2dcubismcore-v5.min.js';
 const ROOM_SCRIPT = '/lib/bundled/live2d-room-neuro-live.agent-os-v3.iife.js';
@@ -73,6 +74,12 @@ function live2DAssetUrl(path) {
   return `${url}${separator}v=${LIVE2D_ASSET_VERSION}`;
 }
 
+function live2DScriptUrl(path) {
+  const url = agentOsPublicUrl(path);
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}v=${LIVE2D_ASSET_VERSION}`;
+}
+
 export function isMobileLive2DDevice() {
   const ua = navigator.userAgent || '';
   return /Android|iPhone|iPad|iPod/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1);
@@ -141,7 +148,7 @@ export function preloadLive2DResources() {
   const modelJson = live2DModelJson(mode);
   if (mode !== 'standard') {
     [
-      { href: live2DAssetUrl(CORE_SCRIPT), as: 'script' },
+      { href: live2DScriptUrl(CORE_SCRIPT), as: 'script' },
       {
         href: live2DAssetUrl(modelJson),
         as: 'fetch',
@@ -161,8 +168,8 @@ export function preloadLive2DResources() {
     return;
   }
   [
-    { href: live2DAssetUrl(CORE_SCRIPT), as: 'script' },
-    { href: live2DAssetUrl(ROOM_SCRIPT), as: 'script' },
+    { href: live2DScriptUrl(CORE_SCRIPT), as: 'script' },
+    { href: live2DScriptUrl(ROOM_SCRIPT), as: 'script' },
       {
         href: live2DAssetUrl(modelJson),
         as: 'fetch',
@@ -186,7 +193,7 @@ export async function ensureLive2DScripts() {
   applyLive2DGlobalSettings();
   if (!loadingPromise) {
     window.TSUKUYOMI_EXTERNAL_LIVE2D = true;
-    loadingPromise = loadScript(live2DAssetUrl(CORE_SCRIPT)).then(() => loadScript(live2DAssetUrl(ROOM_SCRIPT)));
+    loadingPromise = loadScript(live2DScriptUrl(CORE_SCRIPT)).then(() => loadScript(live2DScriptUrl(ROOM_SCRIPT)));
   }
   return loadingPromise;
 }

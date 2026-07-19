@@ -1,10 +1,10 @@
 import { agentOsPublicUrl } from '../../modules/agentOs/runtimeUrls';
 
 const CORE_SCRIPT = '/lib/live2dcubismcore-v5.min.js';
-const ROOM_SCRIPT = '/lib/bundled/live2d-room-neuro-live.agent-os-v3.iife.js';
+const ROOM_SCRIPT = '/lib/bundled/live2d-room-neuro-live.agent-os-v4.iife.js';
 const LIVE2D_READY_EVENT = 'tsukuyomi:live2d-ready';
 const LIVE2D_READY_TIMEOUT = 45000;
-const LIVE2D_ASSET_VERSION = import.meta.env.PROD ? 'agent-os-v3' : Date.now().toString(36);
+const LIVE2D_ASSET_VERSION = import.meta.env.PROD ? 'agent-os-v4' : Date.now().toString(36);
 const DESKTOP_LIVE2D_DEFAULT_DPR = 6;
 const DESKTOP_LIVE2D_MAX_DPR = 8;
 const MOBILE_LIVE2D_MAX_DPR = 3;

@@ -4,7 +4,7 @@ import test from 'node:test';
 
 const source = fs.readFileSync(new URL('../src/services/room/live2dBridge.js', import.meta.url), 'utf8');
 const bundledSource = fs.readFileSync(
-  new URL('../public/lib/bundled/live2d-room-neuro-live.agent-os-v3.iife.js', import.meta.url),
+  new URL('../public/lib/bundled/live2d-room-neuro-live.agent-os-v4.iife.js', import.meta.url),
   'utf8'
 );
 

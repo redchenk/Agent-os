@@ -195,7 +195,32 @@ ${JSON.stringify(state, null, 2)}
 浏览器搜索规则：调用 app.browser.search 时，args.query 只能填写原始搜索关键词。禁止生成或传入 agentos://search URL，也不要对关键词做 URL 编码。`;
 }
 
-export function normalizePetModelAction(action = {}) {
+function explicitBrowserSearchQuery(input = '') {
+  const source = String(input || '').replace(/\s+/g, ' ').trim();
+  if (!source) return '';
+  const match = /(?:搜(?:索)?(?:一下|一搜|搜)?|查(?:询|找)?(?:一下|一查|查)?|找(?:一下|一找|找)?)\s*[:：]?\s*(.+)$/u.exec(source);
+  if (!match?.[1]) return '';
+  return normalizeBrowserSearchQuery(match[1])
+    .replace(/^[“”"'「」『』]+|[“”"'「」『』]+$/gu, '')
+    .replace(/\s*(?:吧|好吗|可以吗|谢谢|谢了)[。！？!?]*$/u, '')
+    .trim();
+}
+
+function repairTruncatedBrowserSearchQuery(query = '', input = '') {
+  const normalizedQuery = normalizeBrowserSearchQuery(query);
+  const requestedQuery = explicitBrowserSearchQuery(input);
+  if (!requestedQuery) return normalizedQuery;
+  if (!normalizedQuery) return requestedQuery;
+
+  const queryLength = Array.from(normalizedQuery).length;
+  const requestedLength = Array.from(requestedQuery).length;
+  if (queryLength === 1 && requestedLength > 1 && requestedQuery.startsWith(normalizedQuery)) {
+    return requestedQuery;
+  }
+  return normalizedQuery;
+}
+
+export function normalizePetModelAction(action = {}, context = {}) {
   const originalName = String(action?.name || '').trim();
   const name = originalName.replace(/^agentos\./, '');
   const args = action?.args && typeof action.args === 'object' ? { ...action.args } : {};
@@ -204,7 +229,10 @@ export function normalizePetModelAction(action = {}) {
     return {
       ...action,
       name,
-      args: { ...args, query: normalizeBrowserSearchQuery(args.query || args.url || '') }
+      args: {
+        ...args,
+        query: repairTruncatedBrowserSearchQuery(args.query || args.url || '', context.input)
+      }
     };
   }
 
@@ -219,7 +247,7 @@ export function normalizePetModelAction(action = {}) {
   return { ...action, name: originalName || name, args };
 }
 
-export function parsePetModelResponse(text) {
+export function parsePetModelResponse(text, context = {}) {
   const parsed = extractJsonObject(text);
   if (!parsed || typeof parsed !== 'object') {
     return {
@@ -231,7 +259,9 @@ export function parsePetModelResponse(text) {
   }
   return {
     reply: String(parsed.reply || parsed.message || '').trim(),
-    actions: Array.isArray(parsed.actions) ? parsed.actions.map(normalizePetModelAction) : [],
+    actions: Array.isArray(parsed.actions)
+      ? parsed.actions.map((action) => normalizePetModelAction(action, context))
+      : [],
     live2d: parsed.live2d || parsed.intent || null,
     raw: parsed
   };
@@ -326,7 +356,7 @@ export async function callPetModelStream({
     rawText = readChatText(data);
   }
 
-  const result = parsePetModelResponse(rawText);
+  const result = parsePetModelResponse(rawText, { input });
   if (result.live2d && JSON.stringify(result.live2d) !== publishedLive2D) onLive2D?.(result.live2d);
   if (result.reply && result.reply !== publishedReply) {
     const delta = result.reply.startsWith(publishedReply)
@@ -340,3 +370,4 @@ export async function callPetModelStream({
 export function callPetModel(options) {
   return callPetModelStream(options);
 }
+

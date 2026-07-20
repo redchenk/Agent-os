@@ -16,6 +16,7 @@ import DesktopIconLayer from './components/DesktopIconLayer.vue';
 import ControlCenter from './components/ControlCenter.vue';
 import FirstRunOnboarding from './components/FirstRunOnboarding.vue';
 import HermesAgentPanel from './components/HermesAgentPanel.vue';
+import MailPanel from './components/MailPanel.vue';
 import MusicPanel from './components/MusicPanel.vue';
 import NotepadPanel from './components/NotepadPanel.vue';
 import PetModeOverlay from './components/PetModeOverlay.vue';
@@ -86,6 +87,7 @@ const apps = [
   { key: 'calculator', label: '计算器', iconName: 'calculator' },
   { key: 'clock', label: '时钟', iconName: 'clock' },
   { key: 'weather', label: '天气', iconName: 'weather' },
+  { key: 'mail', label: '邮箱', iconName: 'mail' },
   { key: 'music', label: '音乐', iconName: 'music' },
   { key: 'appCenter', label: '应用中心', iconName: 'appCenter' },
   { key: 'yachiyo', label: 'Yachiyo', iconName: 'yachiyo' },
@@ -167,7 +169,7 @@ const {
   apps,
   defaultWindowState: DEFAULT_WINDOW_STATE,
   storageKey: WINDOWS_STORAGE_KEY,
-  initialOpenApps: { agent: false, browser: false, notepad: false, calculator: false, clock: false, weather: false, music: false, appCenter: false, yachiyo: nativePetShell.value, stream: false, settings: false },
+  initialOpenApps: { agent: false, browser: false, notepad: false, calculator: false, clock: false, weather: false, mail: false, music: false, appCenter: false, yachiyo: nativePetShell.value, stream: false, settings: false },
   initialActiveApp: nativePetShell.value ? 'yachiyo' : '',
   overlays: [startOpen, controlOpen]
 });
@@ -209,6 +211,7 @@ const notepadPanelRef = ref(null);
 const calculatorPanelRef = ref(null);
 const clockPanelRef = ref(null);
 const weatherPanelRef = ref(null);
+const mailPanelRef = ref(null);
 const musicPanelRef = ref(null);
 const streamRef = ref(null);
 const now = ref(Date.now());
@@ -935,6 +938,7 @@ function appPanelRef(appKey) {
     calculator: calculatorPanelRef,
     clock: clockPanelRef,
     weather: weatherPanelRef,
+    mail: mailPanelRef,
     music: musicPanelRef
   }[appKey] || null;
 }
@@ -947,7 +951,7 @@ async function ensureAppInterface(appKey) {
 
 function getAgentOsPetTools() {
   return [
-    { name: 'ui.focusApp', args: { app: 'agent|browser|notepad|calculator|clock|weather|music|appCenter|stream|settings' }, description: '打开或聚焦 Agent OS 应用窗口' },
+    { name: 'ui.focusApp', args: { app: 'agent|browser|notepad|calculator|clock|weather|mail|music|appCenter|stream|settings' }, description: '打开或聚焦 Agent OS 应用窗口' },
     { name: 'ui.closeApp', args: { app: 'app key' }, description: '关闭 Agent OS 应用窗口' },
     { name: 'ui.openStart', args: {}, description: '打开开始菜单' },
     { name: 'ui.openControlCenter', args: {}, description: '打开控制中心' },
@@ -967,6 +971,11 @@ function getAgentOsPetTools() {
     { name: 'app.clock.show', args: { tab: 'world|timer|stopwatch|alarm' }, description: '切换时钟功能页' },
     { name: 'app.clock.setTimer', args: { hours: 0, minutes: 5, seconds: 0, start: true }, description: '设置计时器' },
     { name: 'app.clock.addAlarm', args: { time: '08:30', label: '提醒' }, description: '添加闹钟' },
+    { name: 'app.mail.accounts', args: {}, description: '列出当前用户已连接的邮箱账号' },
+    { name: 'app.mail.refresh', args: {}, description: '刷新聚合收件箱' },
+    { name: 'app.mail.search', args: { query: '发件人或主题' }, description: '在已加载邮件中搜索' },
+    { name: 'app.mail.read', args: { id: '邮件 id 或 uid' }, description: '打开并读取指定邮件' },
+    { name: 'app.mail.compose', args: { accountId: '', to: '', subject: '', body: '' }, description: '打开新邮件草稿，由用户确认后发送' },
     { name: 'app.music.search', args: { query: '歌曲、歌手或专辑', provider: 'netease|qqmusic' }, description: '在音乐 App 中搜索音乐' },
     { name: 'app.music.play', args: { query: '歌曲或歌手', provider: 'netease|qqmusic' }, description: '搜索并立即播放第一条匹配音乐' },
     { name: 'app.music.pause', args: {}, description: '暂停当前音乐' },
@@ -1081,6 +1090,26 @@ async function runAppAction(name, args = {}) {
     case 'app.clock.status': {
       const api = await ensureAppInterface('clock');
       return api?.state?.() || '时钟接口未就绪';
+    }
+    case 'app.mail.accounts': {
+      const api = await ensureAppInterface('mail');
+      return api?.listAccounts?.() || [];
+    }
+    case 'app.mail.refresh': {
+      const api = await ensureAppInterface('mail');
+      return await api?.refreshInbox?.() || [];
+    }
+    case 'app.mail.search': {
+      const api = await ensureAppInterface('mail');
+      return api?.searchMessages?.(args.query || '') || [];
+    }
+    case 'app.mail.read': {
+      const api = await ensureAppInterface('mail');
+      return await api?.openMessage?.(args.id || args.uid) || '没有找到该邮件';
+    }
+    case 'app.mail.compose': {
+      const api = await ensureAppInterface('mail');
+      return api?.startCompose?.(args) || '邮箱接口未就绪';
     }
     case 'app.music.search': {
       const api = await ensureAppInterface('music');
@@ -1200,6 +1229,9 @@ function needsPetActionFollowup(actions = []) {
     'app.music.nowPlaying',
     'app.notepad.search',
     'app.notepad.readActive',
+    'app.mail.accounts',
+    'app.mail.search',
+    'app.mail.read',
     'app.stream.summary',
     'app.weather.current'
   ]);
@@ -1674,6 +1706,29 @@ onBeforeUnmount(() => {
             @add-desktop-icon="addDesktopIcon"
             @remove-desktop-icon="removeDesktopIcon"
           />
+        </DesktopWindow>
+
+        <DesktopWindow
+          v-if="openApps.mail"
+          key="mail"
+          app-key="mail"
+          window-class="mail-window"
+          :active="activeApp === 'mail'"
+          :style-value="windowStyle('mail')"
+          :resize-directions="resizeDirections"
+          @focus="focusApp('mail')"
+          @drag="startWindowDrag($event, 'mail')"
+          @resize="(event, direction) => startWindowResize(event, 'mail', direction)"
+        >
+          <template #title><SystemIcon name="mail" :size="24" /> 邮箱</template>
+          <template #actions>
+            <button type="button" title="还原默认大小和位置" @click.stop="resetWindow('mail')"><RotateCcw :size="14" /></button>
+            <button type="button" title="最大化" @click.stop="maximizeWindow('mail')"><Maximize2 :size="14" /></button>
+            <button type="button" title="最小化" @click.stop="closeApp('mail')"><Minus :size="15" /></button>
+            <button type="button" title="关闭" @click.stop="closeApp('mail')"><X :size="15" /></button>
+          </template>
+
+          <MailPanel ref="mailPanelRef" />
         </DesktopWindow>
 
         <DesktopWindow

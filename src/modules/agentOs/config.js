@@ -1,7 +1,7 @@
 import { agentOsPublicUrl, agentOsRuntimeWebSocketUrl } from './runtimeUrls';
 
 export const STORAGE_KEY = 'hermesAgentOsSettings:v2';
-export const WINDOWS_STORAGE_KEY = 'hermesAgentOsWindows:v11';
+export const WINDOWS_STORAGE_KEY = 'hermesAgentOsWindows:v12';
 export const DESKTOP_ICONS_STORAGE_KEY = 'hermesAgentOsDesktopIcons:v1';
 export const LIVE2D_MODEL_STORAGE_KEY = 'hermesAgentOsLive2DModel:v12';
 export const PROJECTS_STORAGE_KEY = 'hermesAgentOsProjects:v1';
@@ -26,6 +26,7 @@ export const DEFAULT_WINDOW_STATE = {
   calculator: { x: 390, y: 122, w: 560, h: 530, minW: 430, minH: 460 },
   clock: { x: 430, y: 132, w: 590, h: 530, minW: 430, minH: 440 },
   weather: { x: 280, y: 104, w: 720, h: 560, minW: 540, minH: 480 },
+  mail: { x: 105, y: 54, w: 1080, h: 670, minW: 720, minH: 500 },
   music: { x: 110, y: 54, w: 1040, h: 660, minW: 680, minH: 500 },
   appCenter: { x: 230, y: 104, w: 660, h: 500, minW: 480, minH: 380 },
   yachiyo: { x: 850, y: 84, w: 400, h: 560, minW: 330, minH: 420 },

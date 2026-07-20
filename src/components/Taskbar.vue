@@ -4,7 +4,7 @@ import { Circle } from 'lucide-vue-next';
 import { formatDate, formatTime } from '../modules/agentOs/formatters';
 import SystemIcon from './SystemIcon.vue';
 
-const pinnedDockKeys = ['agent', 'browser', 'notepad', 'music', 'appCenter'];
+const pinnedDockKeys = ['agent', 'browser', 'notepad', 'mail', 'music', 'appCenter'];
 
 const props = defineProps({
   activeApp: { type: String, default: '' },

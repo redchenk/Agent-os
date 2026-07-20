@@ -646,6 +646,10 @@ html[data-theme="dark"] .system-icon-image--dark {
   width: 390px;
 }
 
+.mail-window {
+  container-type: inline-size;
+}
+
 .window-titlebar {
   flex: 0 0 48px;
   display: flex;
@@ -5479,6 +5483,7 @@ html[data-theme="dark"] .taskbar {
   .calculator-window,
   .clock-window,
   .weather-window,
+  .mail-window,
   .yachiyo-window,
   .stream-window,
   .settings-window {
@@ -5494,6 +5499,12 @@ html[data-theme="dark"] .taskbar {
 
   .yachiyo-window {
     height: clamp(440px, calc(100dvh - 8rem), 560px) !important;
+  }
+
+  .mail-window {
+    width: min(100%, 820px);
+    height: min(680px, calc(100dvh - 8rem)) !important;
+    min-height: 520px;
   }
 
   .taskbar {
